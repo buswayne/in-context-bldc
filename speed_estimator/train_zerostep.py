@@ -79,9 +79,9 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_tmp", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_tmp", metavar='S',
                         help='Loaded model name (when resuming)')
     parser.add_argument('--init-from', type=str, default="scratch", metavar='S',
                         help='Init from (scratch|resume|pretrained)')

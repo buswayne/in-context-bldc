@@ -14,7 +14,7 @@ class Dataset(Dataset):
         self.seq_len = seq_len
 
     def __len__(self):
-        return 1024
+        return 32
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
