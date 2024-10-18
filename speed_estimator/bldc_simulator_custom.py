@@ -2,59 +2,110 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
-# Define BLDC motor parameters
-R = 0.5  # Resistance (Ohms)
-L = 0.001  # Inductance (Henries)
-Ke = 0.01  # Back EMF constant (V/rad/s)
-Kt = 0.01  # Torque constant (Nm/A)
-J = 0.01  # Rotor inertia (kg.m^2)
-B = 0.001  # Damping coefficient (Nms)
+# Motor parameters based on technical data
+R = 0.994  # Terminal resistance (Ohms)
+L = 0.995e-3  # Terminal inductance (Henries)
+Kt = 91e-3  # Torque constant (Nm/A)
+Ke = 10.9956  # Back EMF constant (V/rad/s)
+J = 44e-6  # Rotor inertia (kg.m^2)
+B = 0.528e-3  # Mechanical damping (Nms)
+V_nominal = 48  # Nominal voltage (Volts)
+
+# PI controller parameters
+Kp_speed = 10.0  # Proportional gain for speed control
+Ki_speed = 0.01  # Integral gain for speed control
+Kp_current = 0.1  # Proportional gain for current control (d/q axis)
+Ki_current = 0.1  # Integral gain for current control (d/q axis)
+
+# Initialize PI controller states
+integral_error_speed = 0.0
+integral_error_id = 0.0
+integral_error_iq = 0.0
 
 
-# PI Controller for FOC
-class PIController:
-    def __init__(self, kp, ki):
-        self.kp = kp
-        self.ki = ki
-        self.integral = 0
-
-    def control(self, error, dt):
-        self.integral += error * dt
-        return self.kp * error + self.ki * self.integral
-
-
-# Clarke Transformation (ABC -> Alpha-Beta frame)
+# Clarke Transform: Converts 3-phase (i_a, i_b, i_c) to (i_alpha, i_beta)
 def clarke_transform(i_a, i_b, i_c):
     i_alpha = i_a
     i_beta = (i_a + 2 * i_b) / np.sqrt(3)
     return i_alpha, i_beta
 
 
-# Park Transformation (Alpha-Beta -> DQ frame)
+# Park Transform: Converts (i_alpha, i_beta) to (i_d, i_q) in the rotating frame
 def park_transform(i_alpha, i_beta, theta):
     i_d = i_alpha * np.cos(theta) + i_beta * np.sin(theta)
     i_q = -i_alpha * np.sin(theta) + i_beta * np.cos(theta)
     return i_d, i_q
 
 
-# Inverse Park Transformation (DQ -> Alpha-Beta frame)
-def inverse_park_transform(v_d, v_q, theta):
-    v_alpha = v_d * np.cos(theta) - v_q * np.sin(theta)
-    v_beta = v_d * np.sin(theta) + v_q * np.cos(theta)
-    return v_alpha, v_beta
+# Inverse Park Transform: Converts (V_d, V_q) to (V_alpha, V_beta)
+def inverse_park_transform(V_d, V_q, theta):
+    V_alpha = V_d * np.cos(theta) - V_q * np.sin(theta)
+    V_beta = V_d * np.sin(theta) + V_q * np.cos(theta)
+    return V_alpha, V_beta
 
 
-# Inverse Clarke Transformation (Alpha-Beta -> ABC frame)
-def inverse_clarke_transform(v_alpha, v_beta):
-    v_a = v_alpha
-    v_b = (-v_alpha + np.sqrt(3) * v_beta) / 2
-    v_c = (-v_alpha - np.sqrt(3) * v_beta) / 2
-    return v_a, v_b, v_c
+# Inverse Clarke Transform: Converts (V_alpha, V_beta) back to 3-phase (V_a, V_b, V_c)
+def inverse_clarke_transform(V_alpha, V_beta):
+    V_a = V_alpha
+    V_b = (-V_alpha + np.sqrt(3) * V_beta) / 2
+    V_c = (-V_alpha - np.sqrt(3) * V_beta) / 2
+    return V_a, V_b, V_c
 
 
-# Define the BLDC motor dynamics function
-# Define the BLDC motor dynamics function
-def bldc_dynamics(t, state, V_a, V_b, V_c, i_d_ref, i_q_ref):
+# Update the Back EMF calculation to account for direction
+def trapezoidal_emf(theta):
+    theta = np.mod(theta, 2 * np.pi)
+    if 0 <= theta < 2 * np.pi / 3:
+        return 1  # Phase A
+    elif 2 * np.pi / 3 <= theta < 4 * np.pi / 3:
+        return 0  # Phase B
+    else:
+        return -1  # Phase C
+
+
+# Modify the speed control to reverse the torque-producing current
+def speed_pi_controller(omega_ref_rpm, omega_rpm, dt):
+    global integral_error_speed
+
+    # Compute speed error
+    error = omega_rpm - omega_ref_rpm  # Invert the error calculation
+
+    # Update integral term
+    integral_error_speed += error * dt
+
+    # PI control law for i_q_ref (torque control)
+    i_q_ref = Kp_speed * error + Ki_speed * integral_error_speed
+
+    return i_q_ref
+
+
+# Current PI controller for i_d and i_q control
+def current_pi_controller(i_ref, i_actual, integral_error, Kp, Ki, dt):
+    # Compute current error
+    error = i_ref - i_actual
+
+    # Update integral term
+    integral_error += error * dt
+
+    # PI control law for voltage
+    voltage_ref = Kp * error + Ki * integral_error
+
+    return voltage_ref, integral_error
+
+
+
+# Convert angular velocity (rad/s) to RPM
+def rad_s_to_rpm(omega):
+    return omega * (60 / (2 * np.pi))
+
+
+# Convert RPM to angular velocity (rad/s)
+def rpm_to_rad_s(omega_rpm):
+    return omega_rpm * (2 * np.pi / 60)
+
+
+# Define BLDC motor dynamics function
+def bldc_dynamics(t, state, V_a, V_b, V_c):
     i_a, i_b, i_c, omega, theta = state
 
     # Back EMF for each phase
@@ -67,7 +118,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c, i_d_ref, i_q_ref):
     di_b_dt = (V_b - R * i_b - e_b) / L
     di_c_dt = (V_c - R * i_c - e_c) / L
 
-    # Mechanical torque (assumes perfect control of currents)
+    # Mechanical torque
     T_m = Kt * (i_a * trapezoidal_emf(theta) + i_b * trapezoidal_emf(theta - 2 * np.pi / 3) + i_c * trapezoidal_emf(
         theta + 2 * np.pi / 3))
 
@@ -78,37 +129,32 @@ def bldc_dynamics(t, state, V_a, V_b, V_c, i_d_ref, i_q_ref):
     return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
 
-# Back EMF function (trapezoidal)
-def trapezoidal_emf(theta):
-    theta = np.mod(theta, 2 * np.pi)
-    if 0 <= theta < 2 * np.pi / 3:
-        return 1
-    elif 2 * np.pi / 3 <= theta < 4 * np.pi / 3:
-        return 0
-    else:
-        return -1
-
 # Simulation parameters
 dt = 0.01  # Sampling time (seconds)
-t_span = np.arange(0, 20, dt)  # Time span for simulation (20 seconds)
+t_span = np.arange(0, 10, dt)  # Time span for simulation (20 seconds)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]  # Initial condition: [i_a, i_b, i_c, omega, theta]
 
-# Define the desired reference currents (perfectly controlled)
+# Define the desired reference current for the d-axis (flux control)
 i_d_ref = 0.0  # Flux current reference (d-axis)
-i_q_ref = 5.0  # Torque current reference (q-axis)
 
-# Generate speed reference signal (step changes)
-speed_reference = np.zeros(len(t_span))
-step_times = [5, 10, 15]  # Speed step changes at 5s, 10s, and 15s
-step_values = [5, 10, 15]  # Corresponding speed values
+# Generate speed reference signal (step changes in RPM)
+speed_reference_rpm = np.zeros(len(t_span))
+step_times = [1, 5, 15]  # Speed step changes at 5s, 10s, and 15s
+step_values_rpm = [-500, 1000, 1500]  # Corresponding speed values in RPM
 
 for i in range(len(step_times)):
-    speed_reference[t_span >= step_times[i]] = step_values[i]
+    speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
 # Initialize lists for storing results
-omega_sol = []
-theta_sol = []
+omega_sol_rpm = [0]
+theta_sol = [0]
 
+# Initialize the integral errors for the PI controllers
+integral_error_speed = 0.0
+integral_error_id = 0.0
+integral_error_iq = 0.0
+
+# Simulation loop
 for t_idx in range(len(t_span) - 1):
     # Current state of the motor
     state = initial_state
@@ -119,46 +165,45 @@ for t_idx in range(len(t_span) - 1):
     # Park Transformation: Get i_d and i_q
     i_d, i_q = park_transform(i_alpha, i_beta, state[4])
 
-    # Set the phase voltages based on perfect control of currents
-    V_d = 0.0  # Set d-axis voltage to maintain i_d_ref
-    V_q = i_q_ref  # Set q-axis voltage based on torque reference
+    # Get speed reference in RPM and apply speed PI controller
+    omega_ref_rpm = speed_reference_rpm[t_idx]
+    omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
+    i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, dt)
+
+    # Current control (for both i_d and i_q)
+    V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
+    V_q, integral_error_iq = current_pi_controller(i_q_ref, i_q, integral_error_iq, Kp_current, Ki_current, dt)
+    print(V_d, V_q)
+
+    # Inverse Park Transform to get V_alpha and V_beta
     V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
 
-    # Inverse Clarke Transformation to get phase voltages V_a, V_b, V_c
+    # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
     V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
 
-    # Simulate motor dynamics for one time step using solve_ivp
-    sol = solve_ivp(bldc_dynamics, [t_span[t_idx], t_span[t_idx + 1]], initial_state,
-                    args=(V_a, V_b, V_c, i_d_ref, i_q_ref), method='RK45', rtol=1e-6, atol=1e-6)
+    # # Apply voltage limits (nominal voltage)
+    # V_a = np.clip(V_a, - V_nominal, V_nominal)
+    # V_b = np.clip(V_b, - V_nominal, V_nominal)
+    # V_c = np.clip(V_c, - V_nominal, V_nominal)
 
-    # Update state with the last result
-    initial_state = sol.y[:, -1]
+    # print(V_a, V_b, V_c)
+    # Simulate motor dynamics for one time step using solve_ivp
+    sol = solve_ivp(bldc_dynamics, [t_span[t_idx], t_span[t_idx + 1]], state,
+                    args=(V_a, V_b, V_c), method='RK45', rtol=1e-6, atol=1e-6)
+    # Extract the state at the next time step
+    state = sol.y[:, -1]
 
     # Store results
-    omega_sol.append(initial_state[3])  # Angular velocity
-    theta_sol.append(initial_state[4])  # Rotor position
+    omega_sol_rpm.append(rad_s_to_rpm(state[3]))
+    theta_sol.append(state[4])
 
-# Plot the results
-plt.figure(figsize=(10, 8))
-
-# Plot rotor angular velocity
-plt.subplot(2, 1, 1)
-plt.plot(t_span[:-1], omega_sol, label='Rotor Angular Velocity')
-plt.plot(t_span, speed_reference, '--', label='Speed Reference', color='red')
-plt.title('Rotor Angular Velocity vs Time (with FOC)')
-plt.xlabel('Time [s]')
-plt.ylabel('Angular Velocity [rad/s]')
+# Plot speed reference and response
+plt.figure(figsize=(10, 5))
+plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', linestyle='--')
+plt.plot(t_span, omega_sol_rpm, label='Speed Response (RPM)')
+plt.xlabel('Time (s)')
+plt.ylabel('Speed (RPM)')
+plt.title('BLDC Motor Speed Control with FOC')
 plt.legend()
 plt.grid(True)
-
-# Plot rotor position
-plt.subplot(2, 1, 2)
-plt.plot(t_span[:-1], theta_sol, label='Rotor Position')
-plt.title('Rotor Position vs Time')
-plt.xlabel('Time [s]')
-plt.ylabel('Position [rad]')
-plt.legend()
-plt.grid(True)
-
-plt.tight_layout()
 plt.show()
