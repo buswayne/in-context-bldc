@@ -6,26 +6,17 @@ from scipy.integrate import solve_ivp
 R = 0.994  # Terminal resistance (Ohms)
 L = 0.995e-3  # Terminal inductance (Henries)
 Kt = 91e-3  # Torque constant (Nm/A)
-Ke = 10.9956  # Back EMF constant (V/rad/s)
-J = 44e-6  # Rotor inertia (kg.m^2)
+Ke = 1 / 10.9956  # Back EMF constant (V/rad/s)
+J = 44e-4  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
-V_nominal = 48  # Nominal voltage (Volts)
-
-# # Motor parameters based on technical data (CORRECT????)
-# R = 0.994  # Terminal resistance (Ohms)
-# L = 0.995e-3  # Terminal inductance (Henries)
-# Kt = 91e-3  # Torque constant (Nm/A)
-# Ke = 1/(105/(2*np.pi)*60) #10.9956  # Back EMF constant (V/rad/s)
-# J = 4.4e-6  # Rotor inertia (kg.m^2)
-# B = 0.528e-3  # Mechanical damping (Nms)
-# V_nominal = 48  # Nominal voltage (Volts)
-
+V_nominal = 24  # Nominal voltage (Volts)
+I_nominal = 10
 
 # PI controller parameters
-Kp_speed = 10.0  # Proportional gain for speed control
-Ki_speed = 0.01  # Integral gain for speed control
-Kp_current = 0.1  # Proportional gain for current control (d/q axis)
-Ki_current = 0.1  # Integral gain for current control (d/q axis)
+Kp_speed = 0.5  # Proportional gain for speed control
+Ki_speed = 0.005  # Integral gain for speed control
+Kp_current = 0.5  # Proportional gain for current control (d/q axis)
+Ki_current = 0.05  # Integral gain for current control (d/q axis)
 
 # Initialize PI controller states
 integral_error_speed = 0.0
@@ -35,9 +26,10 @@ integral_error_iq = 0.0
 
 # Clarke Transform: Converts 3-phase (i_a, i_b, i_c) to (i_alpha, i_beta)
 def clarke_transform(i_a, i_b, i_c):
-    i_alpha = 2/3*(i_a - i_b/2 - i_c/2)
-    i_beta = 2/3*(i_b * np.sqrt(3)/2 - i_c * np.sqrt(3)/2) 
+    i_alpha = 2 / 3 * (i_a - i_b / 2 - i_c / 2)
+    i_beta = 2 / 3 * (i_b * np.sqrt(3) / 2 - i_c * np.sqrt(3) / 2)
     return i_alpha, i_beta
+
 
 # Inverse Clarke Transform: Converts (V_alpha, V_beta) back to 3-phase (V_a, V_b, V_c)
 def inverse_clarke_transform(V_alpha, V_beta):
@@ -59,7 +51,6 @@ def inverse_park_transform(V_d, V_q, theta):
     V_alpha = V_d * np.cos(theta) - V_q * np.sin(theta)
     V_beta = V_d * np.sin(theta) + V_q * np.cos(theta)
     return V_alpha, V_beta
-
 
 
 # Update the Back EMF calculation to account for direction
@@ -103,7 +94,6 @@ def current_pi_controller(i_ref, i_actual, integral_error, Kp, Ki, dt):
     return voltage_ref, integral_error
 
 
-
 # Convert angular velocity (rad/s) to RPM
 def rad_s_to_rpm(omega):
     return omega * (60 / (2 * np.pi))
@@ -141,7 +131,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
 # Simulation parameters
 dt = 0.01  # Sampling time (seconds)
-t_span = np.arange(0, 10, dt)  # Time span for simulation (20 seconds)
+t_span = np.arange(0, 20, dt)  # Time span for simulation (20 seconds)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]  # Initial condition: [i_a, i_b, i_c, omega, theta]
 
 # Define the desired reference current for the d-axis (flux control)
@@ -158,6 +148,8 @@ for i in range(len(step_times)):
 # Initialize lists for storing results
 omega_sol_rpm = [0]
 theta_sol = [0]
+i_d_sol = [0]
+i_q_sol = [0]
 
 # Initialize the integral errors for the PI controllers
 integral_error_speed = 0.0
@@ -175,15 +167,19 @@ for t_idx in range(len(t_span) - 1):
     # Park Transformation: Get i_d and i_q
     i_d, i_q = park_transform(i_alpha, i_beta, state[4])
 
+    # Store d and q currents
+    i_d_sol.append(i_d)
+    i_q_sol.append(i_q)
+
     # Get speed reference in RPM and apply speed PI controller
     omega_ref_rpm = speed_reference_rpm[t_idx]
     omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
+
     i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, dt)
 
     # Current control (for both i_d and i_q)
     V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
     V_q, integral_error_iq = current_pi_controller(i_q_ref, i_q, integral_error_iq, Kp_current, Ki_current, dt)
-    print(V_d, V_q)
 
     # Inverse Park Transform to get V_alpha and V_beta
     V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
@@ -191,29 +187,51 @@ for t_idx in range(len(t_span) - 1):
     # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
     V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
 
-    # # Apply voltage limits (nominal voltage)
-    # V_a = np.clip(V_a, - V_nominal, V_nominal)
-    # V_b = np.clip(V_b, - V_nominal, V_nominal)
-    # V_c = np.clip(V_c, - V_nominal, V_nominal)
+    # Apply voltage limits (nominal voltage)
+    V_a = np.clip(V_a, - V_nominal, V_nominal)
+    V_b = np.clip(V_b, - V_nominal, V_nominal)
+    V_c = np.clip(V_c, - V_nominal, V_nominal)
 
-    # print(V_a, V_b, V_c)
-    # Simulate motor dynamics for one time step using solve_ivp
-    sol = solve_ivp(bldc_dynamics, [t_span[t_idx], t_span[t_idx + 1]], state,
-                    args=(V_a, V_b, V_c), method='RK45', rtol=1e-6, atol=1e-6)
-    # Extract the state at the next time step
-    initial_state = sol.y[:, -1]
+    # Simulate motor dynamics using ODE solver
+    sol = solve_ivp(bldc_dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
+    # Clip to maximum currents
+    sol.y[:3, -1] = np.clip(sol.y[:3, -1], -I_nominal, I_nominal)
+    initial_state = sol.y[:, -1]  # Update state with the result
 
-    # Store results
-    omega_sol_rpm.append(rad_s_to_rpm(state[3]))
-    theta_sol.append(state[4])
+    # Store the speed and position
+    omega_sol_rpm.append(rad_s_to_rpm(initial_state[3]))  # Convert omega from rad/s to RPM
+    theta_sol.append(initial_state[4])  # Append theta in radians
 
-# Plot speed reference and response
-plt.figure(figsize=(10, 5))
-plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', linestyle='--')
-plt.plot(t_span, omega_sol_rpm, label='Speed Response (RPM)')
+# Convert results to arrays for plotting
+omega_sol_rpm = np.array(omega_sol_rpm)
+theta_sol = np.array(theta_sol)
+i_d_sol = np.array(i_d_sol)
+i_q_sol = np.array(i_q_sol)
+
+# Plotting
+plt.figure(figsize=(12, 8))
+
+plt.subplot(3, 1, 1)
+plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
+plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+plt.title('Motor Speed')
 plt.xlabel('Time (s)')
 plt.ylabel('Speed (RPM)')
-plt.title('BLDC Motor Speed Control with FOC')
 plt.legend()
-plt.grid(True)
+
+plt.subplot(3, 1, 2)
+plt.plot(t_span, i_d_sol, label='d-axis Current (i_d)', color='green')
+plt.title('d-axis Current (i_d)')
+plt.xlabel('Time (s)')
+plt.ylabel('Current (A)')
+plt.legend()
+
+plt.subplot(3, 1, 3)
+plt.plot(t_span, i_q_sol, label='q-axis Current (i_q)', color='orange')
+plt.title('q-axis Current (i_q)')
+plt.xlabel('Time (s)')
+plt.ylabel('Current (A)')
+plt.legend()
+
+plt.tight_layout()
 plt.show()
