@@ -6,19 +6,20 @@ from scipy.integrate import solve_ivp
 R = 0.994  # Terminal resistance (Ohms)
 L = 0.995e-3  # Terminal inductance (Henries)
 Kt = 91e-3  # Torque constant (Nm/A)
-Ke = 10.9956  # Back EMF constant (V/rad/s)
-J = 44e-6  # Rotor inertia (kg.m^2)
+Ke = 1/(105/(2*np.pi)*60) #10.9956  # Back EMF constant (V/rad/s)
+J = 4.4e-6  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 48  # Nominal voltage (Volts)
 
-# # Motor parameters based on technical data (CORRECT????)
-# R = 0.994  # Terminal resistance (Ohms)
-# L = 0.995e-3  # Terminal inductance (Henries)
-# Kt = 91e-3  # Torque constant (Nm/A)
-# Ke = 1/(105/(2*np.pi)*60) #10.9956  # Back EMF constant (V/rad/s)
-# J = 4.4e-6  # Rotor inertia (kg.m^2)
-# B = 0.528e-3  # Mechanical damping (Nms)
-# V_nominal = 48  # Nominal voltage (Volts)
+
+
+# # Define BLDC motor parameters
+# R = 0.338  # Resistance (Ohms)
+# L = 1.8e-4   # Inductance (Henries)
+# Ke = 1/(572/(2*np.pi)*60)  # Back EMF constant (V/rad/s)
+# Kt = 1.67e-2  # Torque constant (Nm/A)
+# J = 2.42e-6  # Rotor inertia (kg.m^2)
+# B = 0.001  # Damping coefficient (Nms)
 
 
 # PI controller parameters
@@ -59,7 +60,6 @@ def inverse_park_transform(V_d, V_q, theta):
     V_alpha = V_d * np.cos(theta) - V_q * np.sin(theta)
     V_beta = V_d * np.sin(theta) + V_q * np.cos(theta)
     return V_alpha, V_beta
-
 
 
 # Update the Back EMF calculation to account for direction
@@ -201,7 +201,7 @@ for t_idx in range(len(t_span) - 1):
     sol = solve_ivp(bldc_dynamics, [t_span[t_idx], t_span[t_idx + 1]], state,
                     args=(V_a, V_b, V_c), method='RK45', rtol=1e-6, atol=1e-6)
     # Extract the state at the next time step
-    initial_state = sol.y[:, -1]
+    state = sol.y[:, -1]
 
     # Store results
     omega_sol_rpm.append(rad_s_to_rpm(state[3]))
