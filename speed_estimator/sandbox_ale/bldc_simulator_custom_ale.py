@@ -6,27 +6,26 @@ from scipy.integrate import solve_ivp
 R = 0.994  # Terminal resistance (Ohms)
 L = 0.995e-3  # Terminal inductance (Henries)
 Kt = 91e-3  # Torque constant (Nm/A)
-Ke = 1/(105/(2*np.pi)*60) #10.9956  # Back EMF constant (V/rad/s)
-J = 4.4e-6  # Rotor inertia (kg.m^2)
+Ke = 10.9956  # Back EMF constant (V/rad/s)
+J = 44e-6  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 48  # Nominal voltage (Volts)
 
-
-
-# # Define BLDC motor parameters
-# R = 0.338  # Resistance (Ohms)
-# L = 1.8e-4   # Inductance (Henries)
-# Ke = 1/(572/(2*np.pi)*60)  # Back EMF constant (V/rad/s)
-# Kt = 1.67e-2  # Torque constant (Nm/A)
-# J = 2.42e-6  # Rotor inertia (kg.m^2)
-# B = 0.001  # Damping coefficient (Nms)
+# # Motor parameters based on technical data (CORRECT????)
+# R = 0.994  # Terminal resistance (Ohms)
+# L = 0.995e-3  # Terminal inductance (Henries)
+# Kt = 91e-3  # Torque constant (Nm/A)
+# Ke = 1/(105/(2*np.pi)*60) #10.9956  # Back EMF constant (V/rad/s)
+# J = 4.4e-6  # Rotor inertia (kg.m^2)
+# B = 0.528e-3  # Mechanical damping (Nms)
+# V_nominal = 48  # Nominal voltage (Volts)
 
 
 # PI controller parameters
 Kp_speed = 10.0  # Proportional gain for speed control
 Ki_speed = 0.01  # Integral gain for speed control
-Kp_current = 0.1  # Proportional gain for current control (d/q axis)
-Ki_current = 0.1  # Integral gain for current control (d/q axis)
+Kp_current = 2  # Proportional gain for current control (d/q axis)
+Ki_current = 0.001  # Integral gain for current control (d/q axis)
 
 # Initialize PI controller states
 integral_error_speed = 0.0
@@ -60,6 +59,7 @@ def inverse_park_transform(V_d, V_q, theta):
     V_alpha = V_d * np.cos(theta) - V_q * np.sin(theta)
     V_beta = V_d * np.sin(theta) + V_q * np.cos(theta)
     return V_alpha, V_beta
+
 
 
 # Update the Back EMF calculation to account for direction
@@ -155,9 +155,16 @@ step_values_rpm = [-500, 1000, 1500]  # Corresponding speed values in RPM
 for i in range(len(step_times)):
     speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
+
 # Initialize lists for storing results
 omega_sol_rpm = [0]
 theta_sol = [0]
+
+reference_id = [0]
+reference_iq = [0]
+
+actual_id = [0]
+actual_iq = [0]
 
 # Initialize the integral errors for the PI controllers
 integral_error_speed = 0.0
@@ -168,6 +175,8 @@ integral_error_iq = 0.0
 for t_idx in range(len(t_span) - 1):
     # Current state of the motor
     state = initial_state
+    print(state)
+    state[4] = np.remainder(state[4], 2*np.pi)
 
     # Clarke Transformation: Get i_alpha and i_beta
     i_alpha, i_beta = clarke_transform(state[0], state[1], state[2])
@@ -201,11 +210,15 @@ for t_idx in range(len(t_span) - 1):
     sol = solve_ivp(bldc_dynamics, [t_span[t_idx], t_span[t_idx + 1]], state,
                     args=(V_a, V_b, V_c), method='RK45', rtol=1e-6, atol=1e-6)
     # Extract the state at the next time step
-    state = sol.y[:, -1]
+    initial_state = sol.y[:, -1]
 
     # Store results
     omega_sol_rpm.append(rad_s_to_rpm(state[3]))
     theta_sol.append(state[4])
+    reference_id.append(i_d_ref)
+    reference_iq.append(i_q_ref)
+    actual_id.append(i_d)
+    actual_iq.append(i_q)
 
 # Plot speed reference and response
 plt.figure(figsize=(10, 5))
@@ -213,6 +226,24 @@ plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', linestyle='
 plt.plot(t_span, omega_sol_rpm, label='Speed Response (RPM)')
 plt.xlabel('Time (s)')
 plt.ylabel('Speed (RPM)')
+plt.title('BLDC Motor Speed Control with FOC')
+plt.legend()
+plt.grid(True)
+
+plt.figure(figsize=(10, 5))
+plt.plot(t_span, reference_id, label='Id Reference (A)', linestyle='--')
+# plt.plot(t_span, actual_id, label='Id Response (A)')
+plt.xlabel('Time (s)')
+plt.ylabel('Current (A)')
+plt.title('BLDC Motor Speed Control with FOC')
+plt.legend()
+plt.grid(True)
+
+plt.figure(figsize=(10, 5))
+plt.plot(t_span, reference_id, label='Iq Reference (A)', linestyle='--')
+# plt.plot(t_span, actual_id, label='Iq Response (A)')
+plt.xlabel('Time (s)')
+plt.ylabel('Current (A)')
 plt.title('BLDC Motor Speed Control with FOC')
 plt.legend()
 plt.grid(True)
