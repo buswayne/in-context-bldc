@@ -22,7 +22,8 @@ class Dataset(Dataset):
         df = self.dfs[df_idx]
 
         # Randomly select a starting index
-        start_idx = np.random.randint(0, len(df) - self.seq_len + 1)
+        max_val = len(df) - self.seq_len
+        start_idx = np.random.randint(0, max_val)
 
         # Get the sequence for batch_u and batch_y
         batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
@@ -78,20 +79,20 @@ def load_dataframes_from_folder(folder_path):
         df = normalize_fixed_ranges(df)
         # Find the first index where r changes from 0 to 1
         first_non_zero_index = df.index[df['r'].diff().gt(0)].min()
-        df = df.loc[first_non_zero_index:]  # Keep rows up to that index
+        # df = df.loc[first_non_zero_index:]  # Keep rows up to that index
         dataframes.append(df)
     return dataframes
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../data/CL_experiments/train/inertia13/'
+    folder_path = '../data/simulated'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
     # Create an instance of the dataset
     dataset = Dataset(dfs=dfs, seq_len=50)
-    dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
     # Example of accessing an item
     batch_u, batch_y = next(iter(dataloader))
@@ -106,7 +107,7 @@ if __name__ == "__main__":
 
     # Plot batch_y (omega)
     plt.subplot(2, 1, 1)
-    plt.plot(batch_y_np, label='Batch y (omega)', color='blue')
+    plt.plot(batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
     plt.title('Batch y (omega)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
@@ -114,10 +115,10 @@ if __name__ == "__main__":
 
     # Plot each component of batch_u
     plt.subplot(2, 1, 2)
-    plt.plot(batch_u_np[:, 0], label='Batch u (iq)', color='orange')
-    plt.plot(batch_u_np[:, 1], label='Batch u (id)', color='green')
-    plt.plot(batch_u_np[:, 2], label='Batch u (vq)', color='red')
-    plt.plot(batch_u_np[:, 3], label='Batch u (vd)', color='purple')
+    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (iq)', color='orange')
+    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (id)', color='green')
+    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (vq)', color='red')
+    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vd)', color='purple')
     plt.title('Batch u (iq, id, vq, vd)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
