@@ -18,6 +18,9 @@ Ki_speed = 10  # Integral gain for speed control
 Kp_current = 0.01  # Proportional gain for current control (d/q axis)
 Ki_current = 25  # Integral gain for current control (d/q axis)
 
+kp_list =  [1, 0.5, 0.1, 0.05, 0.01, 0.05]
+ki_list =  [10, 5, 1, 0.5, 0.1]
+
 # Kp_speed = 10.0  # Proportional gain for speed control
 # Ki_speed = 0.01  # Integral gain for speed control
 # Kp_current = 2  # Proportional gain for current control (d/q axis)
@@ -80,7 +83,7 @@ def trapezoidal_emf(theta):
 
 
 # Modify the speed control to reverse the torque-producing current
-def speed_pi_controller(omega_ref_rpm, omega_rpm, dt):
+def speed_pi_controller(omega_ref_rpm, omega_rpm, Kp, Ki, dt):
     global integral_error_speed
 
     # Compute speed error
@@ -90,11 +93,11 @@ def speed_pi_controller(omega_ref_rpm, omega_rpm, dt):
     integral_error_speed += error * dt
 
     # PI control law for i_q_ref (torque control)
-    i_q_ref = Kp_speed * error + Ki_speed * integral_error_speed
+    i_q_ref = Kp * error + Ki * integral_error_speed
 
     return i_q_ref
 
-def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, dt):
+def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, Kp, Ki, dt):
 
     # Compute speed error
     error = - omega_rpm + omega_ref_rpm  # Invert the error calculation
@@ -103,7 +106,7 @@ def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, 
     integral_error += (error + delta_sat) * dt
 
     # PI control law for i_q_ref (torque control)
-    i_q_ref = Kp_speed * error + Ki_speed * integral_error_speed
+    i_q_ref = Kp * error + Ki * integral_error_speed
 
     return i_q_ref, integral_error
 
@@ -187,121 +190,125 @@ step_values_rpm = [-500, 1000, 1500]  # Corresponding speed values in RPM
 for i in range(len(step_times)):
     speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
-# Initialize lists for storing results
-omega_sol_rpm = [0]
-theta_sol = [0]
-i_d_sol = [0]
-i_q_sol = [0]
-
-reference_id = [0]
-reference_iq = [0]
-
-# Initialize the integral errors for the PI controllers
-integral_error_speed = 0.0
-integral_error_id = 0.0
-integral_error_iq = 0.0
-V_d_delta_sat = 0
-V_q_delta_sat = 0
-i_q_delta_sat = 0
 
 
-# Simulation loop
-for t_idx in range(len(t_span) - 1):
-    # Current state of the motor
-    state = initial_state
+for Kp_speed in kp_list:
+    for Ki_speed in ki_list:
+        # Initialize lists for storing results
+        omega_sol_rpm = [0]
+        theta_sol = [0]
+        i_d_sol = [0]
+        i_q_sol = [0]
 
-    # Clarke Transformation: Get i_alpha and i_beta
-    i_alpha, i_beta = clarke_transform(state[0], state[1], state[2])
+        reference_id = [0]
+        reference_iq = [0]
 
-    # Park Transformation: Get i_d and i_q
-    i_d, i_q = park_transform(i_alpha, i_beta, state[4])
-
-    # Store d and q currents
-    i_d_sol.append(i_d)
-    i_q_sol.append(i_q)
-
-    # Get speed reference in RPM and apply speed PI controller
-    omega_ref_rpm = speed_reference_rpm[t_idx]
-    omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
-
-    # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, dt)
-    i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, dt)
-
-    i_q_sat = np.clip(i_q_ref, -I_nominal, I_nominal)
-    i_q_delta_sat = i_q_sat - i_q_ref
-
-    i_q_ref = i_q_sat
-
-    print(i_q_ref)
-
-    # Current control (for both i_d and i_q)
-    # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
-    # V_q, integral_error_iq = current_pi_controller(i_q_ref, i_q, integral_error_iq, Kp_current, Ki_current, dt)
-
-    V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current, Ki_current, dt)
-    V_q, integral_error_iq = current_pi_controller_aw(i_q_ref, i_q, integral_error_iq, V_q_delta_sat, Kp_current, Ki_current, dt)
+        # Initialize the integral errors for the PI controllers
+        integral_error_speed = 0.0
+        integral_error_id = 0.0
+        integral_error_iq = 0.0
+        V_d_delta_sat = 0
+        V_q_delta_sat = 0
+        i_q_delta_sat = 0
 
 
-    # Inverse Park Transform to get V_alpha and V_beta
-    V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
+        # Simulation loop
+        for t_idx in range(len(t_span) - 1):
+            # Current state of the motor
+            state = initial_state
 
-    # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
-    V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
+            # Clarke Transformation: Get i_alpha and i_beta
+            i_alpha, i_beta = clarke_transform(state[0], state[1], state[2])
 
-    # Apply voltage limits (nominal voltage)
-    V_a = np.clip(V_a, - V_nominal, V_nominal)
-    V_b = np.clip(V_b, - V_nominal, V_nominal)
-    V_c = np.clip(V_c, - V_nominal, V_nominal)
+            # Park Transformation: Get i_d and i_q
+            i_d, i_q = park_transform(i_alpha, i_beta, state[4])
 
-    V_alpha_tmp, V_beta_tmp = clarke_transform(V_a,V_b,V_c)
-    V_d_sat, V_q_sat = park_transform(V_alpha_tmp, V_beta_tmp, state[4])
-    V_d_delta_sat = V_d_sat - V_d
-    V_q_delta_sat = V_q_sat - V_q
+            # Store d and q currents
+            i_d_sol.append(i_d)
+            i_q_sol.append(i_q)
 
-    # Simulate motor dynamics using ODE solver
-    sol = solve_ivp(bldc_dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
-    # Clip to maximum currents
-    # sol.y[:3, -1] = np.clip(sol.y[:3, -1], -I_nominal, I_nominal)
-    initial_state = sol.y[:, -1]  # Update state with the result
+            # Get speed reference in RPM and apply speed PI controller
+            omega_ref_rpm = speed_reference_rpm[t_idx]
+            omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
 
-    # Store the speed and position
-    omega_sol_rpm.append(rad_s_to_rpm(initial_state[3]))  # Convert omega from rad/s to RPM
-    theta_sol.append(initial_state[4])  # Append theta in radians
-    reference_id.append(i_d_ref)
-    reference_iq.append(i_q_ref)
+            # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, Kp_speed, Ki_speed, dt)
+            i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, Kp_speed, Ki_speed, dt)
 
-# Convert results to arrays for plotting
-omega_sol_rpm = np.array(omega_sol_rpm)
-theta_sol = np.array(theta_sol)
-i_d_sol = np.array(i_d_sol)
-i_q_sol = np.array(i_q_sol)
+            i_q_sat = np.clip(i_q_ref, -I_nominal, I_nominal)
+            i_q_delta_sat = i_q_sat - i_q_ref
 
-# Plotting
-plt.figure(figsize=(12, 8))
+            i_q_ref = i_q_sat
 
-plt.subplot(3, 1, 1)
-plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
-plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
-plt.title('Motor Speed')
-plt.xlabel('Time (s)')
-plt.ylabel('Speed (RPM)')
-plt.legend()
+            print(i_q_ref)
 
-plt.subplot(3, 1, 2)
-plt.plot(t_span, i_d_sol, label='d-axis Current (i_d)', color='green')
-plt.plot(t_span, reference_id, label='d-axis Current Reference (RPM)', color='red', linestyle='--')
-plt.title('d-axis Current (i_d)')
-plt.xlabel('Time (s)')
-plt.ylabel('Current (A)')
-plt.legend()
+            # Current control (for both i_d and i_q)
+            # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
+            # V_q, integral_error_iq = current_pi_controller(i_q_ref, i_q, integral_error_iq, Kp_current, Ki_current, dt)
 
-plt.subplot(3, 1, 3)
-plt.plot(t_span, i_q_sol, label='q-axis Current (i_q)', color='orange')
-plt.plot(t_span, reference_iq, label='q-axis Current Reference (RPM)', color='red', linestyle='--')
-plt.title('q-axis Current (i_q)')
-plt.xlabel('Time (s)')
-plt.ylabel('Current (A)')
-plt.legend()
+            V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current, Ki_current, dt)
+            V_q, integral_error_iq = current_pi_controller_aw(i_q_ref, i_q, integral_error_iq, V_q_delta_sat, Kp_current, Ki_current, dt)
 
-plt.tight_layout()
-plt.show()
+
+            # Inverse Park Transform to get V_alpha and V_beta
+            V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
+
+            # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
+            V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
+
+            # Apply voltage limits (nominal voltage)
+            V_a = np.clip(V_a, - V_nominal, V_nominal)
+            V_b = np.clip(V_b, - V_nominal, V_nominal)
+            V_c = np.clip(V_c, - V_nominal, V_nominal)
+
+            V_alpha_tmp, V_beta_tmp = clarke_transform(V_a,V_b,V_c)
+            V_d_sat, V_q_sat = park_transform(V_alpha_tmp, V_beta_tmp, state[4])
+            V_d_delta_sat = V_d_sat - V_d
+            V_q_delta_sat = V_q_sat - V_q
+
+            # Simulate motor dynamics using ODE solver
+            sol = solve_ivp(bldc_dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
+            # Clip to maximum currents
+            # sol.y[:3, -1] = np.clip(sol.y[:3, -1], -I_nominal, I_nominal)
+            initial_state = sol.y[:, -1]  # Update state with the result
+
+            # Store the speed and position
+            omega_sol_rpm.append(rad_s_to_rpm(initial_state[3]))  # Convert omega from rad/s to RPM
+            theta_sol.append(initial_state[4])  # Append theta in radians
+            reference_id.append(i_d_ref)
+            reference_iq.append(i_q_ref)
+
+        # Convert results to arrays for plotting
+        omega_sol_rpm = np.array(omega_sol_rpm)
+        theta_sol = np.array(theta_sol)
+        i_d_sol = np.array(i_d_sol)
+        i_q_sol = np.array(i_q_sol)
+
+        # Plotting
+        plt.figure(figsize=(12, 8))
+
+        plt.subplot(3, 1, 1)
+        plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
+        plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+        plt.title('Motor Speed')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Speed (RPM)')
+        plt.legend()
+
+        plt.subplot(3, 1, 2)
+        plt.plot(t_span, i_d_sol, label='d-axis Current (i_d)', color='green')
+        plt.plot(t_span, reference_id, label='d-axis Current Reference (RPM)', color='red', linestyle='--')
+        plt.title('d-axis Current (i_d)')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Current (A)')
+        plt.legend()
+
+        plt.subplot(3, 1, 3)
+        plt.plot(t_span, i_q_sol, label='q-axis Current (i_q)', color='orange')
+        plt.plot(t_span, reference_iq, label='q-axis Current Reference (RPM)', color='red', linestyle='--')
+        plt.title('q-axis Current (i_q)')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Current (A)')
+        plt.legend()
+
+        plt.tight_layout()
+        plt.show()
