@@ -79,9 +79,15 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
+<<<<<<< Updated upstream
     parser.add_argument('--out-file', type=str, default="ckpt_zerostep", metavar='S',
                         help='Saved model name')
     parser.add_argument('--in-file', type=str, default="ckpt_zerostep", metavar='S',
+=======
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_simulated", metavar='S',
+                        help='Saved model name')
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_simulated", metavar='S',
+>>>>>>> Stashed changes
                         help='Loaded model name (when resuming)')
     parser.add_argument('--init-from', type=str, default="scratch", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
@@ -184,7 +190,7 @@ if __name__ == '__main__':
     print(torch.cuda.current_device())
 
     # Load all your DataFrames (replace with your data loading code)
-    folder_path = '../data/CL_experiments/train/inertia13'
+    folder_path = '../data/simulated'
     dfs = load_dataframes_from_folder(folder_path)
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
