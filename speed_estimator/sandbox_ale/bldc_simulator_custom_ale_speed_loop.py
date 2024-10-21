@@ -13,12 +13,12 @@ V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
 
 # PI controller parameters
-Kp_speed = 0.1  # Proportional gain for speed control
-Ki_speed = 10  # Integral gain for speed control
+Kp_speed = 1  # Proportional gain for speed control
+Ki_speed = 1  # Integral gain for speed control
 Kp_current = 0.01  # Proportional gain for current control (d/q axis)
 Ki_current = 25  # Integral gain for current control (d/q axis)
 
-kp_list =  [1, 0.5, 0.1, 0.05, 0.01, 0.05]
+kp_list =  [1, 0.1, 0.01]
 ki_list =  [10, 5, 1, 0.5, 0.1]
 
 # Kp_speed = 10.0  # Proportional gain for speed control
@@ -175,7 +175,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
 # Simulation parameters
 dt = 0.001  # Sampling time (seconds)
-T_max = 1
+T_max = 10
 t_span = np.arange(0, T_max, dt)  # Time span for simulation (20 seconds)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]  # Initial condition: [i_a, i_b, i_c, omega, theta]
 
@@ -210,6 +210,7 @@ for Kp_speed in kp_list:
         V_d_delta_sat = 0
         V_q_delta_sat = 0
         i_q_delta_sat = 0
+        initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
 
 
         # Simulation loop
@@ -239,7 +240,7 @@ for Kp_speed in kp_list:
 
             i_q_ref = i_q_sat
 
-            print(i_q_ref)
+            # print(i_q_ref)
 
             # Current control (for both i_d and i_q)
             # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
@@ -284,7 +285,8 @@ for Kp_speed in kp_list:
         i_q_sol = np.array(i_q_sol)
 
         # Plotting
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 7))
+        plt.suptitle("kp = {}, ki = {}".format(Kp_speed,Ki_speed))
 
         plt.subplot(3, 1, 1)
         plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
@@ -311,4 +313,4 @@ for Kp_speed in kp_list:
         plt.legend()
 
         plt.tight_layout()
-        plt.show()
+plt.show()

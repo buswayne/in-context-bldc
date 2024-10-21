@@ -13,8 +13,8 @@ V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
 
 # PI controller parameters
-Kp_speed = 0.1  # Proportional gain for speed control
-Ki_speed = 10  # Integral gain for speed control
+Kp_speed = 1  # Proportional gain for speed control
+Ki_speed = 1  # Integral gain for speed control
 Kp_current = 0.01  # Proportional gain for current control (d/q axis)
 Ki_current = 25  # Integral gain for current control (d/q axis)
 
@@ -94,7 +94,7 @@ def speed_pi_controller(omega_ref_rpm, omega_rpm, dt):
 
     return i_q_ref
 
-def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, dt):
+def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, Kp, Ki, dt):
 
     # Compute speed error
     error = - omega_rpm + omega_ref_rpm  # Invert the error calculation
@@ -103,7 +103,7 @@ def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, 
     integral_error += (error + delta_sat) * dt
 
     # PI control law for i_q_ref (torque control)
-    i_q_ref = Kp_speed * error + Ki_speed * integral_error_speed
+    i_q_ref = Kp * error + Ki * integral_error_speed
 
     return i_q_ref, integral_error
 
@@ -172,7 +172,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
 # Simulation parameters
 dt = 0.001  # Sampling time (seconds)
-T_max = 1
+T_max = 20
 t_span = np.arange(0, T_max, dt)  # Time span for simulation (20 seconds)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]  # Initial condition: [i_a, i_b, i_c, omega, theta]
 
@@ -224,15 +224,15 @@ for t_idx in range(len(t_span) - 1):
     omega_ref_rpm = speed_reference_rpm[t_idx]
     omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
 
-    # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, dt)
-    i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, dt)
+    # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, Kp_speed, Ki_speed, dt)
+    i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, Kp_speed, Ki_speed, dt)
 
     i_q_sat = np.clip(i_q_ref, -I_nominal, I_nominal)
     i_q_delta_sat = i_q_sat - i_q_ref
 
     i_q_ref = i_q_sat
 
-    print(i_q_ref)
+    # print(i_q_ref)
 
     # Current control (for both i_d and i_q)
     # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
@@ -277,7 +277,7 @@ i_d_sol = np.array(i_d_sol)
 i_q_sol = np.array(i_q_sol)
 
 # Plotting
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(12, 7))
 
 plt.subplot(3, 1, 1)
 plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
