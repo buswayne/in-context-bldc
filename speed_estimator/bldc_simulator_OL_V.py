@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from bldc_utils import *
@@ -98,21 +99,19 @@ initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
 d_min, d_max = 1, 5
 
 # Number of experiments
-num_experiments = 100
+num_experiments = 1000
 
 # Perturbation range: ±100%
-perturbation_range = 1.0
+perturb_percentage = 1.0
 
-for experiment in range(num_experiments):
+for experiment in range(555, num_experiments):
     # Randomly perturb motor parameters within ±100% of their nominal values
-    R_perturbed = R * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-    L_perturbed = L * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-    Kt_perturbed = Kt * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-    Ke_perturbed = Ke * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-    J_perturbed = J * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-    B_perturbed = B * np.random.uniform(1 - perturbation_range, 1 + perturbation_range)
-
-    print(R_perturbed)
+    R_perturbed = R * (1 + perturb_percentage * np.random.uniform(-1, 1))
+    L_perturbed = L * (1 + perturb_percentage * np.random.uniform(-1, 1))
+    Kt_perturbed = Kt * (1 + perturb_percentage * np.random.uniform(-1, 1))
+    Ke_perturbed = Ke * (1 + perturb_percentage * np.random.uniform(-1, 1))
+    J_perturbed = J * (1 + perturb_percentage * np.random.uniform(-1, 1))
+    B_perturbed = B * (1 + perturb_percentage * np.random.uniform(-1, 1))
 
     # Initialize the motor with perturbed parameters
     motor = BLDCMotor(R_perturbed, L_perturbed, Kt_perturbed, Ke_perturbed, J_perturbed, B_perturbed, V_nominal, I_nominal, P)
@@ -122,39 +121,46 @@ for experiment in range(num_experiments):
 
     V_q_steps = steps_sequence(T_max, dt, -V_nominal, V_nominal, d_min, d_max).flatten()
 
+    V_d_steps = np.zeros_like(V_q_steps)
+    r = np.zeros_like(V_q_steps)
+
     # Run the simulation
     t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol = motor.simulate(initial_state, t_span, V_q_steps)
 
+    data = np.array([t_span, i_q_sol, i_d_sol, V_q_steps, V_d_steps, omega_sol_rpm, r])
+    df = pd.DataFrame(data.T, columns=['timestamp','iq','id','vq','vd','omega','r'])
+
+    df.to_csv('../data/simulated/OL/experiment_' + str(experiment) + '.csv', index=False)
     # Here you can save or analyze the results of the experiment
     print(f"Experiment {experiment + 1} complete.")
 
-    # Plotting
-    plt.figure(figsize=(12, 10))
-
-    plt.subplot(3, 1, 1)
-    plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
-    plt.title('Motor Speed')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Speed (RPM)')
-    plt.grid()
-    plt.legend()
-
-    plt.subplot(3, 1, 2)
-    plt.plot(t_span, i_d_sol, label='Direct Current (A)', color='green')
-    plt.plot(t_span, i_q_sol, label='Quadrature Current (A)', color='orange')
-    plt.title('Direct and Quadrature Current')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Current (A)')
-    plt.grid()
-    plt.legend()
-
-    plt.subplot(3, 1, 3)
-    plt.plot(t_span, theta_sol, label='Theta (rad)', color='purple')
-    plt.title('Rotor Position')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Theta (rad)')
-    plt.grid()
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
+    # # Plotting
+    # plt.figure(figsize=(12, 10))
+    #
+    # plt.subplot(3, 1, 1)
+    # plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
+    # plt.title('Motor Speed')
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Speed (RPM)')
+    # plt.grid()
+    # plt.legend()
+    #
+    # plt.subplot(3, 1, 2)
+    # plt.plot(t_span, i_d_sol, label='Direct Current (A)', color='green')
+    # plt.plot(t_span, i_q_sol, label='Quadrature Current (A)', color='orange')
+    # plt.title('Direct and Quadrature Current')
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Current (A)')
+    # plt.grid()
+    # plt.legend()
+    #
+    # plt.subplot(3, 1, 3)
+    # plt.plot(t_span, theta_sol, label='Theta (rad)', color='purple')
+    # plt.title('Rotor Position')
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Theta (rad)')
+    # plt.grid()
+    # plt.legend()
+    #
+    # plt.tight_layout()
+    # plt.show()
