@@ -11,15 +11,17 @@ J = 44e-4  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
+n_poles = 14
+
 
 # PI controller parameters
-Kp_speed = 1  # Proportional gain for speed control
-Ki_speed = 1  # Integral gain for speed control
+Kp_speed = 3  # Proportional gain for speed control
+Ki_speed = 22  # Integral gain for speed control
 Kp_current = 0.01  # Proportional gain for current control (d/q axis)
 Ki_current = 25  # Integral gain for current control (d/q axis)
 
-kp_list =  [1, 0.1, 0.01]
-ki_list =  [10, 5, 1, 0.5, 0.1]
+kp_list =  [3]
+ki_list =  [22]
 
 # Kp_speed = 10.0  # Proportional gain for speed control
 # Ki_speed = 0.01  # Integral gain for speed control
@@ -103,7 +105,7 @@ def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, 
     error = - omega_rpm + omega_ref_rpm  # Invert the error calculation
 
     # Update integral term
-    integral_error += (error + delta_sat) * dt
+    integral_error += (error + 1*delta_sat) * dt
 
     # PI control law for i_q_ref (torque control)
     i_q_ref = Kp * error + Ki * integral_error_speed
@@ -168,7 +170,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
     # Mechanical dynamics
     domega_dt = (T_m - B * omega) / J
-    dtheta_dt = omega
+    dtheta_dt = n_poles/2*omega
 
     return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
@@ -203,6 +205,8 @@ for Kp_speed in kp_list:
         reference_id = [0]
         reference_iq = [0]
 
+        integral_error_for_speed = [0]
+
         # Initialize the integral errors for the PI controllers
         integral_error_speed = 0.0
         integral_error_id = 0.0
@@ -234,6 +238,8 @@ for Kp_speed in kp_list:
 
             # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, Kp_speed, Ki_speed, dt)
             i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, Kp_speed, Ki_speed, dt)
+
+            integral_error_for_speed.append(integral_error_speed)
 
             i_q_sat = np.clip(i_q_ref, -I_nominal, I_nominal)
             i_q_delta_sat = i_q_sat - i_q_ref
@@ -313,4 +319,7 @@ for Kp_speed in kp_list:
         plt.legend()
 
         plt.tight_layout()
+
+        # plt.figure()
+        # plt.plot(t_span, integral_error_for_speed)
 plt.show()

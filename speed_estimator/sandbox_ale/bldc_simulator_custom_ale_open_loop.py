@@ -170,7 +170,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
     # Mechanical dynamics
     domega_dt = (T_m - B * omega) / J
-    dtheta_dt = omega
+    dtheta_dt = n_poles/2*omega
 
     return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
@@ -301,27 +301,27 @@ plt.legend()
 
 plt.tight_layout()
 
-plt.figure(figsize=(12, 7))
+# plt.figure(figsize=(12, 7))
 
-plt.subplot(3, 1, 1)
-plt.plot(t_span, i_a_state, color='blue')
-# plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
-plt.title('Phase A')
-plt.xlabel('Time (s)')
+# plt.subplot(3, 1, 1)
+# plt.plot(t_span, i_a_state, color='blue')
+# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.title('Phase A')
+# plt.xlabel('Time (s)')
 
-plt.subplot(3, 1, 2)
-plt.plot(t_span, i_b_state, color='blue')
-# plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
-plt.title('Phase B')
-plt.xlabel('Time (s)')
+# plt.subplot(3, 1, 2)
+# plt.plot(t_span, i_b_state, color='blue')
+# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.title('Phase B')
+# plt.xlabel('Time (s)')
 
-plt.subplot(3, 1, 3)
-plt.plot(t_span, i_c_state, color='blue')
-# plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
-plt.title('Phase C')
-plt.xlabel('Time (s)')
+# plt.subplot(3, 1, 3)
+# plt.plot(t_span, i_c_state, color='blue')
+# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.title('Phase C')
+# plt.xlabel('Time (s)')
 
-plt.tight_layout()
+# plt.tight_layout()
 
 
 plt.show()

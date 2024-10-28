@@ -11,6 +11,8 @@ J = 44e-4  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
+n_poles = 14
+
 
 # PI controller parameters
 # Kp_speed = 0.5  # Proportional gain for speed control
@@ -166,7 +168,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
     # Mechanical dynamics
     domega_dt = (T_m - B * omega) / J
-    dtheta_dt = omega
+    dtheta_dt = n_poles/2*omega
 
     return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
