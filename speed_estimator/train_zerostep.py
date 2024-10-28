@@ -11,6 +11,7 @@ from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import argparse
 import warnings
 import wandb
+import torch.nn as nn
 import pandas as pd
 
 
@@ -21,10 +22,11 @@ warnings.filterwarnings("ignore")
 warnings.filterwarnings("default")
 
 # # start a new wandb run to track this script
-# wandb.init(
-#     # set the wandb project where this run will be logged
-#     project="in-context bldc estimator"
-# )
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="in-context bldc estimator",
+    name="train_v3"
+)
 
 
 def train(model, dataloader, criterion, optimizer, device):
@@ -79,11 +81,11 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_OL", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_OL_v3", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_OL", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_OL_v2", metavar='S',
                         help='Loaded model name (when resuming)')
-    parser.add_argument('--init-from', type=str, default="resume", metavar='S',
+    parser.add_argument('--init-from', type=str, default="pretrained", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
     parser.add_argument('--seed', type=int, default=42, metavar='N',
                         help='Seed for random number generation')
@@ -119,7 +121,7 @@ if __name__ == '__main__':
                         help='bias in model')
 
     # Training
-    parser.add_argument('--batch-size', type=int, default=32, metavar='N',
+    parser.add_argument('--batch-size', type=int, default=512, metavar='N',
                         help='batch size (default:32)')
     parser.add_argument('--max-iters', type=int, default=1_000_000, metavar='N',
                         help='number of iterations (default: 1M)')
@@ -142,7 +144,7 @@ if __name__ == '__main__':
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='disables CUDA training')
     parser.add_argument('--cuda-device', type=str, default="cuda:0", metavar='S',
-                        help='cuda device (default: "cuda:0")')
+                        help='cuda device (default: "cuda")')
     parser.add_argument('--compile', action='store_true', default=False,
                         help='disables CUDA training')
 
@@ -215,13 +217,23 @@ if __name__ == '__main__':
             if k.startswith(unwanted_prefix):
                 state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
         model.load_state_dict(state_dict)
+
+    # Wrap the model with DataParallel
+    if torch.cuda.device_count() > 1:
+        print("Using all the GPUs!")
+        model = nn.DataParallel(model)
+
     model.to(device)
 
     if cfg.compile:
         model = torch.compile(model)  # requires PyTorch 2.0
 
     # Optimizer
-    optimizer = model.configure_optimizers(cfg.weight_decay, cfg.lr, (cfg.beta1, cfg.beta2), device_type)
+    # Check if model is wrapped by DataParallel
+    if isinstance(model, torch.nn.DataParallel):
+        optimizer = model.module.configure_optimizers(cfg.weight_decay, cfg.lr, (cfg.beta1, cfg.beta2), device_type)
+    else:
+        optimizer = model.configure_optimizers(cfg.weight_decay, cfg.lr, (cfg.beta1, cfg.beta2), device_type)
 
     if cfg.init_from == "resume":
         optimizer.load_state_dict(checkpoint['optimizer'])
@@ -272,7 +284,7 @@ if __name__ == '__main__':
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             checkpoint = {
-                'model': model.state_dict(),
+                'model': model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict(),
                 'optimizer': optimizer.state_dict(),
                 'model_args': model_args,
                 'iter_num': epoch,
@@ -282,9 +294,10 @@ if __name__ == '__main__':
                 'best_val_loss': best_val_loss,
                 'cfg': cfg,
             }
+
             torch.save(checkpoint, model_dir / f"{cfg.out_file}.pt")
 
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}")
-        # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
+        wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
 
     print("Training complete. Best model saved as 'best_model.pth'.")

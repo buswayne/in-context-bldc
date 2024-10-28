@@ -6,11 +6,17 @@ from bldc_utils import *
 from signals import *
 import wandb
 
-wandb.init(
-    # set the wandb project where this run will be logged
-    project="in-context bldc estimator",
-    name="data_generator"
-)
+class PIController:
+    def __init__(self, kp, ki, dt):
+        self.kp = kp
+        self.ki = ki
+        self.dt = dt
+        self.integral = 0
+
+    def update(self, error):
+        self.integral += error * self.dt
+        output = self.kp * error + self.ki * self.integral
+        return output
 class BLDCMotor:
     def __init__(self, R, L, Kt, Ke, J, B, V_nominal, I_nominal, P):
         self.R = R
@@ -61,36 +67,54 @@ class BLDCMotor:
 
         return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
-    def simulate(self, dt, initial_state, t_span, V_q_steps):
+    def simulate(self, dt, initial_state, t_span, i_q_steps):
         omega_sol_rpm = [0]
         theta_sol = [0]
         i_d_sol = [0]
         i_q_sol = [0]
+        v_d_sol = [0]
+        v_q_sol = [0]
 
-        current_step = 0
+        # Initialize PI controllers for i_d and i_q
+        pi_i_d = PIController(kp=1, ki=10, dt=dt)
+        pi_i_q = PIController(kp=1, ki=10, dt=dt)
+
+        i_d_ref = .0
 
         for t_idx in range(len(t_span) - 1):
-            V_q = V_q_steps[t_idx]
-            V_d = 0.0
+
+            i_q_ref = i_q_steps[t_idx]
+
+            # Get actual currents i_d and i_q
+            i_alpha, i_beta = clarke_transform(initial_state[0], initial_state[1], initial_state[2])
+            i_d, i_q = park_transform(i_alpha, i_beta, initial_state[4])
+
+            # PI control for i_d and i_q
+            V_d = pi_i_d.update(i_d_ref - i_d)  # Regulate i_d to 0
+            V_q = pi_i_q.update(i_q_ref - i_q)  # Regulate i_q to i_q_ref (torque)
+
+            # Apply inverse Park and Clarke transformations
             V_alpha, V_beta = inverse_park_transform(V_d, V_q, initial_state[4])
             V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
 
+            # Clip voltages to nominal limits
             V_a = np.clip(V_a, -self.V_nominal, self.V_nominal)
             V_b = np.clip(V_b, -self.V_nominal, self.V_nominal)
             V_c = np.clip(V_c, -self.V_nominal, self.V_nominal)
 
+            # Update the motor dynamics
             sol = solve_ivp(self.dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
             initial_state = sol.y[:, -1]
 
-            i_alpha, i_beta = clarke_transform(initial_state[0], initial_state[1], initial_state[2])
-            i_d, i_q = park_transform(i_alpha, i_beta, initial_state[4])
-
+            # Store results
             omega_sol_rpm.append(rad_s_to_rpm(initial_state[3]))
             theta_sol.append(initial_state[4])
             i_d_sol.append(i_d)
             i_q_sol.append(i_q)
+            v_d_sol.append(V_d)
+            v_q_sol.append(V_q)
 
-        return t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol
+        return t_span, i_q_sol, i_d_sol, v_q_sol, v_d_sol, omega_sol_rpm, theta_sol,
 
 def main():
     # Main simulation loop
@@ -126,52 +150,50 @@ def main():
         # Generate random step sequence for Vq
         num_steps = np.random.randint(3, 10)  # Random number of steps
 
-        V_q_steps = steps_sequence(T_max, dt, -V_nominal, V_nominal, d_min, d_max).flatten()
-
-        V_d_steps = np.zeros_like(V_q_steps)
-        r = np.zeros_like(V_q_steps)
+        i_q_steps = steps_sequence(T_max, dt, -I_nominal, I_nominal, d_min, d_max).flatten()
+        r = np.zeros_like(i_q_steps)
 
         # Run the simulation
-        t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol = motor.simulate(dt, initial_state, t_span, V_q_steps)
+        t_span, i_q_sol, i_d_sol, v_q_sol, v_d_sol, omega_sol_rpm, theta_sol = motor.simulate(dt, initial_state, t_span, i_q_steps)
 
-        data = np.array([t_span, i_q_sol, i_d_sol, V_q_steps, V_d_steps, omega_sol_rpm, r])
+        data = np.array([t_span, i_q_sol, i_d_sol, v_q_sol, v_d_sol, omega_sol_rpm, r])
         df = pd.DataFrame(data.T, columns=['timestamp','iq','id','vq','vd','omega','r'])
 
-        df.to_csv('../data/simulated/OL/experiment_' + str(experiment) + '.csv', index=False)
+        # df.to_csv('../data/simulated/OL/experiment_' + str(experiment) + '.csv', index=False)
 
         # Here you can save or analyze the results of the experiment
         print(f"Experiment {experiment + 1} complete.")
         #
-        # # Plotting
-        # plt.figure(figsize=(12, 10))
-        #
-        # plt.subplot(3, 1, 1)
-        # plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
-        # plt.title('Motor Speed')
-        # plt.xlabel('Time (s)')
-        # plt.ylabel('Speed (RPM)')
-        # plt.grid()
-        # plt.legend()
-        #
-        # plt.subplot(3, 1, 2)
-        # plt.plot(t_span, i_d_sol, label='Direct Current (A)', color='green')
-        # plt.plot(t_span, i_q_sol, label='Quadrature Current (A)', color='orange')
-        # plt.title('Direct and Quadrature Current')
-        # plt.xlabel('Time (s)')
-        # plt.ylabel('Current (A)')
-        # plt.grid()
-        # plt.legend()
-        #
-        # plt.subplot(3, 1, 3)
-        # plt.plot(t_span, theta_sol, label='Theta (rad)', color='purple')
-        # plt.title('Rotor Position')
-        # plt.xlabel('Time (s)')
-        # plt.ylabel('Theta (rad)')
-        # plt.grid()
-        # plt.legend()
-        #
-        # plt.tight_layout()
-        # plt.show()
+        # Plotting
+        plt.figure(figsize=(12, 10))
+
+        plt.subplot(3, 1, 1)
+        plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
+        plt.title('Motor Speed')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Speed (RPM)')
+        plt.grid()
+        plt.legend()
+
+        plt.subplot(3, 1, 2)
+        plt.plot(t_span, i_d_sol, label='Direct Current (A)', color='green')
+        plt.title('Direct and Quadrature Current')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Current (A)')
+        plt.grid()
+        plt.legend()
+
+        plt.subplot(3, 1, 3)
+        plt.plot(t_span, i_q_steps, label='Quadrature Current Ref.', color='blue')
+        plt.plot(t_span, i_q_sol, label='Quadrature Current (A)', color='orange')
+        plt.title('Rotor Position')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Theta (rad)')
+        plt.grid()
+        plt.legend()
+
+        plt.tight_layout()
+        plt.show()
 
 if __name__ == "__main__":
     main()

@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (in-context-bldc)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (in-context-bldc)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.10.12 (sftp://rbusetto@chronos.idsia.ch:8003/home/rbusetto/.virtualenvs/sysid-transformers-control/bin/python3.10) (2)" project-jdk-type="Python SDK" />
 </project>
