@@ -12,7 +12,7 @@ B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
 
-n_poles = 14
+n_poles_pairs = 14/2
 
 # # PI controller parameters
 # Kp_speed = 0.5  # Proportional gain for speed control
@@ -70,15 +70,15 @@ def inverse_park_transform(V_d, V_q, theta):
 #     else:
 #         return -1  # Phase C
     
-def trapezoidal_emf(theta):
-    # theta = theta - 1/3 * np.pi
-    theta = np.mod(theta, 2 * np.pi)
-    if 0 <= theta < 2 * np.pi / 3:
-        return 1  # Phase A
-    elif np.pi <= theta < 5 * np.pi / 3:
-        return -1  # Phase B
-    else:
-        return 0  # Phase C
+# def trapezoidal_emf(theta):
+#     # theta = theta - 1/3 * np.pi
+#     theta = np.mod(theta, 2 * np.pi)
+#     if 0 <= theta < 2 * np.pi / 3:
+#         return 1  # Phase A
+#     elif np.pi <= theta < 5 * np.pi / 3:
+#         return -1  # Phase B
+#     else:
+#         return 0  # Phase C
     
 # def trapezoidal_emf(theta):
 #     # theta = theta - 1/3 * np.pi
@@ -155,9 +155,9 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
     i_a, i_b, i_c, omega, theta = state
 
     # Back EMF for each phase
-    e_a = Ke * omega * trapezoidal_emf(theta)
-    e_b = Ke * omega * trapezoidal_emf(theta - 2 * np.pi / 3)
-    e_c = Ke * omega * trapezoidal_emf(theta + 2 * np.pi / 3)
+    e_a = Ke * omega * trapezoidal_emf(theta) * n_poles_pairs
+    e_b = Ke * omega * trapezoidal_emf(theta - 2 * np.pi / 3) * n_poles_pairs
+    e_c = Ke * omega * trapezoidal_emf(theta + 2 * np.pi / 3) * n_poles_pairs
 
     # Electrical dynamics (di/dt for each phase)
     di_a_dt = (V_a - R * i_a - e_a) / L
@@ -166,11 +166,11 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
     # Mechanical torque
     T_m = Kt * (i_a * trapezoidal_emf(theta) + i_b * trapezoidal_emf(theta - 2 * np.pi / 3) + i_c * trapezoidal_emf(
-        theta + 2 * np.pi / 3))
+        theta + 2 * np.pi / 3)) * n_poles_pairs
 
     # Mechanical dynamics
     domega_dt = (T_m - B * omega) / J
-    dtheta_dt = n_poles/2*omega
+    dtheta_dt = omega
 
     return [di_a_dt, di_b_dt, di_c_dt, domega_dt, dtheta_dt]
 
@@ -181,24 +181,18 @@ T_max = 5
 t_span = np.arange(0, T_max, dt)  # Time span for simulation (20 seconds)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]  # Initial condition: [i_a, i_b, i_c, omega, theta]
 
-# Define the desired reference current for the d-axis (flux control)
-# i_d_ref = 0.0  # Flux current reference (d-axis)
-
-# Generate speed reference signal (step changes in RPM)
-# speed_reference_rpm = np.zeros(len(t_span))
-# step_times = [1, 5, 15]  # Speed step changes at 5s, 10s, and 15s
-# step_values_rpm = [-500, 1000, 1500]  # Corresponding speed values in RPM
-# for i in range(len(step_times)):
-#     speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
 # Initialize lists for storing results
 omega_sol_rpm = [0]
 theta_sol = [0]
 i_d_sol = [0]
 i_q_sol = [0]
-i_a_state = [0]
-i_b_state = [0]
-i_c_state = [0]
+V_a_sat_array = [0]
+V_b_sat_array = [0]
+V_c_sat_array = [0]
+V_a_array = [0]
+V_b_array = [0]
+V_c_array = [0]
 
 # reference_id = [0]
 # reference_iq = [0]
@@ -242,11 +236,18 @@ for t_idx in range(len(t_span) - 1):
     # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
     V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
 
+    V_a_array.append(V_a)
+    V_b_array.append(V_b)
+    V_c_array.append(V_c)
+
     # Apply voltage limits (nominal voltage)
     V_a = np.clip(V_a, - V_nominal, V_nominal)
     V_b = np.clip(V_b, - V_nominal, V_nominal)
     V_c = np.clip(V_c, - V_nominal, V_nominal)
 
+    V_a_sat_array.append(V_a)
+    V_b_sat_array.append(V_b)
+    V_c_sat_array.append(V_c)
     # V_a = V_nominal
     # V_b = V_nominal
     # V_c = V_nominal
@@ -260,11 +261,6 @@ for t_idx in range(len(t_span) - 1):
     # Store the speed and position
     omega_sol_rpm.append(rad_s_to_rpm(initial_state[3]))  # Convert omega from rad/s to RPM
     theta_sol.append(initial_state[4])  # Append theta in radians
-    i_a_state.append(trapezoidal_emf(initial_state[4]))
-    i_b_state.append(trapezoidal_emf(initial_state[4] - 2/3*np.pi))
-    i_c_state.append(trapezoidal_emf(initial_state[4] + 2/3*np.pi))
-    # reference_id.append(i_d_ref)
-    # reference_iq.append(i_q_ref)
 
 # Convert results to arrays for plotting
 omega_sol_rpm = np.array(omega_sol_rpm)
@@ -304,20 +300,20 @@ plt.tight_layout()
 # plt.figure(figsize=(12, 7))
 
 # plt.subplot(3, 1, 1)
-# plt.plot(t_span, i_a_state, color='blue')
-# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.plot(t_span, V_a_sat_array, color='blue')
+# plt.plot(t_span, V_a_array, color='red', linestyle='--')
 # plt.title('Phase A')
 # plt.xlabel('Time (s)')
 
 # plt.subplot(3, 1, 2)
-# plt.plot(t_span, i_b_state, color='blue')
-# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.plot(t_span, V_b_sat_array, color='blue')
+# plt.plot(t_span, V_b_array, color='red', linestyle='--')
 # plt.title('Phase B')
 # plt.xlabel('Time (s)')
 
 # plt.subplot(3, 1, 3)
-# plt.plot(t_span, i_c_state, color='blue')
-# # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+# plt.plot(t_span, V_c_sat_array, color='blue')
+# plt.plot(t_span, V_c_array, color='red', linestyle='--')
 # plt.title('Phase C')
 # plt.xlabel('Time (s)')
 
