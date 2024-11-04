@@ -353,15 +353,15 @@ if __name__ == "__main__":
         L=0.995e-3,
         Kt=91e-3,
         Ke=1 / 10.9956,
-        J=44e-4,
-        B=0.528e-3,
-        V_nominal=24,
+        J=44e-7,
+        B=0.0083,
+        V_nominal=48,
         I_nominal=10,
         Pole_pairs=14/2
     )
 
     # Simulation parameters
-    dt = 0.01
+    dt = 0.0001
     t_span = np.arange(0, 20, dt)
     initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
     speed_reference_rpm = np.zeros(len(t_span))
@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     # Initialize control system
     bldc_motor = BLDCMotor(params)
-    control_system = BLDCControlSystem(bldc_motor, Kp_speed=3, Ki_speed=22, Kp_current=0.01, Ki_current=120)
+    control_system = BLDCControlSystem(bldc_motor, Kp_speed=0.1, Ki_speed=100, Kp_current=0.01, Ki_current=100)
 
     # Run simulation
     omega_sol_rpm, theta_sol, i_d_sol, i_q_sol, i_d_ref, i_q_ref, V_a_sol, V_b_sol, V_c_sol, V_a_sat, V_b_sat, V_c_sat = control_system.simulate_speed_loop(t_span, initial_state, speed_reference_rpm, dt)
