@@ -84,24 +84,24 @@ class BLDCMotor:
     def dynamics(self, t, state, V_a, V_b, V_c):
         i_a, i_b, i_c, omega, theta = state
 
-        # Back EMF for each phase
+        # Back EMF for each phase  ## V
         e_a = self.params.Ke * omega * self.trapezoidal_emf(theta) * self.params.P
         e_b = self.params.Ke * omega * self.trapezoidal_emf(theta - 2 * np.pi / 3) * self.params.P
         e_c = self.params.Ke * omega * self.trapezoidal_emf(theta + 2 * np.pi / 3) * self.params.P
 
-        # Electrical dynamics (di/dt for each phase)
+        # Electrical dynamics (di/dt for each phase) ## A/s
         di_a_dt = (V_a - self.params.R * i_a - e_a) / self.params.L
         di_b_dt = (V_b - self.params.R * i_b - e_b) / self.params.L
         di_c_dt = (V_c - self.params.R * i_c - e_c) / self.params.L
 
-        # Mechanical torque
+        # Mechanical torque ## Nm
         T_m = self.params.Kt * (
             i_a * self.trapezoidal_emf(theta) +
             i_b * self.trapezoidal_emf(theta - 2 * np.pi / 3) +
             i_c * self.trapezoidal_emf(theta + 2 * np.pi / 3)
         ) * self.params.P
 
-        # Mechanical dynamics
+        # Mechanical dynamics ## 1/s^2, 1/s
         domega_dt = (T_m - self.params.B * omega) / self.params.J
         dtheta_dt = omega
 
@@ -366,14 +366,14 @@ if __name__ == "__main__":
     initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
     speed_reference_rpm = np.zeros(len(t_span))
     step_times = [1, 5, 15]
-    step_values_rpm = [500, 1000, 1500]
+    step_values_rpm = [100, 250, 500]
 
     for i in range(len(step_times)):
         speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
     # Initialize control system
     bldc_motor = BLDCMotor(params)
-    control_system = BLDCControlSystem(bldc_motor, Kp_speed=0.1, Ki_speed=100, Kp_current=0.01, Ki_current=100)
+    control_system = BLDCControlSystem(bldc_motor, Kp_speed=0.5, Ki_speed=10, Kp_current=0.01, Ki_current=100, K_sat_speed=2)
 
     # Run simulation
     omega_sol_rpm, theta_sol, i_d_sol, i_q_sol, i_d_ref, i_q_ref, V_a_sol, V_b_sol, V_c_sol, V_a_sat, V_b_sat, V_c_sat = control_system.simulate_speed_loop(t_span, initial_state, speed_reference_rpm, dt)

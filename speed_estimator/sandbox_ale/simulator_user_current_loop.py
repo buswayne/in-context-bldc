@@ -16,11 +16,11 @@ params = MotorParameters(
 bldc_motor = BLDCMotor(params)
 
 dt = 0.0001
-t_span = np.arange(0, 10, dt)
+t_span = np.arange(0, 3, dt)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
 i_q_ref_array =  np.zeros(len(t_span))
-step_times = [1,3,5,7,9]
-step_values = [5,-5,10,-10,0]
+step_times = [1]
+step_values = [10]
 for i in range(len(step_times)):
     i_q_ref_array[t_span >= step_times[i]] = step_values[i]
 
@@ -41,15 +41,15 @@ for KP in kp_list:
             plt.figure(figsize=(12, 7))
             plt.suptitle(f"kp = {KP}, ki = {KI}, ksat = {KSAT}")
 
-            # plt.subplot(3, 1, 1)
-            # plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
-            # # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
-            # plt.title('Motor Speed')
-            # plt.xlabel('Time (s)')
-            # plt.ylabel('Speed (RPM)')
-            # plt.legend()
+            plt.subplot(3, 1, 1)
+            plt.plot(t_span, omega_sol_rpm, label='Speed (RPM)', color='blue')
+            # plt.plot(t_span, speed_reference_rpm, label='Speed Reference (RPM)', color='red', linestyle='--')
+            plt.title('Motor Speed')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Speed (RPM)')
+            plt.legend()
 
-            plt.subplot(2, 1, 1)
+            plt.subplot(3, 1, 2)
             plt.plot(t_span, i_d_sol, label='d-axis Current (i_d)', color='green')
             plt.plot(t_span, i_d_ref, label='d-axis Current Reference (RPM)', color='red', linestyle='--')
             plt.title('d-axis Current (i_d)')
@@ -57,7 +57,7 @@ for KP in kp_list:
             plt.ylabel('Current (A)')
             plt.legend()
 
-            plt.subplot(2, 1, 2)
+            plt.subplot(3, 1, 3)
             plt.plot(t_span, i_q_sol, label='q-axis Current (i_q)', color='orange')
             plt.plot(t_span, i_q_ref, label='q-axis Current Reference (RPM)', color='red', linestyle='--')
             plt.title('q-axis Current (i_q)')

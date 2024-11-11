@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 from bldc_simulator_ale import *
 
 params = MotorParameters(
-    R=0.994,
-    L=0.995e-3,
-    Kt=91e-3,
-    Ke=1 / 10.9956,
-    J=44e-7,
-    B=0.0083, #44e-7/0.528e-3
-    V_nominal=48,
-    I_nominal=10,
+    R=0.994,  ## Ohm
+    L=0.995e-3, ## H = Ohm*s = V*s/A
+    Kt=91e-3,  ## N*m/A
+    Ke=1 / 10.9956, ##V*s/rad
+    J=44e-7, ## kg*m^2
+    B=0.0083, #44e-7/0.528e-3 kg*m^2/s
+    V_nominal=48, ## V
+    I_nominal=10, ## A
     Pole_pairs=14/2
 )
 bldc_motor = BLDCMotor(params)
@@ -19,19 +19,24 @@ dt = 0.0001
 t_span = np.arange(0, 10, dt)
 initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
 speed_reference_rpm = np.zeros(len(t_span))
-step_times = [1, 5, 15]
-step_values_rpm = [500, 1000, 1500]
+# step_times = [1, 5, 15]
+# step_values_rpm = [100, 250, 500]
+step_times = [5]
+step_values_rpm = [1000]
 
 for i in range(len(step_times)):
     speed_reference_rpm[t_span >= step_times[i]] = step_values_rpm[i]
 
-kp_list = [0.1]
-ki_list = [100]
+kp_list = [0.5]
+ki_list = [10]
 k_sat_list = [2]
-
+index = 0
 for KP in kp_list:
     for KI in ki_list:
         for KSAT in k_sat_list:
+            progress = 100* (index/(len(kp_list)*len(ki_list)*len(k_sat_list)))
+            print(f"Simulating for: kp = {KP}, ki = {KI}, ksat = {KSAT}, progress: {progress}%")
+            index += 1
 
 
             # Initialize control system
