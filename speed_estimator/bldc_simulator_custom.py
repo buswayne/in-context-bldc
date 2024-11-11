@@ -61,22 +61,22 @@ def inverse_park_transform(V_d, V_q, theta):
 # Update the Back EMF calculation to account for direction
 
 def trapezoidal_emf(theta):
-    theta = theta + 4/6 * np.pi
+    theta = theta + 4 / 6 * np.pi
     theta = np.mod(theta, 2 * np.pi)
     if 0 <= theta < 1 * np.pi / 6:
-        return 1 / (np.pi/6) * theta  
-    
+        return 1 / (np.pi / 6) * theta
+
     elif np.pi / 6 <= theta < 5 * np.pi / 6:
         return 1
-    
+
     elif 5 * np.pi / 6 <= theta < 7 * np.pi / 6:
-        return -1 / (np.pi/6) * (theta - np.pi)
-    
+        return -1 / (np.pi / 6) * (theta - np.pi)
+
     elif 7 * np.pi / 6 <= theta < 11 * np.pi / 6:
         return -1
-    
+
     else:
-        return 1 / (np.pi/6) * (theta -2 * np.pi)
+        return 1 / (np.pi / 6) * (theta - 2 * np.pi)
 
 
 # Modify the speed control to reverse the torque-producing current
@@ -94,8 +94,8 @@ def speed_pi_controller(omega_ref_rpm, omega_rpm, dt):
 
     return i_q_ref
 
-def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, Kp, Ki, dt):
 
+def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, Kp, Ki, dt):
     # Compute speed error
     error = - omega_rpm + omega_ref_rpm  # Invert the error calculation
 
@@ -106,7 +106,6 @@ def speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error, delta_sat, 
     i_q_ref = Kp * error + Ki * integral_error_speed
 
     return i_q_ref, integral_error
-
 
 
 # Current PI controller for i_d and i_q control
@@ -121,6 +120,7 @@ def current_pi_controller(i_ref, i_actual, integral_error, Kp, Ki, dt):
     voltage_ref = Kp * error + Ki * integral_error
 
     return voltage_ref, integral_error
+
 
 def current_pi_controller_aw(i_ref, i_actual, integral_error, delta_sat, Kp, Ki, dt):
     # Compute current error
@@ -204,7 +204,6 @@ V_d_delta_sat = 0
 V_q_delta_sat = 0
 i_q_delta_sat = 0
 
-
 # Simulation loop
 for t_idx in range(len(t_span) - 1):
     # Current state of the motor
@@ -225,7 +224,8 @@ for t_idx in range(len(t_span) - 1):
     omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
 
     # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, Kp_speed, Ki_speed, dt)
-    i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm,integral_error_speed, i_q_delta_sat, Kp_speed, Ki_speed, dt)
+    i_q_ref, integral_error_speed = speed_pi_controller_aw(omega_ref_rpm, omega_rpm, integral_error_speed,
+                                                           i_q_delta_sat, Kp_speed, Ki_speed, dt)
 
     i_q_sat = np.clip(i_q_ref, -I_nominal, I_nominal)
     i_q_delta_sat = i_q_sat - i_q_ref
@@ -238,9 +238,10 @@ for t_idx in range(len(t_span) - 1):
     # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
     # V_q, integral_error_iq = current_pi_controller(i_q_ref, i_q, integral_error_iq, Kp_current, Ki_current, dt)
 
-    V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current, Ki_current, dt)
-    V_q, integral_error_iq = current_pi_controller_aw(i_q_ref, i_q, integral_error_iq, V_q_delta_sat, Kp_current, Ki_current, dt)
-
+    V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current,
+                                                      Ki_current, dt)
+    V_q, integral_error_iq = current_pi_controller_aw(i_q_ref, i_q, integral_error_iq, V_q_delta_sat, Kp_current,
+                                                      Ki_current, dt)
 
     # Inverse Park Transform to get V_alpha and V_beta
     V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
@@ -253,7 +254,7 @@ for t_idx in range(len(t_span) - 1):
     V_b = np.clip(V_b, - V_nominal, V_nominal)
     V_c = np.clip(V_c, - V_nominal, V_nominal)
 
-    V_alpha_tmp, V_beta_tmp = clarke_transform(V_a,V_b,V_c)
+    V_alpha_tmp, V_beta_tmp = clarke_transform(V_a, V_b, V_c)
     V_d_sat, V_q_sat = park_transform(V_alpha_tmp, V_beta_tmp, state[4])
     V_d_delta_sat = V_d_sat - V_d
     V_q_delta_sat = V_q_sat - V_q
