@@ -124,6 +124,8 @@ class BLDCControlSystem:
         i_q_sol = [0]
         i_d_ref_array = [0]
         i_q_ref_array = [0]
+        V_d_sol = [0]
+        V_q_sol = [0]
 
         V_a_sat_array = [0]
         V_b_sat_array = [0]
@@ -192,6 +194,9 @@ class BLDCControlSystem:
             V_d_delta_sat = V_d_tmp - V_d
             V_q_delta_sat = V_q_tmp - V_q
 
+            V_d_sol.append(V_d_tmp)
+            V_q_sol.append(V_q_tmp)
+
             # Simulate motor dynamics
             sol = solve_ivp(self.motor.dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
             # Clip to maximum currents
@@ -201,7 +206,7 @@ class BLDCControlSystem:
             omega_sol_rpm.append(self.rad_s_to_rpm(initial_state[3]))
             theta_sol.append(initial_state[4])
 
-        return np.array(omega_sol_rpm), np.array(theta_sol), np.array(i_d_sol), np.array(i_q_sol), np.array(i_d_ref_array), np.array(i_q_ref_array), np.array(V_a_array), np.array(V_b_array), np.array(V_c_array), np.array(V_a_sat_array), np.array(V_b_sat_array), np.array(V_c_sat_array) 
+        return np.array(omega_sol_rpm), np.array(theta_sol), np.array(i_d_sol), np.array(i_q_sol), np.array(i_d_ref_array), np.array(i_q_ref_array), np.array(V_a_array), np.array(V_b_array), np.array(V_c_array), np.array(V_a_sat_array), np.array(V_b_sat_array), np.array(V_c_sat_array), np.array(V_d_sol), np.array(V_q_sol)
     
     def simulate_open_loop(self, t_span, initial_state, dt):
         omega_sol_rpm = [0]
@@ -376,7 +381,7 @@ if __name__ == "__main__":
     control_system = BLDCControlSystem(bldc_motor, Kp_speed=0.5, Ki_speed=10, Kp_current=0.01, Ki_current=100, K_sat_speed=2)
 
     # Run simulation
-    omega_sol_rpm, theta_sol, i_d_sol, i_q_sol, i_d_ref, i_q_ref, V_a_sol, V_b_sol, V_c_sol, V_a_sat, V_b_sat, V_c_sat = control_system.simulate_speed_loop(t_span, initial_state, speed_reference_rpm, dt)
+    omega_sol_rpm, theta_sol, i_d_sol, i_q_sol, i_d_ref, i_q_ref, V_a_sol, V_b_sol, V_c_sol, V_a_sat, V_b_sat, V_c_sat, v_d, v_q = control_system.simulate_speed_loop(t_span, initial_state, speed_reference_rpm, dt)
 
     # Plot results
     plt.figure(figsize=(12, 7))
@@ -446,6 +451,20 @@ if __name__ == "__main__":
     plt.xlabel('Time (s)')
 
     plt.tight_layout()
+
+    plt.figure()
+    plt.subplot(2, 1, 1)
+    plt.plot(t_span, v_d, color='blue')
+    plt.title('Direct')
+    plt.xlabel('Time (s)')
+
+    plt.subplot(2, 1, 2)
+    plt.plot(t_span, v_q, color='blue')
+    plt.title('Quadrature')
+    plt.xlabel('Time (s)')
+
+    plt.tight_layout()
+
 
 
     plt.show()

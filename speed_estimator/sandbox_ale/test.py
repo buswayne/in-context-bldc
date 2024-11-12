@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import torch
+import os
+from pathlib import Path
+# import torch
 
 # def trapezoidal_emf(theta):
 #     theta = theta + 4/6 * np.pi
@@ -37,17 +39,26 @@ import torch
 # # plt.plot(theta, phase_a+phase_b+phase_c)
 # plt.show()
 
-tensor = torch.ones(4, 4)
-# print(f"First row: {tensor[0]}")
-# print(f"First column: {tensor[:, 0]}")
-# print(f"Last column: {tensor[:, -1]}")
-tensor[:,1] = 0
-# print(tensor)
-# print(tensor.device)
-# if torch.cuda.is_available():
-#     tensor = tensor.to("cuda")
+# tensor = torch.ones(4, 4)
+# # print(f"First row: {tensor[0]}")
+# # print(f"First column: {tensor[:, 0]}")
+# # print(f"Last column: {tensor[:, -1]}")
+# tensor[:,1] = 0
+# # print(tensor)
+# # print(tensor.device)
+# # if torch.cuda.is_available():
+# #     tensor = tensor.to("cuda")
 
-# print(tensor.device)
+# # print(tensor.device)
 
-t1 = torch.cat([tensor, tensor, tensor], dim=0)
-print(t1)
+# t1 = torch.cat([tensor, tensor, tensor], dim=0)
+# print(t1)
+
+
+# st = 0
+# fi = 100
+# print(np.linspace(st, fi, 15))
+
+current_path = os.getcwd().split("in-context-bldc")[0]
+data_path = os.path.join(current_path, 'in-context-bldc\\data\\simulated')
+print(data_path)
