@@ -11,7 +11,7 @@ import os
 # from pathlib import Path
 
 current_path = os.getcwd().split("in-context-bldc")[0]
-data_path_tmp = os.path.join(current_path, 'in-context-bldc\\data\\simulated')
+data_path_tmp = os.path.join(current_path, 'in-context-bldc\\data\\simulated\\CL_speed')
 
 
 date_time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -49,7 +49,7 @@ def main():
     speed_max = 500
 
     # Number of experiments
-    num_experiments = 1000
+    num_experiments = 2000
 
     # Perturbation range: ±100%
     perturb_percentage = 0.70
@@ -78,7 +78,7 @@ def main():
         Pole_pairs=params.P
     )
 
-        bldc_motor = BLDCMotor(params)
+        bldc_motor = BLDCMotor(params_perturbed)
         control_system = BLDCControlSystem(bldc_motor, Kp_speed=0.5, Ki_speed=10, Kp_current=0.01, Ki_current=100, K_sat_speed=2)
 
         # Generate random step sequence for Vq
