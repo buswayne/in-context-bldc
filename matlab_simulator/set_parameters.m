@@ -19,7 +19,7 @@ BLDC.FluxLinkage = 0.0119333333333333;
 BLDC.Inertia = 4.97e-07;
 BLDC.BreakawayFrictionTorque = 0.002130661000000; %??
 BLDC.CoulombFrictionTorque = 0.002130661000000; %??
-BLDC.ViscousFrictionCoefficient = 0;
+BLDC.ViscousFrictionCoefficient = 0.001;
 BLDC.RotorPositionInit = 0;
 BLDC.RotorVelocityInit = 0;
 
@@ -30,7 +30,7 @@ inverter.GatesComplementary = true;
 
 paramPwmCompareAtZeroVolt = 330;
 paramPwmCompareMax = 660;
-paramPwmComparePerVolt = paramPwmCompareMax/BLDC.RatedVoltage;
+paramPwmComparePerVolt = paramPwmCompareMax/2/BLDC.RatedVoltage;
 
 disc.Inertia = 9.500000000000000e-05;
 
