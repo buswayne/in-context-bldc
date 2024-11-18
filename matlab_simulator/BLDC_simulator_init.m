@@ -6,7 +6,8 @@ temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
-set_parameters
+set_parameters_perturbed
+% set_parameters
 T = 10;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
@@ -45,6 +46,11 @@ exp_name = "Experiment_" + now_string + ".csv";
 writetable(out_tab,fullfile(savepath,exp_name));
 toc
 
+figure
+hold on
+grid on
+plot(output.time, output.signals.values(:,2))
+plot(output.time, output.signals.values(:,3))
 
 % logsout_autotuned = logsout;
 % save('AutotunedSpeed','logsout_autotuned')

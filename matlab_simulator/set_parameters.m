@@ -1,4 +1,3 @@
-load('SystemInputs.mat')
 PID_speed.p = 0.5;
 PID_speed.i = 10;
 
