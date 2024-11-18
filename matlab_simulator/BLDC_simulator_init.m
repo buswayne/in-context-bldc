@@ -1,7 +1,7 @@
 clear
 clc
 close all
-
+tic
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
@@ -41,9 +41,9 @@ output_clean.Vq = output.signals.values(:,8);
 
 out_tab = struct2table(output_clean);
 
-exp_name = "Experiment_" + dateTimeString + ".csv";
-writetable(out_tab,Fullfile(savepath,exp_name));
-
+exp_name = "Experiment_" + now_string + ".csv";
+writetable(out_tab,fullfile(savepath,exp_name));
+toc
 
 
 % logsout_autotuned = logsout;
