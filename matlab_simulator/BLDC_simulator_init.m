@@ -30,15 +30,15 @@ mdl = 'BLDC_simulator';
 sim(mdl)
 
 
-output_clean.Time = output.time;
+output_clean.t = output.time;
 output_clean.theta = output.signals.values(:,1);
 output_clean.omega = output.signals.values(:,2);
-output_clean.omega_ref = output.signals.values(:,3);
-output_clean.id = output.signals.values(:,4);
-output_clean.iq = output.signals.values(:,5);
-output_clean.iq_ref = output.signals.values(:,6);
-output_clean.Vd = output.signals.values(:,7);
-output_clean.Vq = output.signals.values(:,8);
+output_clean.r = output.signals.values(:,3);
+output_clean.i_d = output.signals.values(:,4);
+output_clean.i_q = output.signals.values(:,5);
+output_clean.i_q_ref = output.signals.values(:,6);
+output_clean.v_d = output.signals.values(:,7);
+output_clean.v_q = output.signals.values(:,8);
 
 out_tab = struct2table(output_clean);
 
