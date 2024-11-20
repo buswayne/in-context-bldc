@@ -6,6 +6,9 @@ temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
+speed_loop = 1;
+current_loop = 1;
+
 set_parameters_perturbed
 % set_parameters
 T = 10;
@@ -24,6 +27,8 @@ speed_input.time = time;
 speed_input.signals.values = reference_speed;
 load_input.time = time;
 load_input.signals.values = zeros(length(time),1);
+current_input.time = time;
+current_input.signals.values = zeros(length(time),1);
 
 mdl = 'BLDC_simulator';
 
@@ -43,7 +48,7 @@ output_clean.v_q = output.signals.values(:,8);
 out_tab = struct2table(output_clean);
 
 exp_name = "Experiment_" + now_string + ".csv";
-writetable(out_tab,fullfile(savepath,exp_name));
+% writetable(out_tab,fullfile(savepath,exp_name));
 toc
 
 figure
