@@ -11,21 +11,21 @@ current_loop = 1;
 
 % set_parameters_perturbed
 set_parameters_real
-T = 20;
+T = 5;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
 Min_value = 0;
-Max_value = 1000; %in rpm
-Min_duration = 1.5;
-Max_duration = 3;
+Max_value = 1500; %in rpm
+Min_duration = 1;
+Max_duration = 2;
 
 reference_speed = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 reference_speed = reference_speed / 30 * pi; %in rad/s
 
 
-PID_current.p = 0.01;
-PID_current.i = 100;
+PID_current.p = 6;
+PID_current.i = 150;
 
 
 P_list = [11.84];
@@ -69,27 +69,30 @@ for P = P_list
         toc
         
         figure
-        subplot(3,1,1)
+        ax1 = subplot(3,1,1);
         hold on
         grid on
-        plot(output.time, output.signals.values(:,3))
-        plot(output.time, output.signals.values(:,2))
+        plot(output.time, output.signals.values(:,3), "DisplayName","Omega ref")
+        plot(output.time, output.signals.values(:,2), "DisplayName","Omega")
+        legend(["Omega ref", "Omega"])
         tit = "P: " + P + ", I: " + I;
         title(tit)
 
-        subplot(3,1,2)
+        ax2 = subplot(3,1,2);
         hold on
         grid on
-        plot(output.time, output.signals.values(:,6))
-        plot(output.time, output.signals.values(:,5))
-        plot(output.time, output.signals.values(:,4))
+        plot(output.time, output.signals.values(:,6), "DisplayName","iq ref")
+        plot(output.time, output.signals.values(:,5), "DisplayName","iq")
+        plot(output.time, output.signals.values(:,4), "DisplayName","id")
+        legend()
         
-        subplot(3,1,3)
+        ax3 = subplot(3,1,3);
         hold on
         grid on
-        plot(output.time, output.signals.values(:,7))
-        plot(output.time, output.signals.values(:,8))
-        legend(["vd", "vq"])
+        plot(output.time, output.signals.values(:,7), "DisplayName","vd")
+        plot(output.time, output.signals.values(:,8), "DisplayName","vq")
+        legend()
+        linkaxes([ax1, ax2, ax3], 'x')
     end
 end
 

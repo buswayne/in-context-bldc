@@ -2,7 +2,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from pathlib import Path
-# import torch
+import pandas as pd
+
+df = pd.read_csv(r'data\simulated\CL_speed_matlab\Experiment_2024-11-25_14-27-08.csv')
+print(df.columns)
+
+# plt.figure()
+# plt.plot(df["t"],df["r"])
+# plt.plot(df["t"],df["omega"])
+# plt.figure()
+# plt.plot(df["t"],df["i_d"])
+# plt.plot(df["t"],df["i_q"])
+# plt.figure()
+# plt.plot(df["t"],df["v_d"])
+# plt.plot(df["t"],df["v_q"])
+# plt.show()
+print(df["t"].to_numpy()[1:]-df["t"].to_numpy()[:-1])
+
+
+
+
+
 
 # def trapezoidal_emf(theta):
 #     theta = theta + 4/6 * np.pi
@@ -59,6 +79,6 @@ from pathlib import Path
 # fi = 100
 # print(np.linspace(st, fi, 15))
 
-current_path = os.getcwd().split("in-context-bldc")[0]
-data_path = os.path.join(current_path, 'in-context-bldc\\data\\simulated')
-print(data_path)
+# current_path = os.getcwd().split("in-context-bldc")[0]
+# data_path = os.path.join(current_path, 'in-context-bldc\\data\\simulated')
+# print(data_path)

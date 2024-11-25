@@ -23,8 +23,8 @@ Max_duration = 1;
 reference_current = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 % reference_current = reference_speed / 30 * pi; %in rad/s
 
-P_list = [0.01];
-I_list = [100];
+P_list = [6];
+I_list = [150];
 
 for P = P_list
     for I = I_list
@@ -63,20 +63,22 @@ for P = P_list
         toc
         
         figure
-        subplot(2,1,1)
+        ax1 = subplot(2,1,1);
         hold on
         grid on
-        plot(output.time, output.signals.values(:,6))
-        plot(output.time, output.signals.values(:,5))
-        plot(output.time, output.signals.values(:,4))
+        plot(output.time, output.signals.values(:,6), "DisplayName","iq ref")
+        plot(output.time, output.signals.values(:,5), "DisplayName","iq")
+        plot(output.time, output.signals.values(:,4), "DisplayName","id")
+        legend()
         tit = "P: " + P + ", I: " + I;
         title(tit)
-        subplot(2,1,2)
+        ax2 = subplot(2,1,2);
         hold on
         grid on
-        plot(output.time, output.signals.values(:,7))
-        plot(output.time, output.signals.values(:,8))
-        legend(["vd", "vq"])
+        plot(output.time, output.signals.values(:,7), "DisplayName","vd")
+        plot(output.time, output.signals.values(:,8), "DisplayName","vq")
+        legend()
+        linkaxes([ax1, ax2], 'x')
     end
 end
 
