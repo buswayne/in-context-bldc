@@ -17,7 +17,7 @@ Min_duration = 1.5;
 Max_duration = 3;
 
 
-N_exp = 100;
+N_exp = 500;
 
 for idx_exp = 1:N_exp
     sprintf("simulating experiment %d out of %d", idx_exp, N_exp)
