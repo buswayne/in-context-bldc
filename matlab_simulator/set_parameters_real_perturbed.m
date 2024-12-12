@@ -4,7 +4,9 @@ PID_speed.i = 0.0061;
 PID_current.p = 6;
 PID_current.i = 150;
 
-coeff = @(x) 0.95 + (1.05 - 0.95) * x;
+perturbation = 0.15;
+
+coeff = @(x) (1 - perturbation) + (perturbation * 2) * x;
 
 
 BLDC.RatedVoltage = 48;

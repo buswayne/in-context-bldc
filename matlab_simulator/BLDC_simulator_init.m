@@ -3,9 +3,9 @@ clc
 close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
-savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
+% savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 
-
+savepath = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated\15_percent";
 speed_loop = 1;
 current_loop = 1;
 T = 10;
@@ -17,7 +17,7 @@ Min_duration = 1.5;
 Max_duration = 3;
 
 
-N_exp = 500;
+N_exp = 100;
 
 for idx_exp = 1:N_exp
     sprintf("simulating experiment %d out of %d", idx_exp, N_exp)
@@ -35,7 +35,11 @@ for idx_exp = 1:N_exp
     load_input.signals.values = zeros(length(time),1);
     current_input.time = time;
     current_input.signals.values = zeros(length(time),1);
-    
+    voltage_d_input.time = time;
+    voltage_d_input.signals.values = zeros(length(time),1);
+    voltage_q_input.time = time;
+    voltage_q_input.signals.values = zeros(length(time),1);
+
     mdl = 'BLDC_simulator';
     
     sim(mdl)

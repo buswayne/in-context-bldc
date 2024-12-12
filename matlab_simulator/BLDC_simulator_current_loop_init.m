@@ -40,7 +40,11 @@ for P = P_list
         current_input.time = time;
         current_input.signals.values = reference_current;
         % current_input.signals.values = ones(length(time),1)*BLDC.CurrentMax;
-        
+        voltage_d_input.time = time;
+        voltage_d_input.signals.values = zeros(length(time),1);
+        voltage_q_input.time = time;
+        voltage_q_input.signals.values = zeros(length(time),1);
+
         mdl = 'BLDC_simulator';
         
         sim(mdl)

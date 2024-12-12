@@ -16,7 +16,7 @@ Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
 Min_value = 0;
-Max_value = 1500; %in rpm
+Max_value = 3000; %in rpm
 Min_duration = 1;
 Max_duration = 2;
 
@@ -46,7 +46,11 @@ for P = P_list
         load_input.signals.values = zeros(length(time),1);
         current_input.time = time;
         current_input.signals.values = zeros(length(time),1);% + BLDC.CurrentMax/4;
-        
+        voltage_d_input.time = time;
+        voltage_d_input.signals.values = zeros(length(time),1);
+        voltage_q_input.time = time;
+        voltage_q_input.signals.values = zeros(length(time),1);
+
         mdl = 'BLDC_simulator';
         
         sim(mdl)
