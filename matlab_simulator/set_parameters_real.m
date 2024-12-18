@@ -1,15 +1,15 @@
 
 
-global BLDC
-global inverter
-global paramPwmCompareAtZeroVolt
-global paramPwmCompareMax
-global paramPwmComparePerVolt
-global disc
-global pwm
-global sampleTime
-global PID_current
-global PID_speed
+% global BLDC
+% global inverter
+% global paramPwmCompareAtZeroVolt
+% global paramPwmCompareMax
+% global paramPwmComparePerVolt
+% global disc
+% global pwm
+% global sampleTime
+% global PID_current
+% global PID_speed
 
 PID_speed.p = 11.84;
 PID_speed.i = 0.0061;
@@ -30,7 +30,7 @@ BLDC.FluxLinkage = 48/BLDC.RatedSpeed/(BLDC.PolePairs);
 BLDC.Inertia = 44e-07;
 BLDC.BreakawayFrictionTorque = 0.002130661000000 *1e-3; %??
 BLDC.CoulombFrictionTorque = 0.002130661000000 *1e-3; %??
-BLDC.ViscousFrictionCoefficient = 0.0083;
+BLDC.ViscousFrictionCoefficient = 0.0083*1e-6 ;
 BLDC.RotorPositionInit = 0;
 BLDC.RotorVelocityInit = 0;
 

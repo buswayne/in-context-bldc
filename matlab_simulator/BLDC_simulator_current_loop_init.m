@@ -23,8 +23,8 @@ Max_duration = 1;
 reference_current = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 % reference_current = reference_speed / 30 * pi; %in rad/s
 
-P_list = [6];
-I_list = [150];
+P_list = [100,10,1,0.1,0.01];
+I_list = [100,10,1];
 
 for P = P_list
     for I = I_list

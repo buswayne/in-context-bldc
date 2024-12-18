@@ -9,14 +9,13 @@ I_l = 1;
 I_f = 1;
 I_i= 1;
 I_bv = 1;
-I_a = 1;
 
 %%% last = ???
 
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
-name = now_string + "_BO_result.mat";
+name = now_string + "_BO_CL_result.mat";
 bayes_save_file_name = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator", name);
 
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia04_ki-0.0061-kp-11.8427\2024-10-16--15-16-43_exp   1.csv");
@@ -58,12 +57,11 @@ I_l_var = optimizableVariable("i_l",[0.01,100],"Type","real");
 I_f_var = optimizableVariable("i_f",[0.01,100],"Type","real");
 I_i_var = optimizableVariable("i_i",[0.01,100],"Type","real");
 I_b_var = optimizableVariable("i_b",[0.01,100],"Type","real");
-I_a_var = optimizableVariable("i_a",[0,1],"Type","real");
 
 fun = @(x)cost_function(x);
 
 
-result = bayesopt(fun, [I_r_var I_l_var I_f_var I_i_var I_b_var I_a_var],"Verbose",2, "AcquisitionFunctionName","expected-improvement-plus", NumSeedPoints=100, MaxObjectiveEvaluations=400, ExplorationRatio=0.7);
+result = bayesopt(fun, [I_r_var I_l_var I_f_var I_i_var I_b_var],"Verbose",2, "AcquisitionFunctionName","expected-improvement-plus", NumSeedPoints=100, MaxObjectiveEvaluations=400, ExplorationRatio=0.7);
 save(bayes_save_file_name, "result")
 
 

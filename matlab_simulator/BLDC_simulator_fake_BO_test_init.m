@@ -10,7 +10,7 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia07_ki-0.0061-kp-11.8427\2024-10-16--16-31-18_exp   6.csv");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427\2024-10-16--10-57-42_exp  26.csv");
 real_data = readmatrix(real_data_path);
-real_data = real_data(1:300,:);
+real_data = real_data(1:200,:);
 
 vq_ref = real_data(:,4);
 vd_ref = real_data(:,5);
@@ -33,34 +33,35 @@ load_input.time = time;
 load_input.signals.values = zeros(length(time),1);
 current_input.time = time;
 current_input.signals.values = zeros(length(time),1);
-% current_input.signals.values = ones(length(time),1)*BLDC.CurrentMax;
+
 voltage_q_input.time = time;
 voltage_q_input.signals.values = vq_ref;
 
 voltage_d_input.time = time;
 voltage_d_input.signals.values = vd_ref;
 
-i_r = 1;
-i_l = 1;
-i_f = 1;
-i_i= 1;
+i_r = 8.7155;
+i_l = 44.241;
+i_f = 0.016994;
+i_i= 45.223;
 i_bt = 1;
-i_bv = 1;
+i_bv = 11.425;
+i_a = 0.0051174;
 
 
-mdl = 'BLDC_simulator';
+mdl = 'BLDC_simulator_BO';
 
 
 set_parameters_real
-BLDC.StatorPhaseResistance = BLDC.StatorPhaseResistance * i_r;
-BLDC.InductanceLd = BLDC.InductanceLd * i_l;
-BLDC.InductanceLq = BLDC.InductanceLd;
-BLDC.InductanceL0 = BLDC.InductanceLd;
-BLDC.FluxLinkage = BLDC.FluxLinkage * i_f;
-BLDC.Inertia = BLDC.Inertia * i_i;
-BLDC.BreakawayFrictionTorque = BLDC.BreakawayFrictionTorque * i_bt;
-BLDC.CoulombFrictionTorque = BLDC.BreakawayFrictionTorque;
-BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient * i_bv;
+% BLDC.StatorPhaseResistance = BLDC.StatorPhaseResistance * i_r;
+% BLDC.InductanceLd = BLDC.InductanceLd * i_l;
+% BLDC.InductanceLq = BLDC.InductanceLd;
+% BLDC.InductanceL0 = BLDC.InductanceLd;
+% BLDC.FluxLinkage = BLDC.FluxLinkage * i_f;
+% BLDC.Inertia = BLDC.Inertia * i_i;
+% BLDC.BreakawayFrictionTorque = BLDC.BreakawayFrictionTorque * i_bt;
+% BLDC.CoulombFrictionTorque = BLDC.BreakawayFrictionTorque;
+% BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient * i_bv;
 
 sim(mdl)
 

@@ -9,11 +9,11 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia04_ki-0.0061-kp-11.8427\2024-10-16--15-16-43_exp   1.csv");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia07_ki-0.0061-kp-11.8427\2024-10-16--16-31-18_exp   6.csv");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427");
-exp_name = "2024-10-16--10-57-42_exp  16.csv";
+exp_name = "2024-10-16--10-57-42_exp  19.csv";
 real_data_path = fullfile(real_data_path, exp_name);
 
 real_data = readmatrix(real_data_path);
-real_data = real_data(1:300,:);
+real_data = real_data(1:200,:);
 
 vq_ref = real_data(:,4);
 vd_ref = real_data(:,5);

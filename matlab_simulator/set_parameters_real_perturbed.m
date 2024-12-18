@@ -22,7 +22,7 @@ BLDC.FluxLinkage = 48/BLDC.RatedSpeed/(BLDC.PolePairs);
 BLDC.Inertia = 44e-07 * coeff(rand());
 BLDC.BreakawayFrictionTorque = 0.002130661000000 *1e-6 * coeff(rand()); %??
 BLDC.CoulombFrictionTorque = BLDC.BreakawayFrictionTorque; %??
-BLDC.ViscousFrictionCoefficient = 0.0083 * coeff(rand());
+BLDC.ViscousFrictionCoefficient = 0.0083*1e-6 * coeff(rand());
 BLDC.RotorPositionInit = 0;
 BLDC.RotorVelocityInit = 0;
 

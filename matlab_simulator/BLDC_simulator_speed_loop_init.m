@@ -11,6 +11,9 @@ current_loop = 1;
 
 % set_parameters_perturbed
 set_parameters_real
+BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
+
+
 T = 5;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
