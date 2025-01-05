@@ -19,7 +19,7 @@ Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
 Min_value = 0;
-Max_value = 3000; %in rpm
+Max_value = 2500; %in rpm
 Min_duration = 1;
 Max_duration = 2;
 

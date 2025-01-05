@@ -7,7 +7,8 @@ temp_name = strsplit(pwd,'in-context-bldc');
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427\2024-10-16--10-57-42_exp  26.csv");
 real_data = readmatrix(real_data_path);
 real_data = real_data(1:200,:);
-mask = real_data(:,2) >= 1;
+% mask = real_data(:,2) >= 1;
+mask = (real_data(:,1) >= 0.2 & real_data(:,1) <= 0.4) | (real_data(:,1) >= 1.2 & real_data(:,1) <= 1.5);
 
 i_r = var.i_r;
 i_l = var.i_l;
@@ -31,5 +32,5 @@ simout = sim(simIn);
 
 error = immse(simout.output.signals.values(mask,5), real_data(mask,2)) + immse(simout.output.signals.values(mask,4), real_data(mask,3));
 
-error = error^2;
+% error = error^2;
 end

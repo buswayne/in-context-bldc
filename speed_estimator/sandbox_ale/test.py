@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 import pandas as pd
 
-df = pd.read_csv(r'data\simulated\CL_speed_matlab\Experiment_2024-11-25_14-27-08.csv')
-print(df.columns)
+# df = pd.read_csv(r'data\simulated\CL_speed_matlab\Experiment_2024-11-25_14-27-08.csv')
+# print(df.columns)
 
 # plt.figure()
 # plt.plot(df["t"],df["r"])
@@ -16,9 +16,12 @@ print(df.columns)
 # plt.figure()
 # plt.plot(df["t"],df["v_d"])
 # plt.plot(df["t"],df["v_q"])
-# plt.show()
-print(df["t"].to_numpy()[1:]-df["t"].to_numpy()[:-1])
+# # plt.show()
+# print(df["t"].to_numpy()[1:]-df["t"].to_numpy()[:-1])
 
+aaa = np.arange(1000)/10
+print(aaa)
+print(aaa[np.max(np.where(aaa<=7))])
 
 
 

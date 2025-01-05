@@ -10,7 +10,7 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia07_ki-0.0061-kp-11.8427\2024-10-16--16-31-18_exp   6.csv");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427\2024-10-16--10-57-42_exp  26.csv");
 real_data = readmatrix(real_data_path);
-real_data = real_data(1:200,:);
+real_data = real_data(1:1000,:);
 
 vq_ref = real_data(:,4);
 vd_ref = real_data(:,5);
@@ -40,14 +40,25 @@ voltage_q_input.signals.values = vq_ref;
 voltage_d_input.time = time;
 voltage_d_input.signals.values = vd_ref;
 
-i_r = 8.7155;
-i_l = 44.241;
-i_f = 0.016994;
-i_i= 45.223;
-i_bt = 1;
-i_bv = 11.425;
-i_a = 0.0051174;
+i_r = 1.00488164382963;
+i_l = 0.934332431272569/2;
+i_f = 0.817897644833537/1.85;
+i_i = 8.84599293023962/80;
+% i_bt = 1; %% no
+i_bv = 3.61947730564325;
+i_a = 0.222788302473949; %%
+% i_p = 7;
 
+
+var.i_r = i_r;
+var.i_l = i_l;
+var.i_f = i_f;
+var.i_i = i_i;
+var.i_b = i_bv;
+var.i_a = i_a;
+% var.i_p = i_p;
+
+% i_f = i_f*7/i_p; %% correcting the flux for the pole pairs
 
 mdl = 'BLDC_simulator_BO';
 
@@ -62,6 +73,11 @@ set_parameters_real
 % BLDC.BreakawayFrictionTorque = BLDC.BreakawayFrictionTorque * i_bt;
 % BLDC.CoulombFrictionTorque = BLDC.BreakawayFrictionTorque;
 % BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient * i_bv;
+
+% error1 = cost_function(var)
+% error2 = cost_function2(var)
+% error3 = cost_function_CL(var)
+% error4 = cost_function3(var)
 
 sim(mdl)
 
@@ -87,6 +103,9 @@ plot(output.time, output.signals.values(:,3), "DisplayName","Omega ref")
 plot(output.time, output.signals.values(:,2), "DisplayName","Omega")
 plot(output.time, real_data(:,6), "DisplayName","Omega real")
 legend()
+title_str = sprintf('i_r %f, i_l %f, i_f %f, i_i %f, i_b %f, i_a %f',[i_r i_l i_f i_i i_bv i_a]);
+title(title_str)
+
 ax2 = subplot(4,1,2);
 hold on
 grid on
@@ -112,8 +131,12 @@ linkaxes([ax1, ax2, ax3, ax4], 'x')
 
 % logsout_autotuned = logsout;
 % save('AutotunedSpeed','logsout_autotuned')
-figure
-plot(time, real_data(:,6)./output.signals.values(:,2))
-ylim([0,10])
-legend('real Omega / Omega')
+% figure
+% plot(time, real_data(:,6)./output.signals.values(:,2))
+% ylim([0,10])
+% legend('real Omega / Omega')
 
+load handel.mat
+y = y(1:19000);
+player = audioplayer(y,Fs);
+play(player);

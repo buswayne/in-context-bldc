@@ -64,7 +64,7 @@ class BLDCMotor:
         self.params = params
 
     def trapezoidal_emf(self, theta):
-        theta = theta + 4/6 * np.pi
+        # theta = theta + 4/6 * np.pi
         theta = np.mod(theta, 2 * np.pi)
         if 0 <= theta < 1 * np.pi / 6:
             return 1 / (np.pi/6) * theta  
@@ -208,7 +208,7 @@ class BLDCControlSystem:
 
         return np.array(omega_sol_rpm), np.array(theta_sol), np.array(i_d_sol), np.array(i_q_sol), np.array(i_d_ref_array), np.array(i_q_ref_array), np.array(V_a_array), np.array(V_b_array), np.array(V_c_array), np.array(V_a_sat_array), np.array(V_b_sat_array), np.array(V_c_sat_array), np.array(V_d_sol), np.array(V_q_sol)
     
-    def simulate_open_loop(self, t_span, initial_state, dt):
+    def simulate_open_loop(self, t_span, initial_state, v_d_ref, v_q_ref, dt):
         omega_sol_rpm = [0]
         theta_sol = [0]
         i_d_sol = [0]
@@ -234,8 +234,8 @@ class BLDCControlSystem:
             i_d_sol.append(i_d)
             i_q_sol.append(i_q)
 
-            V_d = 0
-            V_q = self.motor.params.V_nominal
+            V_d = v_d_ref[t_idx]
+            V_q = v_q_ref[t_idx]
 
 
             # Inverse Park and Clarke Transform

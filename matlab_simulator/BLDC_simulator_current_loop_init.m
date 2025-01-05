@@ -2,8 +2,8 @@ clear
 clc
 close all
 tic
-temp_name = strsplit(pwd,'in-context-bldc');
-savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
+% temp_name = strsplit(pwd,'in-context-bldc');
+% savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
 speed_loop = 0;
@@ -15,17 +15,20 @@ T = 2;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
-Min_value = -BLDC.CurrentMax*0;
+Min_value = -BLDC.CurrentMax;
 Max_value = BLDC.CurrentMax;
-Min_duration = 0.5;
-Max_duration = 1;
+Min_duration = 0.2;
+Max_duration = 0.4;
 
 reference_current = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
+% reference_current = ones(length(reference_current),1)*BLDC.CurrentMax;
 % reference_current = reference_speed / 30 * pi; %in rad/s
+% 
+% P_list = [100,10,1,0.1,0.01];
+% I_list = [100,10,1];
 
-P_list = [100,10,1,0.1,0.01];
-I_list = [100,10,1];
-
+P_list = [6];
+I_list = [150];
 for P = P_list
     for I = I_list
         PID_current.p = P;
@@ -67,22 +70,30 @@ for P = P_list
         toc
         
         figure
-        ax1 = subplot(2,1,1);
+        ax1 = subplot(3,1,1);
+        hold on
+        grid on
+        plot(output.time, output.signals.values(:,3), "DisplayName","Omega ref")
+        plot(output.time, output.signals.values(:,2), "DisplayName","Omega")
+        legend(["Omega ref", "Omega"])
+        tit = "P: " + P + ", I: " + I;
+        title(tit)
+
+        ax2 = subplot(3,1,2);
         hold on
         grid on
         plot(output.time, output.signals.values(:,6), "DisplayName","iq ref")
         plot(output.time, output.signals.values(:,5), "DisplayName","iq")
         plot(output.time, output.signals.values(:,4), "DisplayName","id")
         legend()
-        tit = "P: " + P + ", I: " + I;
-        title(tit)
-        ax2 = subplot(2,1,2);
+        
+        ax3 = subplot(3,1,3);
         hold on
         grid on
         plot(output.time, output.signals.values(:,7), "DisplayName","vd")
         plot(output.time, output.signals.values(:,8), "DisplayName","vq")
         legend()
-        linkaxes([ax1, ax2], 'x')
+        linkaxes([ax1, ax2, ax3], 'x')
     end
 end
 

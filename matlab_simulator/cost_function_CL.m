@@ -9,6 +9,7 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427\2024-10-16--10-57-42_exp  26.csv");
 real_data = readmatrix(real_data_path);
 real_data = real_data(1:200,:);
+mask = (real_data(:,1) >= 0.2 & real_data(:,1) <= 0.4) | (real_data(:,1) >= 1.2 & real_data(:,1) <= 1.5);
 i_r = var.i_r;
 i_l = var.i_l;
 i_f = var.i_f;
@@ -27,7 +28,7 @@ simout = sim(simIn);
 
 % sim(mdl)
 
-error = immse(simout.output.signals.values(:,2), real_data(:,6));
+error = immse(simout.output.signals.values(mask,2), real_data(mask,6));
 
 % error = error^2;
 end
