@@ -20,7 +20,7 @@ Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
 Min_value = 0;
-Max_value = 2500; %in rpm
+Max_value = 4000; %in rpm
 Min_duration = 1;
 Max_duration = 2;
 
@@ -32,8 +32,8 @@ PID_current.p = 40;
 PID_current.i = 1;
 
 
-P_list = [1];
-I_list = [0.1 0.01];
+P_list = [0.1];
+I_list = [0.1];
 % P_list = [0.5];
 % I_list = [10];
 

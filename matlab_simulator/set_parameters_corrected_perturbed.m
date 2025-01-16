@@ -5,8 +5,8 @@ PID_current.p = 50;
 PID_current.i = 1;
 
 
-perturbation = 0.05;
-
+% perturbation = 0.15;
+fprintf("(perturbation = " + perturbation + ")\n")
 coeff = @(x) (1 - perturbation) + (perturbation * 2) * x;
 
 
