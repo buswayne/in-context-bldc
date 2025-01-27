@@ -5,9 +5,9 @@ import os
 import torch
 from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
-import logging
-from bldc_simulator_OL_V import BLDCMotor
-from signals import steps_sequence
+# import logging
+# from bldc_simulator_OL_V import BLDCMotor
+# from signals import steps_sequence
 
 # Assuming your DataFrame is named df and contains 6 columns
 class Dataset(Dataset):
@@ -38,68 +38,68 @@ class Dataset(Dataset):
         return batch_u, batch_y
 
 
-class DatasetOnTheFly(Dataset):
-    def __init__(self, dt, seq_len, perturbation_percentage):
-        self.dt = dt
-        self.seq_len = seq_len
-        self.T_max = 10
-        self.t_span = np.arange(0, self.T_max, self.dt)
-        self.initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
-        self.d_min, self.d_max = 1, 5
-
-        # Perturbation range: ±100%
-        self.perturb_percentage = perturbation_percentage
-
-        # Motor nominal params
-        self.R, self.L, self.Kt, self.Ke, self.J, self.B = 0.994, 0.995e-3, 91e-3, 1 / 10.9956, 44e-4, 0.528e-3
-        self.V_nominal, self.I_nominal = 48, 10
-        self.P = 4  # Number of pole pairs
-        self.Kt, self.Ke = self.Kt / self.P, self.Ke / self.P
-    def __len__(self):
-        return 512
-
-    def __getitem__(self, idx):
-        # Randomly select a starting index
-        max_val = len(self.t_span) - self.seq_len
-        start_idx = np.random.randint(0, max_val)
-
-        # Randomly perturb motor parameters within ±100% of their nominal values
-        R_perturbed = self.R * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-        L_perturbed = self.L * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-        Kt_perturbed = self.Kt * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-        Ke_perturbed = self.Ke * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-        J_perturbed = self.J * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-        B_perturbed = self.B * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
-
-        # Initialize the motor with perturbed parameters
-        motor = BLDCMotor(R_perturbed,
-                          L_perturbed,
-                          Kt_perturbed,
-                          Ke_perturbed,
-                          J_perturbed,
-                          B_perturbed,
-                          self.V_nominal,
-                          self.I_nominal,
-                          self.P)
-
-        V_q_steps = steps_sequence(self.T_max, self.dt, -self.V_nominal, self.V_nominal, self.d_min, self.d_max).flatten()
-        V_d_steps = np.zeros_like(V_q_steps)
-        r = np.zeros_like(V_q_steps)
-
-        # Run the simulation
-        t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol = motor.simulate(self.dt, self.initial_state, self.t_span, V_q_steps)
-
-        data = np.array([t_span, i_q_sol, i_d_sol, V_q_steps, V_d_steps, omega_sol_rpm, r])
-        df = pd.DataFrame(data.T, columns=['timestamp', 'iq', 'id', 'vq', 'vd', 'omega', 'r'])
-        df = normalize_fixed_ranges(df) # normalize
-
-        batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
-        batch_u = torch.tensor(df[['iq', 'id', 'vq', 'vd']].iloc[start_idx:start_idx + self.seq_len].values,
-                               dtype=torch.float32)
-        # Add a batch dimension
-        batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
-
-        return batch_u, batch_y
+# class DatasetOnTheFly(Dataset):
+#     def __init__(self, dt, seq_len, perturbation_percentage):
+#         self.dt = dt
+#         self.seq_len = seq_len
+#         self.T_max = 10
+#         self.t_span = np.arange(0, self.T_max, self.dt)
+#         self.initial_state = [0.0, 0.0, 0.0, 0.0, 0.0]
+#         self.d_min, self.d_max = 1, 5
+#
+#         # Perturbation range: ±100%
+#         self.perturb_percentage = perturbation_percentage
+#
+#         # Motor nominal params
+#         self.R, self.L, self.Kt, self.Ke, self.J, self.B = 0.994, 0.995e-3, 91e-3, 1 / 10.9956, 44e-4, 0.528e-3
+#         self.V_nominal, self.I_nominal = 48, 10
+#         self.P = 4  # Number of pole pairs
+#         self.Kt, self.Ke = self.Kt / self.P, self.Ke / self.P
+#     def __len__(self):
+#         return 512
+#
+#     def __getitem__(self, idx):
+#         # Randomly select a starting index
+#         max_val = len(self.t_span) - self.seq_len
+#         start_idx = np.random.randint(0, max_val)
+#
+#         # Randomly perturb motor parameters within ±100% of their nominal values
+#         R_perturbed = self.R * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#         L_perturbed = self.L * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#         Kt_perturbed = self.Kt * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#         Ke_perturbed = self.Ke * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#         J_perturbed = self.J * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#         B_perturbed = self.B * (1 + self.perturb_percentage * np.random.uniform(-1, 1))
+#
+#         # Initialize the motor with perturbed parameters
+#         motor = BLDCMotor(R_perturbed,
+#                           L_perturbed,
+#                           Kt_perturbed,
+#                           Ke_perturbed,
+#                           J_perturbed,
+#                           B_perturbed,
+#                           self.V_nominal,
+#                           self.I_nominal,
+#                           self.P)
+#
+#         V_q_steps = steps_sequence(self.T_max, self.dt, -self.V_nominal, self.V_nominal, self.d_min, self.d_max).flatten()
+#         V_d_steps = np.zeros_like(V_q_steps)
+#         r = np.zeros_like(V_q_steps)
+#
+#         # Run the simulation
+#         t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol = motor.simulate(self.dt, self.initial_state, self.t_span, V_q_steps)
+#
+#         data = np.array([t_span, i_q_sol, i_d_sol, V_q_steps, V_d_steps, omega_sol_rpm, r])
+#         df = pd.DataFrame(data.T, columns=['timestamp', 'iq', 'id', 'vq', 'vd', 'omega', 'r'])
+#         df = normalize_fixed_ranges(df) # normalize
+#
+#         batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
+#         batch_u = torch.tensor(df[['iq', 'id', 'vq', 'vd']].iloc[start_idx:start_idx + self.seq_len].values,
+#                                dtype=torch.float32)
+#         # Add a batch dimension
+#         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
+#
+#         return batch_u, batch_y
 
 # Normalization function
 def normalize_fixed_ranges(df):
@@ -142,23 +142,28 @@ def load_dataframes_from_folder(folder_path):
     # Use glob to find all CSV files in the specified folder
     for file in glob.glob(os.path.join(folder_path, '*.csv')):
         df = pd.read_csv(file)
+        try:
+            df.columns = ['t', 'theta', 'omega', 'r', 'id', 'iq', 'iq_ref', 'vd', 'vq']
+        except:
+            pass
         df = normalize_fixed_ranges(df)
         # Find the first index where r changes from 0 to 1
         first_non_zero_index = df.index[df['r'].diff().gt(0)].min()
         # df = df.loc[first_non_zero_index:]  # Keep rows up to that index
         dataframes.append(df)
+
     return dataframes
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../data/simulated'
+    folder_path = '../data/simulated/5_percent'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
     # Create an instance of the dataset
-    # dataset = Dataset(dfs=dfs, seq_len=50)
-    dataset = DatasetOnTheFly(dt=0.01, seq_len=50, perturbation_percentage=0.5)
+    dataset = Dataset(dfs=dfs, seq_len=50)
+    # dataset = DatasetOnTheFly(dt=0.01, seq_len=50, perturbation_percentage=0.5)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
     # Example of accessing an item

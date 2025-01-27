@@ -6,11 +6,6 @@ from bldc_utils import *
 from signals import *
 import wandb
 
-wandb.init(
-    # set the wandb project where this run will be logged
-    project="in-context bldc estimator",
-    name="data_generator"
-)
 class BLDCMotor:
     def __init__(self, R, L, Kt, Ke, J, B, V_nominal, I_nominal, P):
         self.R = R
@@ -93,6 +88,12 @@ class BLDCMotor:
         return t_span, omega_sol_rpm, theta_sol, i_d_sol, i_q_sol
 
 def main():
+    # wandb.init(
+    #     # set the wandb project where this run will be logged
+    #     project="in-context bldc estimator",
+    #     name="data_generator"
+    # )
+
     # Main simulation loop
     R, L, Kt, Ke, J, B = 0.994, 0.995e-3, 91e-3, 1 / 10.9956, 44e-4, 0.528e-3
     V_nominal, I_nominal = 48, 10

@@ -81,11 +81,11 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_OL_v3", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_10pct_v1", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_OL_v2", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_10pct_v1", metavar='S',
                         help='Loaded model name (when resuming)')
-    parser.add_argument('--init-from', type=str, default="pretrained", metavar='S',
+    parser.add_argument('--init-from', type=str, default="resume", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
     parser.add_argument('--seed', type=int, default=42, metavar='N',
                         help='Seed for random number generation')
@@ -186,7 +186,7 @@ if __name__ == '__main__':
     print(torch.cuda.current_device())
 
     # Load all your DataFrames (replace with your data loading code)
-    folder_path = '../data/simulated/OL'
+    folder_path = '../data/simulated/10_percent'
     dfs = load_dataframes_from_folder(folder_path)
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
@@ -273,6 +273,7 @@ if __name__ == '__main__':
         else:
             lr_iter = cfg.lr
         optimizer.param_groups[0]['lr'] = lr_iter
+
         #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=cfg.lr_decay_iters)
         train_loss = train(model, train_dl, criterion, optimizer, device)
         val_loss = validate(model, val_dl, criterion, device)
