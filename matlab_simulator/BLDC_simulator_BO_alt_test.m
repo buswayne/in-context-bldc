@@ -162,3 +162,33 @@ end
 % y = y(1:19000);
 % player = audioplayer(y,Fs);
 % play(player);
+
+lw = 1.3;
+fs = 12;
+figure
+ax1 = subplot(3,1,1);
+hold on
+grid on
+plot(output.output.time, real_data(:,7), "DisplayName","Omega reference", 'LineWidth',lw)
+plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega simulated", 'LineWidth',lw)
+plot(output.output.time, real_data(:,6), "DisplayName","Omega real", 'LineWidth',lw)
+legend('FontSize', fs)
+ylabel("motor speed [rpm]", 'FontSize', fs)
+
+ax2 = subplot(3,1,2);
+hold on
+grid on
+% plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+plot(output.output.time, output.output.signals.values(:,5), "DisplayName","Iq simulated", 'LineWidth',lw)
+plot(output.output.time, real_data(:,2), "DisplayName","Iq real", 'LineWidth',lw)
+legend('FontSize', fs)
+ylabel("current [A]", 'FontSize', fs)
+
+ax3 = subplot(3,1,3);
+hold on
+grid on
+plot(output.output.time, output.output.signals.values(:,7), "DisplayName","Vd", 'LineWidth',lw)
+plot(output.output.time, output.output.signals.values(:,8), "DisplayName","Vq", 'LineWidth',lw)
+legend('FontSize', fs)
+ylabel("voltage [V]", 'FontSize', fs)
+linkaxes([ax1, ax2, ax3], 'x')
