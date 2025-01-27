@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import os
 from pathlib import Path
 import pandas as pd
+import sys
+import torch.nn as nn
 
 # df = pd.read_csv(r'data\simulated\CL_speed_matlab\Experiment_2024-11-25_14-27-08.csv')
 # print(df.columns)
@@ -19,9 +21,10 @@ import pandas as pd
 # # plt.show()
 # print(df["t"].to_numpy()[1:]-df["t"].to_numpy()[:-1])
 
-aaa = np.arange(1000)/10
-print(aaa)
-print(aaa[np.max(np.where(aaa<=7))])
+b = nn.TransformerDecoderLayer(4,4)
+a = nn.TransformerDecoder(b,5)
+print(a)
+print(sys.getsizeof(a))
 
 
 
