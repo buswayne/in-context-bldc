@@ -1,4 +1,4 @@
-clear
+lclear
 clc
 close all
 tic

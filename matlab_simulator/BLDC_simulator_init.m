@@ -5,11 +5,11 @@ tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 
-perturbation_percent = 20;
+perturbation_percent = 5;
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
-folder_name = sprintf('%02.0f_percent', perturbation_percent);
+folder_name = sprintf('%02.0f_percent_longer_steps', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
@@ -22,7 +22,7 @@ time = 0:Ts:T-Ts;
 Min_value = 0;
 Max_value = 3000; %in rpm
 Min_duration = 1.5;
-Max_duration = 3;
+Max_duration = 5;
 
 
 N_exp = 100;
