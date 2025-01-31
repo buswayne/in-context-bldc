@@ -5,7 +5,7 @@ tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 
-perturbation_percent = 10;
+perturbation_percent = 5;
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";

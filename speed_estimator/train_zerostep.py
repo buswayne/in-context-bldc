@@ -121,7 +121,7 @@ if __name__ == '__main__':
                         help='bias in model')
 
     # Training
-    parser.add_argument('--batch-size', type=int, default=512, metavar='N',
+    parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='batch size (default:32)')
     parser.add_argument('--max-iters', type=int, default=1_000_000, metavar='N',
                         help='number of iterations (default: 1M)')
