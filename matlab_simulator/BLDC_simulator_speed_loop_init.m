@@ -11,7 +11,10 @@ current_loop = 1;
 
 % set_parameters_perturbed
 % set_parameters_real
-set_parameters_corrected
+% set_parameters_corrected
+% perturbation = 0.5;
+% set_parameters_corrected_perturbed
+
 % BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
 
 
@@ -27,9 +30,9 @@ Max_duration = 2;
 reference_speed = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 reference_speed = reference_speed / 30 * pi; %in rad/s
 
-
-PID_current.p = 40;
-PID_current.i = 1;
+% 
+% PID_current.p = 40;
+% PID_current.i = 1;
 
 
 P_list = [0.1];
@@ -41,8 +44,11 @@ for P = P_list
     for I = I_list
         PID_speed.p = P;
         PID_speed.i = I;
-        
-        
+
+        perturbation = 0.5;
+        set_parameters_corrected %_perturbed
+        % BLDC.RatedSpeed / pi * 30
+
         
         speed_input.time = time;
         speed_input.signals.values = reference_speed;

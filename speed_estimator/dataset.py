@@ -156,7 +156,7 @@ def load_dataframes_from_folder(folder_path):
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../data/simulated/5_percent'
+    folder_path = '../data/simulated/50_percent_longer_steps'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     plt.title('Batch y (omega)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
-    plt.legend()
+    # plt.legend()
 
     # Plot each component of batch_u
     plt.subplot(2, 1, 2)
@@ -194,7 +194,29 @@ if __name__ == "__main__":
     plt.title('Batch u (iq, id, vq, vd)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
-    plt.legend()
+    # plt.legend()
 
     plt.tight_layout()
+
+    # plt.figure(figsize=(12, 6))
+    # # Plot batch_y (omega)
+    # plt.subplot(2, 1, 1)
+    # plt.plot(batch_y_np[:,:,0].T, label='example y (omega)', color='blue')
+    # plt.title('Batch y (omega)')
+    # plt.xlabel('Time step')
+    # plt.ylabel('Value')
+    # # plt.legend()
+
+    # # Plot each component of batch_u
+    # plt.subplot(2, 1, 2)
+    # plt.plot(batch_u_np[:, :, 0].T, label='example u (iq)', color='orange')
+    # plt.plot(batch_u_np[:, :, 1].T, label='example u (id)', color='green')
+    # plt.plot(batch_u_np[:, :, 2].T, label='example u (vq)', color='red')
+    # plt.plot(batch_u_np[:, :, 3].T, label='example u (vd)', color='purple')
+    # plt.title('Batch u (iq, id, vq, vd)')
+    # plt.xlabel('Time step')
+    # plt.ylabel('Value')
+    # # plt.legend()
+
+    # plt.tight_layout()
     plt.show()

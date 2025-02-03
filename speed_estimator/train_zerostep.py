@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import argparse
 import warnings
-import wandb
+# import wandb
 import torch.nn as nn
 import pandas as pd
 
@@ -21,12 +21,12 @@ warnings.filterwarnings("ignore")
 # Re-enable user warnings
 warnings.filterwarnings("default")
 
-# # start a new wandb run to track this script
-wandb.init(
-    # set the wandb project where this run will be logged
-    project="in-context bldc estimator",
-    name="train_v3"
-)
+# # # start a new wandb run to track this script
+# wandb.init(
+#     # set the wandb project where this run will be logged
+#     project="in-context bldc estimator",
+#     name="train_v3"
+# )
 
 
 def train(model, dataloader, criterion, optimizer, device):
@@ -81,9 +81,9 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_10pct_v1", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v1", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_10pct_v1", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v1", metavar='S',
                         help='Loaded model name (when resuming)')
     parser.add_argument('--init-from', type=str, default="resume", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
@@ -186,7 +186,9 @@ if __name__ == '__main__':
     print(torch.cuda.current_device())
 
     # Load all your DataFrames (replace with your data loading code)
-    folder_path = '../data/simulated/10_percent'
+    folder_path = '../data/simulated/50_percent_longer_steps'
+    # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
+    
     dfs = load_dataframes_from_folder(folder_path)
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
@@ -299,6 +301,6 @@ if __name__ == '__main__':
             torch.save(checkpoint, model_dir / f"{cfg.out_file}.pt")
 
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}")
-        wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
+        # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
 
     print("Training complete. Best model saved as 'best_model.pth'.")
