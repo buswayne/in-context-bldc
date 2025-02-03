@@ -1,4 +1,4 @@
-data/simulations/
-data/simulations/**
+/data/simulations/
+/data/simulations/**
 **.csv
 
