@@ -81,9 +81,9 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v1", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v2", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v1", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v2", metavar='S',
                         help='Loaded model name (when resuming)')
     parser.add_argument('--init-from', type=str, default="resume", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
@@ -186,11 +186,12 @@ if __name__ == '__main__':
     print(torch.cuda.current_device())
 
     # Load all your DataFrames (replace with your data loading code)
-    folder_path = '../data/simulated/50_percent_longer_steps'
+    folder_path = ['../data/simulated/50_percent_longer_steps']
     # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
-    
-    dfs = load_dataframes_from_folder(folder_path)
-    print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
+    dfs = []
+    for path_iter in folder_path:
+        dfs= dfs + load_dataframes_from_folder(path_iter)
+        print(f"Loaded {len(dfs)} DataFrames from {path_iter}.")
 
     train_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
     train_dl = DataLoader(train_ds, batch_size=cfg.batch_size)

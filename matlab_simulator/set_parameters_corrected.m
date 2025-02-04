@@ -1,8 +1,8 @@
-PID_speed.p = 1;
-PID_speed.i = 0.01;
+PID_speed.p = 0.1;
+PID_speed.i = 0.1;
 
-PID_current.p = 40;
-PID_current.i = 1;
+PID_current.p = 1;
+PID_current.i = 200;
 
 BLDC.RatedVoltage = 48;
 BLDC.RatedSpeed = 4390 / 30 * pi;

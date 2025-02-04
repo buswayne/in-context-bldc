@@ -30,8 +30,8 @@ reference_current = step_sequence_current(T, Ts,Max_abs_value, Min_duration, Max
 % P_list = [100,10,1,0.1,0.01];
 % I_list = [100,10,1];
 
-P_list = [40];
-I_list = [1];
+P_list = [1];
+I_list = [200];
 for P = P_list
     for I = I_list
         PID_current.p = P;

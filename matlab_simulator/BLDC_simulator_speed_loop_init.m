@@ -35,7 +35,7 @@ reference_speed = reference_speed / 30 * pi; %in rad/s
 % PID_current.i = 1;
 
 
-P_list = [0.1];
+P_list = [0.1,0.1,0.1];
 I_list = [0.1];
 % P_list = [0.5];
 % I_list = [10];
@@ -46,7 +46,7 @@ for P = P_list
         PID_speed.i = I;
 
         perturbation = 0.5;
-        set_parameters_corrected %_perturbed
+        set_parameters_corrected_perturbed
         % BLDC.RatedSpeed / pi * 30
 
         

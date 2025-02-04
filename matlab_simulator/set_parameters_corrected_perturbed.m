@@ -1,8 +1,8 @@
 PID_speed.p = 0.1;
 PID_speed.i = 0.1;
 
-PID_current.p = 50;
-PID_current.i = 1;
+PID_current.p = 1;
+PID_current.i = 200;
 
 
 % perturbation = 0.15;

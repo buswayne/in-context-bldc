@@ -8,7 +8,7 @@ current_sign = sign(0.5-rand);
 while i < total_samples
     remaining_samples = total_samples - i;
     % step_duration_samples = randi([min_duration / Ts, max_duration / Ts + 1]);
-    step_duration_samples = round(min_duration + (max_duration-min_duration)*rand())/Ts;
+    step_duration_samples = round((min_duration + (max_duration-min_duration)*rand())/Ts);
     step_value = current_sign * abs_lim_val * rand();
     step_duration = min(step_duration_samples, remaining_samples);
     sequence(i:i+step_duration) = step_value;

@@ -9,8 +9,8 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia04_ki-0.0061-kp-11.8427\2024-10-16--15-16-43_exp   1.csv");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia07_ki-0.0061-kp-11.8427\2024-10-16--16-31-18_exp   6.csv");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427");
-% exp_name = "2024-10-16--10-57-42_exp  26.csv";
-exp_name = "2024-10-16--10-57-42_exp  79.csv";
+exp_name = "2024-10-16--10-57-42_exp  26.csv";
+% exp_name = "2024-10-16--10-57-42_exp  79.csv";
 real_data_path = fullfile(real_data_path, exp_name);
 
 real_data = readmatrix(real_data_path);
@@ -30,6 +30,7 @@ current_loop = 0;
 % set_parameters_perturbed
 % set_parameters_real_bo
 set_parameters_corrected
+% BLDC.FluxLinkage = BLDC.FluxLinkage *0.90;
 % BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
 
 

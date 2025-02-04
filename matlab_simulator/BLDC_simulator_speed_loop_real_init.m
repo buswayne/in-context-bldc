@@ -12,13 +12,22 @@ current_loop = 1;
 % set_parameters_perturbed
 % set_parameters_real
 set_parameters_corrected
+BLDC.StatorPhaseResistance = BLDC.StatorPhaseResistance * 1;
+BLDC.InductanceL0 = BLDC.InductanceL0 * 1;
+BLDC.InductanceLd = BLDC.InductanceL0;
+BLDC.InductanceLq = BLDC.InductanceL0;
+BLDC.Inertia = BLDC.Inertia;
+% BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1000000;
+BLDC.FluxLinkage = BLDC.FluxLinkage * 0.85;
+
+
 % BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
 
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427");
 real_data_path = fullfile(real_data_path, "2024-10-16--10-57-42_exp  26.csv");
 % real_data_path = fullfile(real_data_path, "2024-10-16--10-57-42_exp  93.csv");
 real_data = readmatrix(real_data_path);
-% real_data = real_data(1:1000,:);
+real_data = real_data(1:1000,:);
 
 time = real_data(:,1);
 T = time(end);
@@ -29,105 +38,123 @@ reference_speed = real_data(:,7) / 30 * pi;
 % BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
 
 
-PID_current.p = 50;
-PID_current.i = 1;
+% PID_current.p = 50;
+% PID_current.i = 1;
 
+P_list_current = [1];
+I_list_current = [200];
 
-P_list = [0.1];
-I_list = [0.1];
+P_list_speed = [0.1];
+I_list_speed = [0.1];
 % P_list = [0.5];
 % I_list = [10];
 
-for P = P_list
-    for I = I_list
-        PID_speed.p = P;
-        PID_speed.i = I;
+for P_c = P_list_current
+    for I_c = I_list_current
         
+        for P_s = P_list_speed
+            for I_s = I_list_speed
+                PID_speed.p = P_s;
+                PID_speed.i = I_s;
+                PID_current.p = P_c;
+                PID_current.i = I_c;
+                
+                
+                
+                speed_input.time = time;
+                speed_input.signals.values = reference_speed;
+                load_input.time = time;
+                load_input.signals.values = zeros(length(time),1);
+                current_input.time = time;
+                current_input.signals.values = zeros(length(time),1);% + BLDC.CurrentMax/4;
+                voltage_d_input.time = time;
+                voltage_d_input.signals.values = zeros(length(time),1);
+                voltage_q_input.time = time;
+                voltage_q_input.signals.values = zeros(length(time),1);
         
+                mdl = 'BLDC_simulator2';
+                
+                output = sim(mdl);
+                
+                
+                output_clean.t = output.output.time;
+                output_clean.theta = output.output.signals.values(:,1);
+                output_clean.omega = output.output.signals.values(:,2);
+                output_clean.r = output.output.signals.values(:,3);
+                output_clean.i_d = output.output.signals.values(:,4);
+                output_clean.i_q = output.output.signals.values(:,5);
+                output_clean.i_q_ref = output.output.signals.values(:,6);
+                output_clean.v_d = output.output.signals.values(:,7);
+                output_clean.v_q = output.output.signals.values(:,8);
+                
+                out_tab = struct2table(output_clean);
+                
+                exp_name = "Experiment_" + now_string + ".csv";
+                % writetable(out_tab,fullfile(savepath,exp_name));
+                toc
+                
+                figure
+                ax1 = subplot(1,1,1);
+                hold on
+                grid on
+                plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
+                plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
+                plot(output.output.time, real_data(:,6), "DisplayName","Omega real")
+                legend()
+                tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
+                title(tit)
         
-        speed_input.time = time;
-        speed_input.signals.values = reference_speed;
-        load_input.time = time;
-        load_input.signals.values = zeros(length(time),1);
-        current_input.time = time;
-        current_input.signals.values = zeros(length(time),1);% + BLDC.CurrentMax/4;
-        voltage_d_input.time = time;
-        voltage_d_input.signals.values = zeros(length(time),1);
-        voltage_q_input.time = time;
-        voltage_q_input.signals.values = zeros(length(time),1);
-
-        mdl = 'BLDC_simulator2';
+                figure
+                ax2 = subplot(1,1,1);
+                hold on
+                grid on
+                plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+                plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+                % plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+                plot(output.output.time, real_data(:,2), "DisplayName","iq real")
+                legend()
+                tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
+                title(tit)
         
-        output = sim(mdl);
+                figure
+                ax3 = subplot(1,1,1);
+                hold on
+                grid on
+                % plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+                % plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+                plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+                plot(output.output.time, real_data(:,3), "DisplayName","id real")
+                legend()
+                tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
+                title(tit)
         
+                figure
+                ax4 = subplot(1,1,1);
+                hold on
+                grid on
+                % plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
+                plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+                plot(output.output.time, real_data(:,4), "DisplayName","vq real")
+                legend()
+                tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
+                title(tit)
         
-        output_clean.t = output.output.time;
-        output_clean.theta = output.output.signals.values(:,1);
-        output_clean.omega = output.output.signals.values(:,2);
-        output_clean.r = output.output.signals.values(:,3);
-        output_clean.i_d = output.output.signals.values(:,4);
-        output_clean.i_q = output.output.signals.values(:,5);
-        output_clean.i_q_ref = output.output.signals.values(:,6);
-        output_clean.v_d = output.output.signals.values(:,7);
-        output_clean.v_q = output.output.signals.values(:,8);
-        
-        out_tab = struct2table(output_clean);
-        
-        exp_name = "Experiment_" + now_string + ".csv";
-        % writetable(out_tab,fullfile(savepath,exp_name));
-        toc
-        
-        figure
-        ax1 = subplot(1,1,1);
-        hold on
-        grid on
-        plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
-        plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-        plot(output.output.time, real_data(:,6), "DisplayName","Omega real")
-        legend()
-        tit = "P: " + P + ", I: " + I;
-        title(tit)
-
-        figure
-        ax2 = subplot(1,1,1);
-        hold on
-        grid on
-        plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-        plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
-        % plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
-        plot(output.output.time, real_data(:,2), "DisplayName","iq real")
-        legend()
-
-        figure
-        ax3 = subplot(1,1,1);
-        hold on
-        grid on
-        % plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-        % plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
-        plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
-        plot(output.output.time, real_data(:,3), "DisplayName","id real")
-        legend()
-
-        figure
-        ax4 = subplot(1,1,1);
-        hold on
-        grid on
-        % plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
-        plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
-        plot(output.output.time, real_data(:,4), "DisplayName","vq real")
-        legend()
-
-        figure
-        ax5 = subplot(1,1,1);
-        hold on
-        grid on
-        plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
-        % plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
-        plot(output.output.time, real_data(:,5), "DisplayName","vd real")
-        legend()
-        linkaxes([ax1, ax2, ax3, ax4, ax5], 'x')
+                figure
+                ax5 = subplot(1,1,1);
+                hold on
+                grid on
+                plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
+                % plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+                plot(output.output.time, real_data(:,5), "DisplayName","vd real")
+                legend()
+                linkaxes([ax1, ax2, ax3, ax4, ax5], 'x')
+                tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
+                title(tit)
+            end
+        end
     end
 end
+
 
 % logsout_autotuned = logsout;
 % save('AutotunedSpeed','logsout_autotuned')
