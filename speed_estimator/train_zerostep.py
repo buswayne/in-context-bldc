@@ -81,11 +81,11 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v2", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v5", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v2", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep", metavar='S',
                         help='Loaded model name (when resuming)')
-    parser.add_argument('--init-from', type=str, default="resume", metavar='S',
+    parser.add_argument('--init-from', type=str, default="scratch", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
     parser.add_argument('--seed', type=int, default=42, metavar='N',
                         help='Seed for random number generation')
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     # Training
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='batch size (default:32)')
-    parser.add_argument('--max-iters', type=int, default=1_000_000, metavar='N',
+    parser.add_argument('--max-iters', type=int, default= 20_000, metavar='N',
                         help='number of iterations (default: 1M)')
     parser.add_argument('--warmup-iters', type=int, default=5_000, metavar='N',
                         help='number of iterations (default: 1000)')
@@ -197,8 +197,25 @@ if __name__ == '__main__':
     train_dl = DataLoader(train_ds, batch_size=cfg.batch_size)
 
     # if we work with a constant model we also validate with the same (thus same seed!)
-    val_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
+    # val_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
+    # val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size)
+
+    ##########################
+
+    #######here change the validation ds, put the real data
+    ##### may god forgive us
+
+    dfs_val = []
+    folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
+    for path_iter in folder_path_val:
+        dfs_val = dfs_val + load_dataframes_from_folder(path_iter)
+        print(f"Loaded {len(dfs_val)} DataFrames from {path_iter}.")
+
+    val_ds = Dataset(dfs=dfs_val, seq_len=cfg.seq_len)
     val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size)
+
+
+    input("everything ok?")
 
     # Model
     model_args = dict(n_layer=cfg.n_layer, n_head=cfg.n_head, n_embd=cfg.n_embd, n_x=cfg.nx, n_y=cfg.ny, n_u=cfg.nu, block_size=cfg.block_size,
@@ -209,7 +226,7 @@ if __name__ == '__main__':
         model = GPT(gptconf)
     elif cfg.init_from == "resume" or cfg.init_from == "pretrained":
         ckpt_path = model_dir / f"{cfg.in_file}.pt"
-        checkpoint = torch.load(ckpt_path, map_location=device)
+        checkpoint = torch.load(ckpt_path, map_location=device, weights_only=False)
         gptconf = GPTConfig(**checkpoint["model_args"])
         model = GPT(gptconf)
         state_dict = checkpoint['model']
@@ -305,3 +322,16 @@ if __name__ == '__main__':
         # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
 
     print("Training complete. Best model saved as 'best_model.pth'.")
+    checkpoint = {
+                'model': model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'model_args': model_args,
+                'iter_num': cfg.max_iters,
+                'train_time': time.time() - time_start + train_time,
+                'LOSS': LOSS_ITR,
+                'LOSS_VAL': LOSS_VAL,
+                'best_val_loss': best_val_loss,
+                'cfg': cfg,
+    }
+
+    torch.save(checkpoint, model_dir / f"{cfg.out_file}_loss_check.pt")
