@@ -5,7 +5,7 @@ import numpy as np
 import math
 import gc
 from functools import partial
-from dataset import Dataset, load_dataframes_from_folder
+from dataset_test import Dataset, load_dataframes_from_folder
 from torch.utils.data import DataLoader
 from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import argparse
@@ -81,9 +81,9 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_v5", metavar='S',
+    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_real_val_v6", metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep", metavar='S',
+    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_real_val_v6", metavar='S',
                         help='Loaded model name (when resuming)')
     parser.add_argument('--init-from', type=str, default="scratch", metavar='S',
                         help='Init from (scratch|resume|pretrained)')
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                         help='model order (default: 5)')
     parser.add_argument('--ny', type=int, default=1, metavar='N',
                         help='model order (default: 5)')
-    parser.add_argument('--seq-len', type=int, default=50, metavar='N',
+    parser.add_argument('--seq-len', type=int, default=20, metavar='N',
                         help='sequence length (default: 600)')
     parser.add_argument('--mag_range', type=tuple, default=(0.5, 0.97), metavar='N',
                         help='sequence length (default: 600)')
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     # Training
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='batch size (default:32)')
-    parser.add_argument('--max-iters', type=int, default= 20_000, metavar='N',
+    parser.add_argument('--max-iters', type=int, default= 40_000, metavar='N',
                         help='number of iterations (default: 1M)')
     parser.add_argument('--warmup-iters', type=int, default=5_000, metavar='N',
                         help='number of iterations (default: 1000)')

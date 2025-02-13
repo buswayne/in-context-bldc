@@ -20,28 +20,41 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        df_idx = np.random.choice(len(self.dfs))
-        df = self.dfs[df_idx]
-        # print(len(df))
+        flag = True
+        while flag:
+            # print("a")
+            df_idx = np.random.choice(len(self.dfs))
+            df = self.dfs[df_idx]
+            if np.count_nonzero(df['omega'].to_numpy()*2500 >=2000) >0:
+                flag = False
+            # print(len(df))
 
         # difference between starting time and ending time of the batch
         diff_array = df['r'].diff(-self.seq_len).to_numpy()
         diff_array = diff_array[~np.isnan(diff_array)]
         # print(len(diff_array))
-        prob_ratio = 0.5 # ratio between constant samples and step samples
-        if np.random.rand() >= prob_ratio:
-            good_idx = np.flatnonzero(diff_array == 0)
-            if len(good_idx) == 0:
-                good_idx = np.flatnonzero(diff_array != 0)
-        else:
-            good_idx = np.flatnonzero(diff_array != 0)
-            if len(good_idx) == 0:
+        flag2 = True
+        while flag2:
+            # print("b")
+            prob_ratio = 0.5 # ratio between constant samples and step samples
+            if np.random.rand() >= prob_ratio:
                 good_idx = np.flatnonzero(diff_array == 0)
+                if len(good_idx) == 0:
+                    good_idx = np.flatnonzero(diff_array != 0)
+            else:
+                good_idx = np.flatnonzero(diff_array != 0)
+                if len(good_idx) == 0:
+                    good_idx = np.flatnonzero(diff_array == 0)
+            start_idx = np.random.choice(good_idx)
+            
+            if np.count_nonzero(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500 >2000):
+                flag2 = False
 
         # Randomly select a starting index
         # max_val = len(df) - self.seq_len
         # start_idx = np.random.randint(0, max_val)
-        start_idx = np.random.choice(good_idx)
+        # start_idx = np.random.choice(good_idx)
+
 
         # Get the sequence for batch_u and batch_y
         batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
