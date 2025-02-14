@@ -18,7 +18,7 @@ current_loop = 1;
 % BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
 
 
-T = 0.5;
+T = 1;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
@@ -35,7 +35,7 @@ Max_duration = 2;
 % PID_current.i = 1;
 
 
-P_list = [0.1 0.1 0.1 0.1];
+P_list = [0.1];
 I_list = [0.1];
 % P_list = [0.5];
 % I_list = [10];
@@ -46,9 +46,7 @@ for P = P_list
         PID_speed.i = I;
 
         perturbation = 0.5;
-        set_parameters_corrected_perturbed2
-        BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
-        
+        set_parameters_corrected_perturbed
         % BLDC.RatedSpeed / pi * 30
 
         
@@ -89,9 +87,9 @@ for P = P_list
         ax1 = subplot(3,1,1);
         hold on
         grid on
-        % plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
+        plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
         plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-        legend()
+        legend(["Omega ref", "Omega"])
         tit = "P: " + P + ", I: " + I;
         title(tit)
 
