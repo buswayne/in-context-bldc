@@ -14,6 +14,31 @@ import warnings
 import torch.nn as nn
 import pandas as pd
 
+### quick param selection
+
+checkpoint_name_to_save = "ckpt_zerostep_sim_matlab_10pct_real_val_alt_h50"
+checkpoint_name_to_open = "ckpt_zerostep_sim_matlab_10pct_real_val_alt_h50"
+mode = "scratch"  # resume / scratch / pretrained
+
+sequence_length = 50
+batch_size_ = 64
+max_iteration_number = 20_000
+
+
+# folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
+folder_path_training = ['../data/simulated/10_percent_alt']
+folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
+# folder_path_val = folder_path_training
+
+
+weird_stuff = True
+if weird_stuff:
+    from dataset_test import Dataset, load_dataframes_from_folder
+else:
+    from dataset import Dataset, load_dataframes_from_folder
+
+
+
 
 # Disable all user warnings
 warnings.filterwarnings("ignore")
@@ -81,11 +106,11 @@ if __name__ == '__main__':
     # Overall
     parser.add_argument('--model-dir', type=str, default="out", metavar='S',
                         help='Saved model folder')
-    parser.add_argument('--out-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_real_val_v4", metavar='S',
+    parser.add_argument('--out-file', type=str, default=checkpoint_name_to_save, metavar='S',
                         help='Saved model name')
-    parser.add_argument('--in-file', type=str, default="ckpt_zerostep_sim_matlab_50pct_real_val_v4", metavar='S',
+    parser.add_argument('--in-file', type=str, default=checkpoint_name_to_open, metavar='S',
                         help='Loaded model name (when resuming)')
-    parser.add_argument('--init-from', type=str, default="resume", metavar='S',
+    parser.add_argument('--init-from', type=str, default=mode, metavar='S',
                         help='Init from (scratch|resume|pretrained)')
     parser.add_argument('--seed', type=int, default=42, metavar='N',
                         help='Seed for random number generation')
@@ -99,7 +124,7 @@ if __name__ == '__main__':
                         help='model order (default: 5)')
     parser.add_argument('--ny', type=int, default=1, metavar='N',
                         help='model order (default: 5)')
-    parser.add_argument('--seq-len', type=int, default=10, metavar='N',
+    parser.add_argument('--seq-len', type=int, default=sequence_length, metavar='N',
                         help='sequence length (default: 600)')
     parser.add_argument('--mag_range', type=tuple, default=(0.5, 0.97), metavar='N',
                         help='sequence length (default: 600)')
@@ -121,9 +146,9 @@ if __name__ == '__main__':
                         help='bias in model')
 
     # Training
-    parser.add_argument('--batch-size', type=int, default=64, metavar='N',
+    parser.add_argument('--batch-size', type=int, default=batch_size_, metavar='N',
                         help='batch size (default:32)')
-    parser.add_argument('--max-iters', type=int, default= 40_000, metavar='N',
+    parser.add_argument('--max-iters', type=int, default= max_iteration_number, metavar='N',
                         help='number of iterations (default: 1M)')
     parser.add_argument('--warmup-iters', type=int, default=5_000, metavar='N',
                         help='number of iterations (default: 1000)')
@@ -186,12 +211,12 @@ if __name__ == '__main__':
     print(torch.cuda.current_device())
 
     # Load all your DataFrames (replace with your data loading code)
-    folder_path = ['../data/simulated/50_percent_longer_steps']
     # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
     dfs = []
-    for path_iter in folder_path:
-        dfs= dfs + load_dataframes_from_folder(path_iter)
-        print(f"Loaded {len(dfs)} DataFrames from {path_iter}.")
+    for path_iter in folder_path_training:
+        new_dfs = load_dataframes_from_folder(path_iter)
+        dfs= dfs + new_dfs
+        print(f"Loaded {len(new_dfs)} DataFrames from {path_iter}.")
 
     train_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
     train_dl = DataLoader(train_ds, batch_size=cfg.batch_size)
@@ -206,7 +231,6 @@ if __name__ == '__main__':
     ##### may god forgive us
 
     dfs_val = []
-    folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
     for path_iter in folder_path_val:
         dfs_val = dfs_val + load_dataframes_from_folder(path_iter)
         print(f"Loaded {len(dfs_val)} DataFrames from {path_iter}.")
@@ -215,6 +239,15 @@ if __name__ == '__main__':
     val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size)
 
 
+    print("saving model in: ", checkpoint_name_to_save)
+    if mode != "scratch":
+        print("starting from model: ", checkpoint_name_to_open, " (", mode, ")")
+    print("sequence length: ", sequence_length)
+    print("max iterations: ", max_iteration_number)
+    print("batch size: ", batch_size_)
+    if weird_stuff:
+        print("using experimental batch extractor")
+    
     input("everything ok?")
 
     # Model

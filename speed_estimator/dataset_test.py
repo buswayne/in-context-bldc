@@ -20,35 +20,66 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        flag = True
-        while flag:
-            # print("a")
-            df_idx = np.random.choice(len(self.dfs))
-            df = self.dfs[df_idx]
-            if np.count_nonzero(df['omega'].to_numpy()*2500 >=2000) >0:
-                flag = False
-            # print(len(df))
+        prob_2000 = 0.5 # ratio between samples that go >2000 rpm and not
+        prob_step = 0.5 # ratio between constant samples and step samples
 
-        # difference between starting time and ending time of the batch
-        diff_array = df['r'].diff(-self.seq_len).to_numpy()
-        diff_array = diff_array[~np.isnan(diff_array)]
-        # print(len(diff_array))
-        flag2 = True
-        while flag2:
-            # print("b")
-            prob_ratio = 0.5 # ratio between constant samples and step samples
-            if np.random.rand() >= prob_ratio:
-                good_idx = np.flatnonzero(diff_array == 0)
-                if len(good_idx) == 0:
-                    good_idx = np.flatnonzero(diff_array != 0)
-            else:
-                good_idx = np.flatnonzero(diff_array != 0)
-                if len(good_idx) == 0:
+        if np.random.rand() >= prob_2000:
+            flag = True
+            while flag:
+                # print("a")
+                df_idx = np.random.choice(len(self.dfs))
+                df = self.dfs[df_idx]
+                if np.max(df['omega'].to_numpy()*2500) >= 2000:
+                    flag = False
+                # print(len(df))
+
+            # difference between starting time and ending time of the batch
+            diff_array = df['r'].diff(-self.seq_len).to_numpy()
+            diff_array = diff_array[~np.isnan(diff_array)]
+            # print(len(diff_array))
+            flag2 = True
+            while flag2:
+                # print("b")
+                
+                if np.random.rand() >= prob_step:
                     good_idx = np.flatnonzero(diff_array == 0)
-            start_idx = np.random.choice(good_idx)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array != 0)
+                else:
+                    good_idx = np.flatnonzero(diff_array != 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array == 0)
+                start_idx = np.random.choice(good_idx)
+                
+                if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) >= 2000:
+                    flag2 = False
+        else:
+            flag2 = True
+            while flag2:
+                # print("a")
+                df_idx = np.random.choice(len(self.dfs))
+                df = self.dfs[df_idx]
+                # print(len(df))
+                # difference between starting time and ending time of the batch
+                diff_array = df['r'].diff(-self.seq_len).to_numpy()
+                diff_array = diff_array[~np.isnan(diff_array)]
+                # print(len(diff_array))
             
-            if np.count_nonzero(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500 >2000):
-                flag2 = False
+                # print("b")
+                
+                if np.random.rand() >= prob_step:
+                    good_idx = np.flatnonzero(diff_array == 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array != 0)
+                else:
+                    good_idx = np.flatnonzero(diff_array != 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array == 0)
+                start_idx = np.random.choice(good_idx)
+                
+                if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) < 2000:
+                    flag2 = False
+
 
         # Randomly select a starting index
         # max_val = len(df) - self.seq_len
@@ -185,7 +216,7 @@ def load_dataframes_from_folder(folder_path):
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../data/simulated/50_percent_longer_steps'
+    folder_path = '../data/simulated/50_percent_alt'
     # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
