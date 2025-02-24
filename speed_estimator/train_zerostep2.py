@@ -16,17 +16,22 @@ import pandas as pd
 
 ### quick param selection
 
-checkpoint_name_to_save = "ckpt_zerostep_sim_matlab_10pct_real_val_alt_h50"
-checkpoint_name_to_open = "ckpt_zerostep_sim_matlab_10pct_real_val_alt_h50"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "ckpt_zerostep_sim_matlab_50pct_real_val_noise_h10"
+checkpoint_name_to_open = "ckpt_zerostep_sim_matlab_50pct_real_val_noise_h10"
+mode = "resume"  # resume / scratch / pretrained
 
-sequence_length = 50
+sequence_length = 10
 batch_size_ = 64
 max_iteration_number = 20_000
+learning_rate_value = 1e-5
+
+layers_number = 8 #8
+heads_number = 4 #4
+embd_number = 16 #16
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-folder_path_training = ['../data/simulated/10_percent_alt']
+folder_path_training = ['../data/simulated/50_percent_with_noise']
 folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
 # folder_path_val = folder_path_training
 
@@ -134,11 +139,11 @@ if __name__ == '__main__':
                         help='If True, keep the same model all the times')
 
     # Model
-    parser.add_argument('--n-layer', type=int, default=8, metavar='N',
+    parser.add_argument('--n-layer', type=int, default=layers_number, metavar='N',
                         help='number of iterations (default: 1M)')
-    parser.add_argument('--n-head', type=int, default=4, metavar='N',
+    parser.add_argument('--n-head', type=int, default=heads_number, metavar='N',
                         help='number of iterations (default: 1M)')
-    parser.add_argument('--n-embd', type=int, default=16, metavar='N',
+    parser.add_argument('--n-embd', type=int, default=embd_number, metavar='N',
                         help='number of iterations (default: 1M)')
     parser.add_argument('--dropout', type=float, default=0, metavar='LR',
                         help='learning rate (default: 1e-4)')
@@ -152,7 +157,7 @@ if __name__ == '__main__':
                         help='number of iterations (default: 1M)')
     parser.add_argument('--warmup-iters', type=int, default=5_000, metavar='N',
                         help='number of iterations (default: 1000)')
-    parser.add_argument('--lr', type=float, default=1e-4, metavar='LR',
+    parser.add_argument('--lr', type=float, default=learning_rate_value, metavar='LR',
                         help='learning rate (default: 1e-4)')
     parser.add_argument('--weight-decay', type=float, default=0.0, metavar='D',
                         help='weight decay (default: 1e-4)')
@@ -245,6 +250,11 @@ if __name__ == '__main__':
     print("sequence length: ", sequence_length)
     print("max iterations: ", max_iteration_number)
     print("batch size: ", batch_size_)
+    print("learning rate: ", learning_rate_value)
+    print("layers: ", layers_number)
+    print("heads: ", heads_number)
+    print("embd: ", embd_number)
+    
     if weird_stuff:
         print("using experimental batch extractor")
     

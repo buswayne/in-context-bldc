@@ -96,6 +96,16 @@ class Dataset(Dataset):
         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
 
         return batch_u, batch_y
+    
+    def get_full_experiment(self, idx):
+        df = self.dfs[idx]
+        batch_y = torch.tensor(df['omega'].to_numpy(), dtype=torch.float32)
+        batch_u = torch.tensor(df[['iq', 'id', 'vq', 'vd']].to_numpy(), dtype=torch.float32)
+        # Add a batch dimension
+        batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
+
+        return batch_u, batch_y
+
 
 
 # class DatasetOnTheFly(Dataset):
