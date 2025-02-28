@@ -17,24 +17,24 @@ import pandas as pd
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_zerostep_sim_matlab_50pct_real_val_noise_h50_l8h12e12"
-checkpoint_name_to_open = "ckpt_zerostep_sim_matlab_50pct_real_val_noise_h50_l8h12e12"
-mode = "resume"  # resume / scratch / pretrained
+checkpoint_name_to_save = "ckpt_compare_10pct_mix_real_val_h50"
+checkpoint_name_to_open = "ckpt_compare_10pct_mix_real_val_h50"
+mode = "scratch"  # resume / scratch / pretrained
 
 sequence_length = 50
 batch_size_ = 64
 max_iteration_number = 20_000
-learning_rate_value = 1e-5
+learning_rate_value = 5e-5
 
 layers_number = 8 #8
-heads_number = 12 #4
-embd_number = 12 #16
+heads_number = 4 #4
+embd_number = 16 #16
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_noise']
-# folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
-folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
+folder_path_training = ['../../../in-context-bldc-data/simulated/10_percent_alt']
+folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
+# folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
 # folder_path_val = folder_path_training
 
 
@@ -366,7 +366,7 @@ if __name__ == '__main__':
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}")
         # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
 
-    print("Training complete. Best model saved as 'best_model.pth'.")
+    print("Training complete. Best model saved as: ", checkpoint_name_to_save)
     checkpoint = {
                 'model': model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict(),
                 'optimizer': optimizer.state_dict(),
