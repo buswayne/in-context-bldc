@@ -34,7 +34,7 @@ for idx_exp = 1:N_exp
     fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
 
     now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
-    set_parameters_corrected_perturbed
+    set_parameters_corrected_perturbed2
     % set_parameters
     
     reference_speed = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
@@ -70,8 +70,10 @@ for idx_exp = 1:N_exp
     output_clean.v_q = output.output.signals.values(:,8);
     
     out_tab = struct2table(output_clean);
+    str_speed = sprintf("%.4f",i_omega);
+    str_speed = strrep(str_speed, ".","_");
     
-    exp_name = "Experiment_" + now_string + ".csv";
+    exp_name = "Experiment__" + now_string + "_i_omega_" + str_speed + ".csv";
     writetable(out_tab,fullfile(savepath,exp_name));
     
     

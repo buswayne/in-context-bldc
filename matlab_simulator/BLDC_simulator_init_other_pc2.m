@@ -6,10 +6,10 @@ pause on
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 
-perturbation_percent = 50;
+perturbation_percent = 90;
 
 perturbation = perturbation_percent / 100;
-savepath_tmp = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated2";
+savepath_tmp = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
 folder_name = sprintf('%02.0f_percent', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
@@ -45,7 +45,7 @@ for idx_exp = 1:N_exp
 
     while flag_speed_check
     
-        set_parameters_corrected_perturbed
+        set_parameters_corrected_perturbed2
         BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
 
 
@@ -124,8 +124,10 @@ for idx_exp = 1:N_exp
     output_clean.v_q = output.output.signals.values(:,8);
     
     out_tab = struct2table(output_clean);
+    str_speed = sprintf("%.4f",i_omega);
+    str_speed = strrep(str_speed, ".","_");
     
-    exp_name = "Experiment__" + now_string + ".csv";
+    exp_name = "Experiment__" + now_string + "_i_omega_" + str_speed + ".csv";
     writetable(out_tab,fullfile(savepath,exp_name));
     
     % if rem(idx_exp, 100) == 0
