@@ -9,7 +9,7 @@ perturbation_percent = 50;
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-folder_name = sprintf('%02.0f_percent_longer_steps', perturbation_percent);
+folder_name = sprintf('%02.0f_percent', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 

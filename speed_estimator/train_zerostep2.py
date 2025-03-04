@@ -17,13 +17,13 @@ import pandas as pd
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_compare_10pct_mix_real_val_h50"
-checkpoint_name_to_open = "ckpt_compare_10pct_mix_real_val_h50"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "ckpt_90pct_alfabeta_real_val_h10_v2"
+checkpoint_name_to_open = "ckpt_90pct_alfabeta_real_val_h10_v2"
+mode = "resume"  # resume / scratch / pretrained
 
-sequence_length = 50
+sequence_length = 10
 batch_size_ = 64
-max_iteration_number = 20_000
+max_iteration_number = 10_000
 learning_rate_value = 5e-5
 
 layers_number = 8 #8
@@ -32,17 +32,17 @@ embd_number = 16 #16
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-folder_path_training = ['../../../in-context-bldc-data/simulated/10_percent_alt']
-folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
-# folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427']
+folder_path_training = ['../../../in-context-bldc-data/simulated/90_percent_with_alfa_beta_alt']
+# folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
+folder_path_val = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
 # folder_path_val = folder_path_training
 
 
 weird_stuff = True
 if weird_stuff:
-    from dataset_test import Dataset, load_dataframes_from_folder
+    from dataset_test2 import Dataset, load_dataframes_from_folder
 else:
-    from dataset import Dataset, load_dataframes_from_folder
+    from dataset2 import Dataset, load_dataframes_from_folder
 
 
 

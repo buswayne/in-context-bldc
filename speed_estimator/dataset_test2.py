@@ -20,38 +20,92 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        df_idx = np.random.choice(len(self.dfs))
-        df = self.dfs[df_idx]
-        # print(len(df))
+        prob_2000 = 0.5 # ratio between samples that go >2000 rpm and not
+        prob_step = 0.5 # ratio between constant samples and step samples
 
-        # difference between starting time and ending time of the batch
-        diff_array = df['r'].diff(-self.seq_len).to_numpy()
-        diff_array = diff_array[~np.isnan(diff_array)]
-        # print(len(diff_array))
-        prob_ratio = 0.5 # ratio between constant samples and step samples
-        if np.random.rand() >= prob_ratio:
-            good_idx = np.flatnonzero(diff_array == 0)
-            if len(good_idx) == 0:
-                good_idx = np.flatnonzero(diff_array != 0)
+        if np.random.rand() >= prob_2000:
+            flag = True
+            while flag:
+                # print("a")
+                df_idx = np.random.choice(len(self.dfs))
+                df = self.dfs[df_idx]
+                if np.max(df['omega'].to_numpy()*2500) >= 2000:
+                    flag = False
+                # print(len(df))
+
+            # difference between starting time and ending time of the batch
+            diff_array = df['r'].diff(-self.seq_len).to_numpy()
+            diff_array = diff_array[~np.isnan(diff_array)]
+            # print(len(diff_array))
+            flag2 = True
+            while flag2:
+                # print("b")
+                
+                if np.random.rand() >= prob_step:
+                    good_idx = np.flatnonzero(diff_array == 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array != 0)
+                else:
+                    good_idx = np.flatnonzero(diff_array != 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array == 0)
+                start_idx = np.random.choice(good_idx)
+                
+                if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) >= 2000:
+                    flag2 = False
         else:
-            good_idx = np.flatnonzero(diff_array != 0)
-            if len(good_idx) == 0:
-                good_idx = np.flatnonzero(diff_array == 0)
+            flag2 = True
+            while flag2:
+                # print("a")
+                df_idx = np.random.choice(len(self.dfs))
+                df = self.dfs[df_idx]
+                # print(len(df))
+                # difference between starting time and ending time of the batch
+                diff_array = df['r'].diff(-self.seq_len).to_numpy()
+                diff_array = diff_array[~np.isnan(diff_array)]
+                # print(len(diff_array))
+            
+                # print("b")
+                
+                if np.random.rand() >= prob_step:
+                    good_idx = np.flatnonzero(diff_array == 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array != 0)
+                else:
+                    good_idx = np.flatnonzero(diff_array != 0)
+                    if len(good_idx) == 0:
+                        good_idx = np.flatnonzero(diff_array == 0)
+                start_idx = np.random.choice(good_idx)
+                
+                if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) < 2000:
+                    flag2 = False
+
 
         # Randomly select a starting index
         # max_val = len(df) - self.seq_len
         # start_idx = np.random.randint(0, max_val)
-        start_idx = np.random.choice(good_idx)
+        # start_idx = np.random.choice(good_idx)
+
 
         # Get the sequence for batch_u and batch_y
         batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
-        batch_u = torch.tensor(df[['iq', 'id', 'vq', 'vd']].iloc[start_idx:start_idx + self.seq_len].values,
+        batch_u = torch.tensor(df[['ia', 'ib', 'va', 'vb']].iloc[start_idx:start_idx + self.seq_len].values,
                                dtype=torch.float32)
 
         # Add a batch dimension
         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
 
         return batch_u, batch_y
+    
+    def get_full_experiment(self, idx):
+        df = self.dfs[idx]
+        batch_y = torch.tensor(df['omega'].to_numpy(), dtype=torch.float32)
+        batch_u = torch.tensor(df[['ia', 'ib', 'va', 'vb']].to_numpy(), dtype=torch.float32)
+        # Add a batch dimension
+        batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
+
+        return batch_u, batch_y
+
 
 
 # class DatasetOnTheFly(Dataset):
@@ -119,10 +173,10 @@ class Dataset(Dataset):
 
 # Normalization function
 def normalize_fixed_ranges(df):
-    df['iq'] = (df['iq'] + 5) / 10  # Normalize iq from -5 to 5 -> [0, 1]
-    df['id'] = (df['id'] + 5) / 10  # Normalize id from -5 to 5 -> [0, 1]
-    df['vq'] = (df['vq'] + 24) / 48  # Normalize vq from -24 to 24 -> [0, 1]
-    df['vd'] = (df['vd'] + 24) / 48  # Normalize vd from -24 to 24 -> [0, 1]
+    df['ia'] = (df['ia'] + 5) / 10  # Normalize iq from -5 to 5 -> [0, 1]
+    df['ib'] = (df['ib'] + 5) / 10  # Normalize id from -5 to 5 -> [0, 1]
+    df['va'] = (df['va'] + 24) / 48  # Normalize vq from -24 to 24 -> [0, 1]
+    df['vb'] = (df['vb'] + 24) / 48  # Normalize vd from -24 to 24 -> [0, 1]
     df['omega'] = df['omega'] / 2500  # Normalize omega from 0 to 2500 -> [0, 1]
     return df
 
@@ -138,12 +192,12 @@ def reverse_normalization(batch_u, batch_y, batch_y_pred):
 
     # Reverse normalization for currents (iq, id)
     # Assuming batch_u contains currents in the first two columns
-    batch_u[:, :, 0] = batch_u[:, :, 0] * (max_currents - min_currents) + min_currents  # iq
-    batch_u[:, :, 1] = batch_u[:, :, 1] * (max_currents - min_currents) + min_currents  # id
+    batch_u[:, :, 0] = batch_u[:, :, 0] * (max_currents - min_currents) + min_currents  # ia
+    batch_u[:, :, 1] = batch_u[:, :, 1] * (max_currents - min_currents) + min_currents  # ib
 
     # Reverse normalization for voltages (vq, vd)
-    batch_u[:, :, 2] = batch_u[:, :, 2] * (max_voltages - min_voltages) + min_voltages  # vq
-    batch_u[:, :, 3] = batch_u[:, :, 3] * (max_voltages - min_voltages) + min_voltages  # vd
+    batch_u[:, :, 2] = batch_u[:, :, 2] * (max_voltages - min_voltages) + min_voltages  # va
+    batch_u[:, :, 3] = batch_u[:, :, 3] * (max_voltages - min_voltages) + min_voltages  # vb
 
     # Reverse normalization for speed (omega)
     batch_y = batch_y * (max_speed - min_speed) + min_speed
@@ -159,7 +213,7 @@ def load_dataframes_from_folder(folder_path):
     for file in glob.glob(os.path.join(folder_path, '*.csv')):
         df = pd.read_csv(file)
         try:
-            df.columns = ['t', 'theta', 'omega', 'r', 'id', 'iq', 'iq_ref', 'vd', 'vq']
+            df.columns = ['t', 'theta', 'omega', 'r', 'ia', 'ib', 'va', 'vb']
         except:
             pass
         df = normalize_fixed_ranges(df)
@@ -172,7 +226,7 @@ def load_dataframes_from_folder(folder_path):
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../data/simulated/50_percent_longer_steps'
+    folder_path = '../data/simulated/50_percent_alt'
     # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
@@ -204,11 +258,11 @@ if __name__ == "__main__":
 
     # Plot each component of batch_u
     plt.subplot(2, 1, 2)
-    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (iq)', color='orange')
-    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (id)', color='green')
-    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (vq)', color='red')
-    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vd)', color='purple')
-    plt.title('Batch u (iq, id, vq, vd)')
+    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
+    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
+    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
+    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
+    plt.title('Batch u (ia, ib, va, vb)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
     # plt.legend()
