@@ -17,11 +17,11 @@ import pandas as pd
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h100_v2"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h100_v2"
+checkpoint_name_to_save = "ckpt_50pct_recursive_h10_n200"
+checkpoint_name_to_open = "ckpt_50pct_recursive_h10_n200"
 mode = "scratch"  # resume / scratch / pretrained
 
-sequence_length = 100
+sequence_length = 10
 batch_size_ = 64
 max_iteration_number = 20_000
 learning_rate_value = 5e-5
@@ -29,6 +29,8 @@ learning_rate_value = 5e-5
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
+
+noise_std_value = 200
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
@@ -225,7 +227,7 @@ if __name__ == '__main__':
         dfs= dfs + new_dfs
         print(f"Loaded {len(new_dfs)} DataFrames from {path_iter}.")
 
-    train_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
+    train_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len, noise_std=noise_std_value)
     train_dl = DataLoader(train_ds, batch_size=cfg.batch_size)
 
     # if we work with a constant model we also validate with the same (thus same seed!)
@@ -256,6 +258,7 @@ if __name__ == '__main__':
     print("layers: ", layers_number)
     print("heads: ", heads_number)
     print("embd: ", embd_number)
+    print("noise on input speed: ", noise_std_value)
     
     if weird_stuff:
         print("using experimental batch extractor")
@@ -363,6 +366,8 @@ if __name__ == '__main__':
 
             torch.save(checkpoint, model_dir / f"{cfg.out_file}.pt")
 
+        
+        print("model: ", checkpoint_name_to_save)
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}, best val loss was: {best_val_loss:.4f}")
         # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
 

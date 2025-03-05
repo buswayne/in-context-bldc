@@ -12,9 +12,10 @@ import copy
 
 # Assuming your DataFrame is named df and contains 6 columns
 class Dataset(Dataset):
-    def __init__(self, dfs, seq_len):
+    def __init__(self, dfs, seq_len, noise_std = 100):
         self.dfs = dfs
         self.seq_len = seq_len
+        self.noise_std = noise_std
 
     def __len__(self):
         return 512
@@ -47,7 +48,7 @@ class Dataset(Dataset):
         tmp[1:-1] = tmp[0:-2]
         tmp[0] = 0
 
-        std = 100/2500
+        std = self.noise_std/2500
 
         tmp = np.array(tmp) + np.random.normal(0,std,len(tmp))
         df['last_omega'] = tmp
