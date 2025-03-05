@@ -7,7 +7,7 @@ temp_name = strsplit(pwd,'in-context-bldc');
 data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
 save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_alt";
 
-folder = "10_percent";
+folder = "50_percent";
 
 
 data_filepath = fullfile(data_path, folder);
