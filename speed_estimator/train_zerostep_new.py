@@ -19,7 +19,7 @@ import pandas as pd
 
 checkpoint_name_to_save = "ckpt_50pct_recursive_h10_n200"
 checkpoint_name_to_open = "ckpt_50pct_recursive_h10_n200"
-mode = "scratch"  # resume / scratch / pretrained
+mode = "resume"  # resume / scratch / pretrained
 
 sequence_length = 10
 noise_std_value = 200
@@ -250,7 +250,9 @@ if __name__ == '__main__':
         print(f"Loaded {len(dfs_val)} DataFrames from {path_iter}.")
 
     val_ds = Dataset(dfs=dfs_val, seq_len=cfg.seq_len)
-    val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size)
+    # val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size, pin_memory=True, num_workers=4, shuffle=True)
+    val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size, pin_memory=True, shuffle=True)
+    #train_loader = DataLoader(train_dataset, batch_size=args.batch_size, pin_memory=True, num_workers=4, shuffle=True)
 
 
     print("saving model in: ", checkpoint_name_to_save)
