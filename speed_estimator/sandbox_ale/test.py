@@ -6,15 +6,19 @@ import pandas as pd
 import sys
 import torch.nn as nn
 
-# import torch
+import torch
 import copy
 
 
-aaa_val = np.arange(12)
+aaa = torch.ones(2,2,3)
+aaa[1,:,0] = 0
+print(aaa)
 
-print(aaa_val)
-print(aaa_val[3:6])
-print(aaa_val[5])
+# aaa_val = np.arange(12)
+
+# print(aaa_val)
+# print(aaa_val[3:6])
+# print(aaa_val[5])
 
 
 # diff = aaa['test'].diff(-2).to_numpy()
