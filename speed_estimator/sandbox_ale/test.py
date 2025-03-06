@@ -6,25 +6,16 @@ import pandas as pd
 import sys
 import torch.nn as nn
 
-import torch
+# import torch
 import copy
 
 
-aaa_val = np.arange(7,12)
+aaa_val = np.arange(12)
 
+print(aaa_val)
+print(aaa_val[3:6])
+print(aaa_val[5])
 
-aaa = pd.DataFrame(aaa_val,columns=(['test']))
-print(aaa)
-
-
-tmp = copy.deepcopy(aaa['test'].to_numpy())
-print(tmp)
-tmp[1:-1] = tmp[0:-2]
-print(tmp)
-tmp[0] = 0
-print(tmp)
-aaa['test_2'] = tmp
-print(aaa)
 
 # diff = aaa['test'].diff(-2).to_numpy()
 # diff = diff[~np.isnan(diff)]

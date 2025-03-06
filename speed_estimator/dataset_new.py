@@ -58,7 +58,7 @@ class Dataset(Dataset):
         # print("...")
 
         # Get the sequence for batch_u and batch_y
-        batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
+        batch_y = torch.tensor(df['omega'].iloc[start_idx + self.seq_len-1], dtype=torch.float32)
         batch_u = torch.tensor(df[['ia', 'ib', 'va', 'vb', 'last_omega']].iloc[start_idx:start_idx + self.seq_len].values,
                                dtype=torch.float32)
 
@@ -145,8 +145,10 @@ if __name__ == "__main__":
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
+    seq_len = 50
+
     # Create an instance of the dataset
-    dataset = Dataset(dfs=dfs, seq_len=50)
+    dataset = Dataset(dfs=dfs, seq_len=seq_len)
     # dataset = DatasetOnTheFly(dt=0.01, seq_len=50, perturbation_percentage=0.5)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
@@ -159,26 +161,41 @@ if __name__ == "__main__":
     batch_y_np = batch_y.squeeze(0).numpy()  # Shape (seq_len, 1)
 
     # Plotting
-    plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 6))
 
     # Plot batch_y (omega)
-    plt.subplot(2, 1, 1)
-    plt.plot(batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
-    plt.title('Batch y (omega)')
-    plt.xlabel('Time step')
-    plt.ylabel('Value')
+    # plt.subplot(2, 1, 1)
+    ax1 = fig.add_subplot(2,1,1)
+    # plt.scatter(np.ones_like(batch_y_np[:,:,0].T) * seq_len,batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
+    # plt.title('Batch y (omega)')
+    # plt.xlabel('Time step')
+    # plt.ylabel('Value')
+    ax1.scatter(np.ones_like(batch_y_np[:,:,0].T) * seq_len,batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
+    ax1.set_title('Batch y (omega)')
+    ax1.set_xlabel('Time step')
+    ax1.set_ylabel('Value')
+    
     # plt.legend()
 
     # Plot each component of batch_u
-    plt.subplot(2, 1, 2)
-    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
-    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
-    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
-    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
-    plt.plot(batch_u_np[:, :, 4].T, label='Batch u (last_omega)', color='grey')
-    plt.title('Batch u (ia, ib, va, vb, last_omega)')
-    plt.xlabel('Time step')
-    plt.ylabel('Value')
+    # plt.subplot(2, 1, 2)
+    ax2 = fig.add_subplot(2,1,2, sharex = ax1)
+    # plt.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
+    # plt.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
+    # plt.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
+    # plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
+    # plt.plot(batch_u_np[:, :, 4].T, label='Batch u (last_omega)', color='grey')
+    # plt.title('Batch u (ia, ib, va, vb, last_omega)')
+    # plt.xlabel('Time step')
+    # plt.ylabel('Value')
+    ax2.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
+    ax2.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
+    ax2.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
+    ax2.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
+    ax2.plot(batch_u_np[:, :, 4].T, label='Batch u (last_omega)', color='grey')
+    ax2.set_title('Batch u (ia, ib, va, vb, last_omega)')
+    ax2.set_xlabel('Time step')
+    ax2.set_ylabel('Value')
     # plt.legend()
 
     plt.tight_layout()
@@ -188,20 +205,20 @@ if __name__ == "__main__":
     for i in range(2):
         fig = plt.figure()
         ax0 = fig.add_subplot(4,1,1)
-        ax0.plot(batch_y[i,:,:])
+        ax0.scatter(np.ones_like(batch_y_np[i,:,:].T) * seq_len,batch_y[i,:,:])
         ax0.set_ylim(-50,3050)
         ax1 = fig.add_subplot(4,1,2, sharex = ax0)
         ax1.plot(batch_u[i,:,0])
         ax1.plot(batch_u[i,:,1])
-        ax1 = fig.add_subplot(4,1,3, sharex = ax0)
-        ax1.plot(batch_u[i,:,2])
-        ax1.plot(batch_u[i,:,3])
-        ax1 = fig.add_subplot(4,1,4, sharex = ax0, sharey = ax0)
-        ax1.plot(batch_u[i,:,4])
-        ax1.set_ylim(-50,3050)
+        ax2 = fig.add_subplot(4,1,3, sharex = ax0)
+        ax2.plot(batch_u[i,:,2])
+        ax2.plot(batch_u[i,:,3])
+        ax3 = fig.add_subplot(4,1,4, sharex = ax0, sharey = ax0)
+        ax3.plot(batch_u[i,:,4])
+        ax3.set_ylim(-50,3050)
 
         fig = plt.figure()
-        plt.plot(batch_y[i,:,:])
+        plt.scatter(np.ones_like(batch_y_np[i,:,:].T) * seq_len,batch_y[i,:,:])
         plt.plot(batch_u[i,:,4])
         plt.legend(['orig speed', 'speed+noise'])
         plt.ylim(-50,3050)
