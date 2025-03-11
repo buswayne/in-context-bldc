@@ -75,6 +75,15 @@ class Dataset(Dataset):
         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
 
         return batch_u, batch_y
+    
+    def get_experiment_observer(self, idx):
+        """
+        returns pll observer estimated speed, non-normalized
+        """
+        df = self.dfs[idx]
+        obs_y = df['omega_obs'].to_numpy()
+        
+        return obs_y
 
 
 
