@@ -17,14 +17,14 @@ import copy
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h50_real_val_speed_correction"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h50_real_val_speed_correction"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction"
+checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction"
+mode = "resume"  # resume / scratch / pretrained
 
-sequence_length = 50
+sequence_length = 10
 # noise_std_value = 200
 batch_size_ = 128
-max_iteration_number = 10_000
+max_iteration_number = 20_000
 learning_rate_value = 5e-5
 
 layers_number = 8 #8
