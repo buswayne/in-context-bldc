@@ -29,7 +29,7 @@ current_loop = 0;
 
 % set_parameters_perturbed
 % set_parameters_real_bo
-set_parameters_corrected
+set_parameters_corrected_debug
 % BLDC.FluxLinkage = BLDC.FluxLinkage *0.90;
 % BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
 
@@ -55,20 +55,22 @@ voltage_q_input.signals.values = vq_ref;
 voltage_d_input.time = time;
 voltage_d_input.signals.values = vd_ref;
 
-mdl = 'BLDC_simulator2';
+mdl = 'BLDC_simulator3_debug';
 
 output = sim(mdl);
 
 
 output_clean.t = output.output.time;
 output_clean.theta = output.output.signals.values(:,1);
-output_clean.omega = output.output.signals.values(:,2);
-output_clean.r = output.output.signals.values(:,3);
-output_clean.i_d = output.output.signals.values(:,4);
-output_clean.i_q = output.output.signals.values(:,5);
-output_clean.i_q_ref = output.output.signals.values(:,6);
-output_clean.v_d = output.output.signals.values(:,7);
-output_clean.v_q = output.output.signals.values(:,8);
+output_clean.theta_e_uncorr = output.output.signals.values(:,2);
+output_clean.theta_e = output.output.signals.values(:,2);
+output_clean.omega = output.output.signals.values(:,4);
+output_clean.r = output.output.signals.values(:,5);
+output_clean.i_d = output.output.signals.values(:,6);
+output_clean.i_q = output.output.signals.values(:,7);
+output_clean.i_q_ref = output.output.signals.values(:,8);
+output_clean.v_d = output.output.signals.values(:,9);
+output_clean.v_q = output.output.signals.values(:,10);
 
 out_tab = struct2table(output_clean);
 % 
@@ -81,32 +83,46 @@ ax1 = subplot(4,1,1);
 title(exp_name, Interpreter="none")
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
-plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
+plot(output.output.time, output_clean.r, "DisplayName","Omega ref")
+plot(output.output.time, output_clean.omega, "DisplayName","Omega")
 plot(output.output.time, real_data(:,11), "DisplayName","Omega real")
 legend()
 ax2 = subplot(4,1,2);
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+plot(output.output.time, output_clean.i_q_ref, "DisplayName","iq ref")
+plot(output.output.time, output_clean.i_q, "DisplayName","iq")
 plot(output.output.time, real_data(:,2), "DisplayName","iq real")
 legend()
 
 ax3 = subplot(4,1,3);
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+plot(output.output.time, output_clean.i_d, "DisplayName","id")
 plot(output.output.time, real_data(:,3), "DisplayName","id real")
 legend()
 
 ax4 = subplot(4,1,4);
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
-plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+plot(output.output.time, output_clean.v_d, "DisplayName","vd")
+plot(output.output.time, output_clean.v_q, "DisplayName","vq")
 legend()
 linkaxes([ax1, ax2, ax3, ax4], 'x')
+
+figure
+hold on 
+grid on
+plot(output_clean.t, output_clean.theta_e, DisplayName="theta_e")
+plot(output_clean.t, real_data(:,10), DisplayName="theta_e_real")
+legend()
+
+figure
+hold on 
+grid on
+plot(output_clean.t, cos(output_clean.theta_e), DisplayName="theta_e")
+plot(output_clean.t, cos(real_data(:,10)), DisplayName="theta_e_real")
+legend()
 
 % logsout_autotuned = logsout;
 % % save('AutotunedSpeed','logsout_autotuned')
