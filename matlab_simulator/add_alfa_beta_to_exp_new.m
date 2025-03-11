@@ -5,14 +5,14 @@ tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new2";
+save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
 
-folder = "50_percent";
+folder = "90_percent";
 
 
 data_filepath = fullfile(data_path, folder);
 
-save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected2");
+save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected");
 [~, ~] = mkdir(save_filepath);
 
 file_list = dir(data_filepath);
@@ -34,7 +34,7 @@ for file = file_list
     vd = exp(:,8);
     vq = exp(:,9);
 
-    theta_e_grad = theta * 180 / pi * 7;
+    theta_e_grad = theta * 180 / pi * 7 * 1.41;
     theta_e = wrapTo180(theta_e_grad) / 180 * pi;
 
     
