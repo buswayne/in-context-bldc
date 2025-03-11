@@ -9,7 +9,7 @@ temp_name = strsplit(pwd,'in-context-bldc');
 perturbation_percent = 50;
 
 perturbation = perturbation_percent / 100;
-savepath_tmp = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
+savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
 folder_name = sprintf('%02.0f_percent', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
@@ -127,7 +127,7 @@ for idx_exp = 1:N_exp
     str_speed = sprintf("%.4f",i_omega);
     str_speed = strrep(str_speed, ".","_");
     
-    exp_name = "Experiment__" + now_string + "_i_omega_" + str_speed + ".csv";
+    exp_name = "Experiment_" + now_string + "_i_omega_" + str_speed + ".csv";
     writetable(out_tab,fullfile(savepath,exp_name));
     
     % if rem(idx_exp, 100) == 0

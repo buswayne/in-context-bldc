@@ -14,7 +14,7 @@ BLDC.InductanceLd = 0.995e-3 * 1.383264744587776;
 BLDC.InductanceLq = BLDC.InductanceLd;
 BLDC.InductanceL0 = BLDC.InductanceLd;
 BLDC.FluxLinkage = 48/BLDC.RatedSpeed/(BLDC.PolePairs) * 1.179953752195608;
-BLDC.Inertia = 44e-07 * 29.043590734405700;
+BLDC.Inertia = 44e-07; %44e-07 * 29.043590734405700;
 BLDC.BreakawayFrictionTorque = 0.002130661000000 *1e-3; %??
 BLDC.CoulombFrictionTorque = 0.002130661000000 *1e-3; %??
 BLDC.ViscousFrictionCoefficient = 0.0083*1e-6;
@@ -31,7 +31,7 @@ paramPwmCompareAtZeroVolt = 330;
 paramPwmCompareMax = 660;
 paramPwmComparePerVolt = paramPwmCompareMax/2/BLDC.RatedVoltage;
 
-disc.Inertia =  0.7497e-03;
+disc.Inertia =  8.7749e-04 - 44e-07; %0.7497e-03;
 
 pwm.CounterMax = 660;
 pwm.CountPerPeriod = 1320;
