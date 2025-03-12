@@ -24,7 +24,7 @@ mode = "resume"  # resume / scratch / pretrained
 sequence_length = 10
 # noise_std_value = 200
 batch_size_ = 128
-max_iteration_number = 10_000
+max_iteration_number = 20_000
 learning_rate_value = 5e-5
 
 layers_number = 8 #8
@@ -34,8 +34,8 @@ embd_number = 16 #16
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-# folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
-folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta_speed_corrected','../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
+folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
+# folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta_speed_corrected','../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
 # folder_path_training = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
 # folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta']
 # folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
