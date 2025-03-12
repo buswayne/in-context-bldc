@@ -10,7 +10,7 @@ perturbation_percent = 50;
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-folder_name = sprintf('%02.0f_percent', perturbation_percent);
+folder_name = sprintf('%02.0f_percent_add', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
@@ -29,7 +29,7 @@ time = 0:Ts:T-Ts;
 % Max_duration = 3;
 
 
-N_exp = 1000;
+N_exp = 500-69;
 
 mdl = 'BLDC_simulator2';
 % Simulink.BlockDiagram.buildRapidAcceleratorTarget(mdl);
@@ -39,7 +39,7 @@ for idx_exp = 1:N_exp
     now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
     flag_speed_check = true;
 
-    T = 0.5;
+    T = 1;
     Ts = 1e-4;
     time = 0:Ts:T-Ts;
 
