@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from transformer_zerostep_new_v2 import GPTConfig, GPT, warmup_cosine_lr
 import argparse
 import warnings
-# import wandb
+import wandb
 import torch.nn as nn
 import pandas as pd
 import copy
@@ -17,8 +17,8 @@ import copy
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction_v2"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_v2"
+checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction_v4"
+checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_v4"
 mode = "resume"  # resume / scratch / pretrained
 
 sequence_length = 10
@@ -54,17 +54,17 @@ from dataset_new_v2 import Dataset, load_dataframes_from_folder
 
 
 # Disable all user warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # Re-enable user warnings
-warnings.filterwarnings("default")
+# warnings.filterwarnings("default")
 
 # # # start a new wandb run to track this script
-# wandb.init(
-#     # set the wandb project where this run will be logged
-#     project="in-context bldc estimator",
-#     name="train_v3"
-# )
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="in-context bldc estimator",
+    name=checkpoint_name_to_save
+)
 
 
 # def train(model, dataloader, criterion, optimizer, device):
@@ -417,7 +417,7 @@ if __name__ == '__main__':
                      warmup_iters=cfg.warmup_iters, lr_decay_iters=cfg.lr_decay_iters)
     time_start = time.time()
 
-
+    best_epoch = iter_num -1
     for epoch in range(iter_num+1, cfg.max_iters):
         ## I COMMENTED THIS PART BECAUSE THERE WAS A PROBLEM WITH LR : IT WAS STUCK TO 0
         if cfg.decay_lr:
@@ -437,6 +437,7 @@ if __name__ == '__main__':
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            best_epoch = epoch
             checkpoint = {
                 'model': model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict(),
                 'optimizer': optimizer.state_dict(),
@@ -454,7 +455,7 @@ if __name__ == '__main__':
         
         print("model: ", checkpoint_name_to_save)
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}, best val loss was: {best_val_loss:.4f}")
-        # wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss})
+        wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss, "best_epoch": best_epoch})
 
     print("Training complete. Best model saved as: ", checkpoint_name_to_save)
     checkpoint = {
