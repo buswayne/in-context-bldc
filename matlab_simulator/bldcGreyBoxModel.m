@@ -1,4 +1,8 @@
 function [dx, y] = bldcGreyBoxModel(t, x, u, p, varargin)
+    
+    p = p .* [1e3, 1e3, 1e1, 1e2, 1e-3]';
+
+
     p1 = p(1);
     p2 = p(2);
     p3 = p(3);
