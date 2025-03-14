@@ -23,9 +23,9 @@ mode = "resume"  # resume / scratch / pretrained
 
 sequence_length = 10
 # noise_std_value = 200
-batch_size_ = 128
+batch_size_ = 64
 max_iteration_number = 20_000
-learning_rate_value = 5e-5
+learning_rate_value = 1e-5
 
 layers_number = 8 #8
 heads_number = 4 #4
