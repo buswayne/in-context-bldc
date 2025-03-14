@@ -29,7 +29,7 @@ time = 0:Ts:T-Ts;
 % Max_duration = 3;
 
 
-N_exp = 500-69;
+N_exp = 1000;
 
 mdl = 'BLDC_simulator2';
 % Simulink.BlockDiagram.buildRapidAcceleratorTarget(mdl);
