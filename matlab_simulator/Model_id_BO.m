@@ -36,28 +36,29 @@ output_list = [I_d, I_q];
 %Rs/Ls, 1/Ls, lambda_m/Ls, (3/2 * P * lambda_m) / J, B/J, theta0
 % 250, 700, 10, 200, 0.00001, ---
 
-p1 = optimizableVariable("p1",[50,200],"Type","real");
-p2 = optimizableVariable("p2",[50,200],"Type","real");
-p3 = optimizableVariable("p3",[0.01,10],"Type","real");
-p4 = optimizableVariable("p4",[600,1000],"Type","real");
-p5 = optimizableVariable("p5",[0.000001,0.00001],"Type","real");
+p1 = optimizableVariable("p1",[400,700],"Type","real");
+p2 = optimizableVariable("p2",[400,550],"Type","real");
+p3 = optimizableVariable("p3",[10,50],"Type","real");
+p4 = optimizableVariable("p4",[400,550],"Type","real");
+% p5 = optimizableVariable("p5",[0.000001,0.00001],"Type","real");
 % p6 = optimizableVariable("p6",[-pi,+pi],"Type","real");
 
 fun = @(x)Model_Id_cost_function(x, input_list, output_list);
 
 
 % result = bayesopt(fun, [p1,p2,p3,p4,p5,p6],"Verbose",2, ...
-result = bayesopt(fun, [p1,p2,p3,p4,p5],"Verbose",2, ...
+% result = bayesopt(fun, [p1,p2,p3,p4,p5],"Verbose",2, ...
+result = bayesopt(fun, [p1,p2,p3,p4],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
-    NumSeedPoints=800, MaxObjectiveEvaluations=2000, ExplorationRatio=0.7);
+    NumSeedPoints=800, MaxObjectiveEvaluations=1500, ExplorationRatio=0.7);
 save(bayes_save_file_name, "result")
 
 p(1) = result.XAtMinObjective.p1;
 p(2) = result.XAtMinObjective.p2;
 p(3) = result.XAtMinObjective.p3;
 p(4) = result.XAtMinObjective.p4;
-p(5) = result.XAtMinObjective.p5;
+% p(5) = result.XAtMinObjective.p5;
 % p(6) = result.XAtMinObjective.p6;
 
 
@@ -67,7 +68,7 @@ p(5) = result.XAtMinObjective.p5;
 % p(2) = 700;
 % p(3) = 10;
 % p(4) = 200;
-% p(5) = 0.00001;
+p(5) = 0.0;
 % p(6) = 0;
 
 
@@ -82,16 +83,27 @@ for i = 1:length(input_list)
 end
 
 figure
-subplot(211)
+subplot(221)
 plot(y_pred(:,1))
 hold on
 plot(output_list(:,1))
-legend(["Id_est","Id_real"])
+legend(["Id_{est}","Id_{real}"])
 
 
-subplot(212)
+subplot(222)
 plot(y_pred(:,2))
 hold on
 plot(output_list(:,2))
-legend(["Iq_est","Iq_real"])
+legend(["Iq_{est}","Iq_{real}"])
+
+subplot(223)
+plot(input_list(:,1))
+hold on
+plot(input_list(:,2))
+legend(["Vd","Vq"])
+
+subplot(224)
+plot(omega)
+legend(["Omega"])
+
 toc

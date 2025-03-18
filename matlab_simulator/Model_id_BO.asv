@@ -36,10 +36,10 @@ output_list = [I_d, I_q];
 %Rs/Ls, 1/Ls, lambda_m/Ls, (3/2 * P * lambda_m) / J, B/J, theta0
 % 250, 700, 10, 200, 0.00001, ---
 
-p1 = optimizableVariable("p1",[100,300],"Type","real");
-p2 = optimizableVariable("p2",[600,800],"Type","real");
-p3 = optimizableVariable("p3",[1,20],"Type","real");
-p4 = optimizableVariable("p4",[150,400],"Type","real");
+p1 = optimizableVariable("p1",[50,300],"Type","real");
+p2 = optimizableVariable("p2",[50,200],"Type","real");
+p3 = optimizableVariable("p3",[0.01,10],"Type","real");
+p4 = optimizableVariable("p4",[600,1000],"Type","real");
 p5 = optimizableVariable("p5",[0.000001,0.00001],"Type","real");
 % p6 = optimizableVariable("p6",[-pi,+pi],"Type","real");
 
@@ -50,7 +50,7 @@ fun = @(x)Model_Id_cost_function(x, input_list, output_list);
 result = bayesopt(fun, [p1,p2,p3,p4,p5],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
-    NumSeedPoints=800, MaxObjectiveEvaluations=2000, ExplorationRatio=0.7);
+    NumSeedPoints=800, MaxObjectiveEvaluations=1500, ExplorationRatio=0.7);
 save(bayes_save_file_name, "result")
 
 p(1) = result.XAtMinObjective.p1;

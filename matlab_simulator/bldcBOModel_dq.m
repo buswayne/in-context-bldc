@@ -32,7 +32,7 @@ function [dx, y] = bldcBOModel_dq(t, x, u, p, varargin)
 
     % Continuous-time state-space matrices
     A = [ -R_Ls, omega, 0, 0;
-         -omega, -R_Ls, lambda_Ls, 0;
+         -omega, -R_Ls, -lambda_Ls, 0;
           0, P_lambda_J, -B_J, 0;
           0, 0, P, 0];
 

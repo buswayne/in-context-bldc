@@ -5,7 +5,8 @@ p(1) = var.p1;
 p(2) = var.p2;
 p(3) = var.p3;
 p(4) = var.p4;
-p(5) = var.p5;
+% p(5) = var.p5;
+p(5) = 0;
 % p(6) = var.p6;
 
 x_prev = [0,0,0,0]; 
