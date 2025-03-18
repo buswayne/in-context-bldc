@@ -1,0 +1,309 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2  ( resume )
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5580], Train Loss: 0.0626, Val Loss: 0.0231, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5581], Train Loss: 0.0507, Val Loss: 0.0225, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5582], Train Loss: 0.0492, Val Loss: 0.0225, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5583], Train Loss: 0.0513, Val Loss: 0.0225, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5584], Train Loss: 0.0560, Val Loss: 0.0335, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5585], Train Loss: 0.0497, Val Loss: 0.0297, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5586], Train Loss: 0.0482, Val Loss: 0.0293, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5587], Train Loss: 0.0504, Val Loss: 0.0271, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5588], Train Loss: 0.0527, Val Loss: 0.0278, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5589], Train Loss: 0.0594, Val Loss: 0.0273, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5590], Train Loss: 0.0544, Val Loss: 0.0254, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5591], Train Loss: 0.0499, Val Loss: 0.0235, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5592], Train Loss: 0.0519, Val Loss: 0.0239, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5593], Train Loss: 0.0537, Val Loss: 0.0265, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5594], Train Loss: 0.0573, Val Loss: 0.0281, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5595], Train Loss: 0.0532, Val Loss: 0.0272, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5596], Train Loss: 0.0602, Val Loss: 0.0259, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5597], Train Loss: 0.0563, Val Loss: 0.0223, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5598], Train Loss: 0.0569, Val Loss: 0.0310, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5599], Train Loss: 0.0508, Val Loss: 0.0307, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5600], Train Loss: 0.0528, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5601], Train Loss: 0.0526, Val Loss: 0.0266, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5602], Train Loss: 0.0560, Val Loss: 0.0330, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5603], Train Loss: 0.0526, Val Loss: 0.0306, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5604], Train Loss: 0.0524, Val Loss: 0.0308, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5605], Train Loss: 0.0626, Val Loss: 0.0251, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5606], Train Loss: 0.0521, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5607], Train Loss: 0.0478, Val Loss: 0.0295, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5608], Train Loss: 0.0552, Val Loss: 0.0309, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5609], Train Loss: 0.0503, Val Loss: 0.0276, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5610], Train Loss: 0.0602, Val Loss: 0.0248, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5611], Train Loss: 0.0442, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5612], Train Loss: 0.0538, Val Loss: 0.0284, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5613], Train Loss: 0.0542, Val Loss: 0.0273, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5614], Train Loss: 0.0503, Val Loss: 0.0253, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5615], Train Loss: 0.0527, Val Loss: 0.0244, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5616], Train Loss: 0.0535, Val Loss: 0.0255, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5617], Train Loss: 0.0483, Val Loss: 0.0246, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5618], Train Loss: 0.0528, Val Loss: 0.0286, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5619], Train Loss: 0.0562, Val Loss: 0.0244, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5620], Train Loss: 0.0543, Val Loss: 0.0273, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5621], Train Loss: 0.0553, Val Loss: 0.0278, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5622], Train Loss: 0.0512, Val Loss: 0.0290, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5623], Train Loss: 0.0524, Val Loss: 0.0254, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5624], Train Loss: 0.0553, Val Loss: 0.0262, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5625], Train Loss: 0.0598, Val Loss: 0.0314, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5626], Train Loss: 0.0507, Val Loss: 0.0293, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5627], Train Loss: 0.0572, Val Loss: 0.0290, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5628], Train Loss: 0.0592, Val Loss: 0.0296, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5629], Train Loss: 0.0514, Val Loss: 0.0264, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5630], Train Loss: 0.0557, Val Loss: 0.0343, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5631], Train Loss: 0.0552, Val Loss: 0.0313, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5632], Train Loss: 0.0497, Val Loss: 0.0337, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5633], Train Loss: 0.0443, Val Loss: 0.0316, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5634], Train Loss: 0.0497, Val Loss: 0.0262, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5635], Train Loss: 0.0504, Val Loss: 0.0273, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5636], Train Loss: 0.0579, Val Loss: 0.0287, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5637], Train Loss: 0.0582, Val Loss: 0.0274, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5638], Train Loss: 0.0534, Val Loss: 0.0239, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5639], Train Loss: 0.0615, Val Loss: 0.0244, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5640], Train Loss: 0.0581, Val Loss: 0.0233, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5641], Train Loss: 0.0487, Val Loss: 0.0233, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5642], Train Loss: 0.0471, Val Loss: 0.0242, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5643], Train Loss: 0.0517, Val Loss: 0.0234, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5644], Train Loss: 0.0490, Val Loss: 0.0232, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5645], Train Loss: 0.0551, Val Loss: 0.0243, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5646], Train Loss: 0.0491, Val Loss: 0.0256, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5647], Train Loss: 0.0498, Val Loss: 0.0267, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5648], Train Loss: 0.0473, Val Loss: 0.0287, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5649], Train Loss: 0.0522, Val Loss: 0.0343, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5650], Train Loss: 0.0548, Val Loss: 0.0325, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5651], Train Loss: 0.0515, Val Loss: 0.0280, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5652], Train Loss: 0.0546, Val Loss: 0.0245, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5653], Train Loss: 0.0513, Val Loss: 0.0248, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5654], Train Loss: 0.0500, Val Loss: 0.0252, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5655], Train Loss: 0.0542, Val Loss: 0.0240, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5656], Train Loss: 0.0538, Val Loss: 0.0252, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5657], Train Loss: 0.0537, Val Loss: 0.0296, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5658], Train Loss: 0.0480, Val Loss: 0.0293, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5659], Train Loss: 0.0586, Val Loss: 0.0287, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5660], Train Loss: 0.0513, Val Loss: 0.0275, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5661], Train Loss: 0.0557, Val Loss: 0.0273, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5662], Train Loss: 0.0562, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5663], Train Loss: 0.0493, Val Loss: 0.0260, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5664], Train Loss: 0.0581, Val Loss: 0.0245, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5665], Train Loss: 0.0490, Val Loss: 0.0262, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5666], Train Loss: 0.0475, Val Loss: 0.0235, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5667], Train Loss: 0.0572, Val Loss: 0.0284, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5668], Train Loss: 0.0555, Val Loss: 0.0272, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5669], Train Loss: 0.0542, Val Loss: 0.0268, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5670], Train Loss: 0.0484, Val Loss: 0.0238, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5671], Train Loss: 0.0533, Val Loss: 0.0276, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5672], Train Loss: 0.0482, Val Loss: 0.0278, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5673], Train Loss: 0.0550, Val Loss: 0.0310, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5674], Train Loss: 0.0478, Val Loss: 0.0277, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5675], Train Loss: 0.0570, Val Loss: 0.0308, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5676], Train Loss: 0.0528, Val Loss: 0.0339, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5677], Train Loss: 0.0494, Val Loss: 0.0311, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5678], Train Loss: 0.0479, Val Loss: 0.0288, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5679], Train Loss: 0.0503, Val Loss: 0.0271, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5680], Train Loss: 0.0569, Val Loss: 0.0276, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5681], Train Loss: 0.0495, Val Loss: 0.0317, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5682], Train Loss: 0.0499, Val Loss: 0.0264, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5683], Train Loss: 0.0462, Val Loss: 0.0318, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5684], Train Loss: 0.0565, Val Loss: 0.0288, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5685], Train Loss: 0.0513, Val Loss: 0.0306, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5686], Train Loss: 0.0513, Val Loss: 0.0281, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5687], Train Loss: 0.0582, Val Loss: 0.0268, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5688], Train Loss: 0.0487, Val Loss: 0.0262, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5689], Train Loss: 0.0565, Val Loss: 0.0242, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5690], Train Loss: 0.0518, Val Loss: 0.0284, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5691], Train Loss: 0.0584, Val Loss: 0.0266, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5692], Train Loss: 0.0471, Val Loss: 0.0244, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5693], Train Loss: 0.0514, Val Loss: 0.0238, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5694], Train Loss: 0.0544, Val Loss: 0.0257, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5695], Train Loss: 0.0535, Val Loss: 0.0300, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5696], Train Loss: 0.0487, Val Loss: 0.0272, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5697], Train Loss: 0.0458, Val Loss: 0.0277, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5698], Train Loss: 0.0492, Val Loss: 0.0319, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5699], Train Loss: 0.0525, Val Loss: 0.0280, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5700], Train Loss: 0.0564, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5701], Train Loss: 0.0499, Val Loss: 0.0292, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5702], Train Loss: 0.0523, Val Loss: 0.0285, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5703], Train Loss: 0.0539, Val Loss: 0.0293, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5704], Train Loss: 0.0518, Val Loss: 0.0316, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5705], Train Loss: 0.0486, Val Loss: 0.0255, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5706], Train Loss: 0.0567, Val Loss: 0.0285, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5707], Train Loss: 0.0508, Val Loss: 0.0256, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5708], Train Loss: 0.0482, Val Loss: 0.0233, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5709], Train Loss: 0.0512, Val Loss: 0.0270, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5710], Train Loss: 0.0517, Val Loss: 0.0277, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5711], Train Loss: 0.0576, Val Loss: 0.0301, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5712], Train Loss: 0.0486, Val Loss: 0.0259, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5713], Train Loss: 0.0530, Val Loss: 0.0296, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5714], Train Loss: 0.0524, Val Loss: 0.0271, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5715], Train Loss: 0.0524, Val Loss: 0.0227, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5716], Train Loss: 0.0553, Val Loss: 0.0215, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5717], Train Loss: 0.0499, Val Loss: 0.0232, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5718], Train Loss: 0.0496, Val Loss: 0.0248, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5719], Train Loss: 0.0560, Val Loss: 0.0234, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5720], Train Loss: 0.0522, Val Loss: 0.0272, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5721], Train Loss: 0.0498, Val Loss: 0.0276, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5722], Train Loss: 0.0610, Val Loss: 0.0259, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5723], Train Loss: 0.0555, Val Loss: 0.0226, LR: 0.000010, best val loss was: 0.0188
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+Epoch [5724], Train Loss: 0.0585, Val Loss: 0.0242, LR: 0.000010, best val loss was: 0.0188

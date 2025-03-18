@@ -1,0 +1,16 @@
+{"time":"2025-03-14T14:12:37.5672804+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-14T14:12:37.5672804+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250314_141237-9zsorg4v\\logs\\debug-core.log"}
+{"time":"2025-03-14T14:12:37.6821648+01:00","level":"INFO","msg":"created new stream","id":"9zsorg4v"}
+{"time":"2025-03-14T14:12:37.6821648+01:00","level":"INFO","msg":"stream: started","id":"9zsorg4v"}
+{"time":"2025-03-14T14:12:37.6821648+01:00","level":"INFO","msg":"sender: started","stream_id":"9zsorg4v"}
+{"time":"2025-03-14T14:12:37.6821648+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"9zsorg4v"}}
+{"time":"2025-03-14T14:12:37.6821648+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"9zsorg4v"}}
+{"time":"2025-03-14T14:12:38.0481629+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-14T14:12:51.1155378+01:00","level":"INFO","msg":"stream: closing","id":"9zsorg4v"}
+{"time":"2025-03-14T14:12:51.1155378+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-14T14:12:51.1160429+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-14T14:12:51.8817287+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-14T14:12:52.2896417+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"9zsorg4v"}}
+{"time":"2025-03-14T14:12:52.2896417+01:00","level":"INFO","msg":"sender: closed","stream_id":"9zsorg4v"}
+{"time":"2025-03-14T14:12:52.2896417+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"9zsorg4v"}}
+{"time":"2025-03-14T14:12:52.2896417+01:00","level":"INFO","msg":"stream: closed","id":"9zsorg4v"}

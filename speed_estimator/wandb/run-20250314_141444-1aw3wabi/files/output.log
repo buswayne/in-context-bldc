@@ -1,0 +1,26 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_v5
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 437, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device, R_training)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 147, in train
+    reference_array = torch.cat((batch_y, null_array))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 10 but got size 9 for tensor number 1 in the list.

@@ -1,0 +1,36 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_v5
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v5
+Epoch [1], Train Loss: 0.5829, Val Loss: 0.3101, LR: 0.000000, best val loss was: 0.3101
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v5
+Epoch [2], Train Loss: 0.5243, Val Loss: 0.2866, LR: 0.000000, best val loss was: 0.2866
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 439, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device, R_training)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 157, in train
+    loss.backward()
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\_tensor.py", line 648, in backward
+    torch.autograd.backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\__init__.py", line 353, in backward
+    _engine_run_backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\graph.py", line 824, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

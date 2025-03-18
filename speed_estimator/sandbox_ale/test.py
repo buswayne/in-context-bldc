@@ -10,10 +10,9 @@ import torch
 import copy
 
 
-aaa = torch.ones(2,2,3)
-aaa[1,:,0] = 0
-print(aaa)
-
+aaa = torch.ones(2,10,4)
+aaa[0,:,0] = torch.range(1,10)
+print(aaa.diff(dim=1))
 # aaa_val = np.arange(12)
 
 # print(aaa_val)

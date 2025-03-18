@@ -1,0 +1,8 @@
+{"time":"2025-03-18T09:13:34.7548399+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-18T09:13:34.7548399+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250318_091334-r5vj7o0u\\logs\\debug-core.log"}
+{"time":"2025-03-18T09:13:35.3846135+01:00","level":"INFO","msg":"created new stream","id":"r5vj7o0u"}
+{"time":"2025-03-18T09:13:35.3846135+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"r5vj7o0u"}}
+{"time":"2025-03-18T09:13:35.3846135+01:00","level":"INFO","msg":"stream: started","id":"r5vj7o0u"}
+{"time":"2025-03-18T09:13:35.3846135+01:00","level":"INFO","msg":"sender: started","stream_id":"r5vj7o0u"}
+{"time":"2025-03-18T09:13:35.3846135+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"r5vj7o0u"}}
+{"time":"2025-03-18T09:13:35.7475849+01:00","level":"INFO","msg":"Starting system monitor"}

@@ -6,3 +6,14 @@
 {"time":"2025-03-14T08:46:15.3584995+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"iydbrcr6"}}
 {"time":"2025-03-14T08:46:15.3584995+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"iydbrcr6"}}
 {"time":"2025-03-14T08:46:15.7386055+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-14T17:24:05.6073818+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2025-03-15T05:58:58.3167246+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/iydbrcr6/file_stream"}
+{"time":"2025-03-15T06:10:16.539714+01:00","level":"ERROR","msg":"runconsolelogs: failed to write to file: truncate C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250314_084614-iydbrcr6\\files\\output.log: The requested operation cannot be performed on a file with a user-mapped section open."}
+{"time":"2025-03-15T19:57:24.4734296+01:00","level":"INFO","msg":"stream: closing","id":"iydbrcr6"}
+{"time":"2025-03-15T19:57:24.4734296+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-15T19:57:24.4746052+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-15T19:57:27.411267+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-15T19:57:27.6509577+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"iydbrcr6"}}
+{"time":"2025-03-15T19:57:27.6509577+01:00","level":"INFO","msg":"sender: closed","stream_id":"iydbrcr6"}
+{"time":"2025-03-15T19:57:27.6509577+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"iydbrcr6"}}
+{"time":"2025-03-15T19:57:27.6514638+01:00","level":"INFO","msg":"stream: closed","id":"iydbrcr6"}

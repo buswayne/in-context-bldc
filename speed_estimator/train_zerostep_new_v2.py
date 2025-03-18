@@ -17,11 +17,11 @@ import copy
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction_v4"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_v4"
+checkpoint_name_to_save = "ckpt_50pct_recursive_h50_real_val_speed_correction_v2"
+checkpoint_name_to_open = "ckpt_50pct_recursive_h50_real_val_speed_correction_v2"
 mode = "resume"  # resume / scratch / pretrained
 
-sequence_length = 10
+sequence_length = 50
 # noise_std_value = 200
 batch_size_ = 64
 max_iteration_number = 20_000
@@ -44,11 +44,11 @@ folder_path_val = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.00
 
 
 weird_stuff = True
-# if weird_stuff:
-#     from dataset3_v2 import Dataset, load_dataframes_from_folder
-# else:
-#     from dataset3 import Dataset, load_dataframes_from_folder
-from dataset_new_v2 import Dataset, load_dataframes_from_folder
+if weird_stuff:
+    from dataset_new_v2_alt import Dataset, load_dataframes_from_folder
+else:
+    from dataset_new_v2 import Dataset, load_dataframes_from_folder
+# from dataset_new_v2 import Dataset, load_dataframes_from_folder
 
 
 

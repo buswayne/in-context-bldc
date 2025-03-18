@@ -1,0 +1,32 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_v4
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v4  ( resume )
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\wandb\sdk\lib\exit_hooks.py", line 52, in exc_handler
+    traceback.print_exception(exc_type, exc, tb)
+  File "C:\Program Files\Python312\Lib\traceback.py", line 125, in print_exception
+    te.print(file=file, chain=chain)
+  File "C:\Program Files\Python312\Lib\traceback.py", line 1046, in print
+    print(line, file=file, end="")
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\wandb\sdk\lib\redirect.py", line 645, in write
+    self._old_write(data)
+KeyboardInterrupt
+
+Original exception was:
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v2.py", line 350, in <module>
+    input("everything ok?")
+EOFError
