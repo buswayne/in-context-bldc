@@ -37,9 +37,9 @@ output_list = [I_d, I_q];
 % 250, 700, 10, 200, 0.00001, ---
 
 p1 = optimizableVariable("p1",[400,700],"Type","real");
-p2 = optimizableVariable("p2",[400,550],"Type","real");
+p2 = optimizableVariable("p2",[300,550],"Type","real");
 p3 = optimizableVariable("p3",[10,50],"Type","real");
-p4 = optimizableVariable("p4",[400,550],"Type","real");
+p4 = optimizableVariable("p4",[400,650],"Type","real");
 % p5 = optimizableVariable("p5",[0.000001,0.00001],"Type","real");
 % p6 = optimizableVariable("p6",[-pi,+pi],"Type","real");
 
@@ -60,6 +60,11 @@ p(3) = result.XAtMinObjective.p3;
 p(4) = result.XAtMinObjective.p4;
 % p(5) = result.XAtMinObjective.p5;
 % p(6) = result.XAtMinObjective.p6;
+
+Rs = p(1)/p(2)
+Ls = 1/p(2)
+kt = p(3)/p(2)
+J = 3/2*7*kt/p(4)
 
 
 % % 250, 700, 10, 200, 0.001, ---
