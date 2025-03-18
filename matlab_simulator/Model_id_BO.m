@@ -36,10 +36,10 @@ output_list = [I_d, I_q];
 %Rs/Ls, 1/Ls, lambda_m/Ls, (3/2 * P * lambda_m) / J, B/J, theta0
 % 250, 700, 10, 200, 0.00001, ---
 
-p1 = optimizableVariable("p1",[400,700],"Type","real");
-p2 = optimizableVariable("p2",[300,550],"Type","real");
+p1 = optimizableVariable("p1",[200,700],"Type","real");
+p2 = optimizableVariable("p2",[200,550],"Type","real");
 p3 = optimizableVariable("p3",[10,50],"Type","real");
-p4 = optimizableVariable("p4",[400,650],"Type","real");
+p4 = optimizableVariable("p4",[400,770],"Type","real");
 % p5 = optimizableVariable("p5",[0.000001,0.00001],"Type","real");
 % p6 = optimizableVariable("p6",[-pi,+pi],"Type","real");
 
@@ -61,6 +61,7 @@ p(4) = result.XAtMinObjective.p4;
 % p(5) = result.XAtMinObjective.p5;
 % p(6) = result.XAtMinObjective.p6;
 
+result.XAtMinObjective
 Rs = p(1)/p(2)
 Ls = 1/p(2)
 kt = p(3)/p(2)
