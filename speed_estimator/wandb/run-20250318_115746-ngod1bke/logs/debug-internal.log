@@ -1,0 +1,16 @@
+{"time":"2025-03-18T11:57:46.2540466+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-18T11:57:46.2540466+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250318_115746-ngod1bke\\logs\\debug-core.log"}
+{"time":"2025-03-18T11:57:46.370824+01:00","level":"INFO","msg":"created new stream","id":"ngod1bke"}
+{"time":"2025-03-18T11:57:46.370824+01:00","level":"INFO","msg":"stream: started","id":"ngod1bke"}
+{"time":"2025-03-18T11:57:46.3713391+01:00","level":"INFO","msg":"sender: started","stream_id":"ngod1bke"}
+{"time":"2025-03-18T11:57:46.3713391+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"ngod1bke"}}
+{"time":"2025-03-18T11:57:46.3713391+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"ngod1bke"}}
+{"time":"2025-03-18T11:57:46.7266336+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-18T12:00:54.553832+01:00","level":"INFO","msg":"stream: closing","id":"ngod1bke"}
+{"time":"2025-03-18T12:00:54.553832+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-18T12:00:54.5544517+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-18T12:00:55.3651004+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-18T12:00:55.5824282+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"ngod1bke"}}
+{"time":"2025-03-18T12:00:55.5824282+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"ngod1bke"}}
+{"time":"2025-03-18T12:00:55.5824282+01:00","level":"INFO","msg":"sender: closed","stream_id":"ngod1bke"}
+{"time":"2025-03-18T12:00:55.5824282+01:00","level":"INFO","msg":"stream: closed","id":"ngod1bke"}

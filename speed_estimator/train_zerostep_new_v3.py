@@ -169,7 +169,7 @@ def train(model, dataloader, criterion, optimizer, device, R):
 
 
 
-def validate(model, dataloader, criterion, device):
+def validate(model, dataloader, criterion, device, R):
     model.eval()
     running_loss = 0.0
     with torch.no_grad():
@@ -194,7 +194,18 @@ def validate(model, dataloader, criterion, device):
                 last_predictions = model(batch_u_tmp)[:,-1,:].view(-1)
                 batch_y_pred[:,t,0] = last_predictions
 
-            loss = criterion(batch_y, batch_y_pred)
+            # loss = criterion(batch_y, batch_y_pred)
+            
+            scaled_d_y_pred = R * batch_y_pred.diff(dim=1)
+            null_array = torch.zeros_like(scaled_d_y_pred)
+            # print(batch_y.shape)
+            # print(null_array.shape)
+            reference_array = torch.cat((batch_y, null_array), dim = 1)
+            prediction_array = torch.cat((batch_y_pred, scaled_d_y_pred), dim = 1)
+
+            # Compute loss
+            # loss = criterion(batch_y, batch_y_pred)
+            loss = criterion(reference_array, prediction_array)
 
             running_loss += loss.item()
 
@@ -438,7 +449,7 @@ if __name__ == '__main__':
 
         #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=cfg.lr_decay_iters)
         train_loss = train(model, train_dl, criterion, optimizer, device, R_training)
-        val_loss = validate(model, val_dl, criterion, device)
+        val_loss = validate(model, val_dl, criterion, device, R_training)
         #scheduler.step()
         # print("...")
 

@@ -21,10 +21,13 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        prob_2000 = 0.5 # ratio between samples that go >2000 rpm and not
+        prob_2000 = 0.55 # 1 - ratio between samples that go >2000 rpm and not
+        prob_0 = 0.1 # probability of getting a sample with a zero in it
         prob_step = 0.5 # ratio between constant samples and step samples
 
-        if np.random.rand() >= prob_2000:
+        random_extraction = np.random.rand()
+
+        if random_extraction >= prob_2000:
             flag = True
             while flag:
                 # print("a")
@@ -54,6 +57,42 @@ class Dataset(Dataset):
                 
                 if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) >= 2000:
                     flag2 = False
+        elif random_extraction <= prob_0:
+            flag0 = True
+            while flag0:
+                df_idx = np.random.choice(len(self.dfs))
+                df = self.dfs[df_idx]
+                if min(df["r"].to_numpy()) <= 1:
+                    flag0 = False
+
+            # print("a")
+            r =  df['r'].to_numpy()
+            zero_indexes = np.where(r <= 1)[0]
+            good_zero_idx = []
+            for id in zero_indexes:
+                good_starting_indexes = np.arange(max(0, id-self.seq_len+1), min(len(r), id + self.seq_len)+1 )
+                good_zero_idx = list(set(good_zero_idx).union(good_starting_indexes))
+            good_zero_idx = np.array(good_zero_idx)
+
+
+            diff_array = df['r'].diff(-self.seq_len).to_numpy()
+            diff_array = diff_array[~np.isnan(diff_array)]
+            
+            if np.random.rand() >= prob_step:
+                good_idx = np.flatnonzero(diff_array == 0)
+                if len(good_idx) == 0:
+                    good_idx = np.flatnonzero(diff_array != 0)
+            else:
+                good_idx = np.flatnonzero(diff_array != 0)
+                if len(good_idx) == 0:
+                    good_idx = np.flatnonzero(diff_array == 0)
+
+            good_idx = list(set(good_idx).intersection(good_zero_idx))
+            start_idx = np.random.choice(good_idx)
+            
+            if np.max(df['omega'].to_numpy()[start_idx:start_idx + self.seq_len]*2500) <= 1 :
+                flag2 = False
+
         else:
             flag2 = True
             while flag2:
@@ -217,7 +256,7 @@ if __name__ == "__main__":
     # Create an instance of the dataset
     dataset = Dataset(dfs=dfs, seq_len=seq_len)
     # dataset = DatasetOnTheFly(dt=0.01, seq_len=50, perturbation_percentage=0.5)
-    dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
 
     # Example of accessing an item
     batch_u, batch_y = next(iter(dataloader))
