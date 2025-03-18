@@ -31,8 +31,8 @@ for k = 1:length(files)
     
     U_all{k} = [V_alpha, V_beta];  % Control inputs (each row: [V_alpha, V_beta])
     Y_all{k} = [I_alpha, I_beta];  % Measured outputs
-    size(U_all{k})
-    size(Y_all{k})
+    % size(U_all{k})
+    % size(Y_all{k})
 end
 
 % Create multi-experiment iddata object
@@ -44,7 +44,7 @@ p0.Unit = '';
 % p0.Value = [250, 700, 10, 200, 0.001]'; % Initial guesses for Rs/Ls, 1/Ls, lambda_m/Ls, (3/2 * P * lambda_m) / J, B/J
 p0.Value = [100, 1000, 50, 100, 0.005]'; % Initial guesses for Rs/Ls, 1/Ls, lambda_m/Ls, (3/2 * P * lambda_m) / J, B/J
 % scale
-p0.Value = p0.Value ./ [1e3, 1e3, 1e1, 1e2, 1e-3]'
+p0.Value = p0.Value ./ [1e3, 1e3, 1e1, 1e2, 1e-3]';
 p0.Minimum = [1e-5,1e-5,1e-5,1e-5,1e-5]';
 p0.Maximum = [1e5,1e5,1e5,1e5,1e5]';
 p0.Fixed = [false,false,false,false,false]';
@@ -57,8 +57,8 @@ m = idnlgrey(@bldcGreyBoxModel, order, p0, [0;0;0;0], Ts);
 % Allow different initial conditions for each experiment
 % opt = nlgreyestOptions('Display', 'on', 'SearchMethod', 'lsqnonlin');
 opt = nlgreyestOptions('Display', 'on', 'SearchMethod', 'lsqnonlin');
-opt.SearchOptions.MaxIterations = 50; % Limit iterations for debugging
-opt.SearchOptions.TolFun = 1e-6; % Set tolerance
+opt.SearchOptions.MaxIterations = 100; % Limit iterations for debugging
+opt.SearchOptions.TolFun = 1e-8; % Set tolerance
 
 % Estimate model using all experiments
 sys_est = nlgreyest(data_id, m, opt);

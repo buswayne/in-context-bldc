@@ -4,15 +4,18 @@ close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
-data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
+% data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
+% save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
+data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current";
+save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new";
 
-folder = "50_percent_add";
-
-
-data_filepath = fullfile(data_path, folder);
-
-save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected");
+% folder = "50_percent_add";
+% 
+% 
+% data_filepath = fullfile(data_path, folder);
+data_filepath = data_path; 
+% save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected");
+save_filepath = save_path;
 [~, ~] = mkdir(save_filepath);
 
 file_list = dir(data_filepath);
