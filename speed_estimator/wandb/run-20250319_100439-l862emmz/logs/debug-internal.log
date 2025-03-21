@@ -1,0 +1,10 @@
+{"time":"2025-03-19T10:04:39.2611107+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-19T10:04:39.2611107+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250319_100439-l862emmz\\logs\\debug-core.log"}
+{"time":"2025-03-19T10:04:40.0045865+01:00","level":"INFO","msg":"created new stream","id":"l862emmz"}
+{"time":"2025-03-19T10:04:40.0045865+01:00","level":"INFO","msg":"stream: started","id":"l862emmz"}
+{"time":"2025-03-19T10:04:40.0045865+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"l862emmz"}}
+{"time":"2025-03-19T10:04:40.0045865+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"l862emmz"}}
+{"time":"2025-03-19T10:04:40.0053216+01:00","level":"INFO","msg":"sender: started","stream_id":"l862emmz"}
+{"time":"2025-03-19T10:04:40.3498633+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-20T22:46:14.794954+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/l862emmz/file_stream\": unexpected EOF"}
+{"time":"2025-03-21T06:25:51.7841403+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/l862emmz/file_stream"}

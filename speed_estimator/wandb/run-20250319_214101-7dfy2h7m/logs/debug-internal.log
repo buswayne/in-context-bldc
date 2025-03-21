@@ -1,0 +1,18 @@
+{"time":"2025-03-19T21:41:01.0277448+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-19T21:41:01.0277448+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250319_214101-7dfy2h7m\\logs\\debug-core.log"}
+{"time":"2025-03-19T21:41:01.1402125+01:00","level":"INFO","msg":"created new stream","id":"7dfy2h7m"}
+{"time":"2025-03-19T21:41:01.1402125+01:00","level":"INFO","msg":"stream: started","id":"7dfy2h7m"}
+{"time":"2025-03-19T21:41:01.1402125+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"7dfy2h7m"}}
+{"time":"2025-03-19T21:41:01.1402125+01:00","level":"INFO","msg":"sender: started","stream_id":"7dfy2h7m"}
+{"time":"2025-03-19T21:41:01.1402125+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"7dfy2h7m"}}
+{"time":"2025-03-19T21:41:01.4948277+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-20T19:05:47.1121708+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/7dfy2h7m/file_stream\": unexpected EOF"}
+{"time":"2025-03-20T22:38:51.6172364+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/7dfy2h7m/file_stream\": unexpected EOF"}
+{"time":"2025-03-21T15:49:54.3666643+01:00","level":"INFO","msg":"stream: closing","id":"7dfy2h7m"}
+{"time":"2025-03-21T15:49:54.3671924+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-21T15:49:54.3731666+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-21T15:49:56.7864479+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-21T15:49:57.1078816+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"7dfy2h7m"}}
+{"time":"2025-03-21T15:49:57.1078816+01:00","level":"INFO","msg":"sender: closed","stream_id":"7dfy2h7m"}
+{"time":"2025-03-21T15:49:57.1078816+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"7dfy2h7m"}}
+{"time":"2025-03-21T15:49:57.1078816+01:00","level":"INFO","msg":"stream: closed","id":"7dfy2h7m"}

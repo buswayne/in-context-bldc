@@ -1,0 +1,95 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v2  ( pretrained )
+sequence length:  10
+max iterations:  20000
+batch size:  128
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [1], Train Loss: 0.0489, Val Loss: 0.0024, LR: 0.000000, best val loss was: 0.0024
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [2], Train Loss: 0.0436, Val Loss: 0.0022, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [3], Train Loss: 0.0433, Val Loss: 0.0024, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [4], Train Loss: 0.0488, Val Loss: 0.0025, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [5], Train Loss: 0.0450, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [6], Train Loss: 0.0439, Val Loss: 0.0023, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [7], Train Loss: 0.0478, Val Loss: 0.0025, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [8], Train Loss: 0.0468, Val Loss: 0.0025, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [9], Train Loss: 0.0492, Val Loss: 0.0025, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [10], Train Loss: 0.0416, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [11], Train Loss: 0.0460, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [12], Train Loss: 0.0483, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [13], Train Loss: 0.0461, Val Loss: 0.0029, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [14], Train Loss: 0.0454, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [15], Train Loss: 0.0484, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [16], Train Loss: 0.0513, Val Loss: 0.0029, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [17], Train Loss: 0.0521, Val Loss: 0.0031, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [18], Train Loss: 0.0473, Val Loss: 0.0027, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [19], Train Loss: 0.0519, Val Loss: 0.0028, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [20], Train Loss: 0.0461, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [21], Train Loss: 0.0460, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [22], Train Loss: 0.0436, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [23], Train Loss: 0.0454, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [24], Train Loss: 0.0436, Val Loss: 0.0031, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [25], Train Loss: 0.0513, Val Loss: 0.0031, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [26], Train Loss: 0.0511, Val Loss: 0.0031, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [27], Train Loss: 0.0429, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [28], Train Loss: 0.0506, Val Loss: 0.0029, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [29], Train Loss: 0.0474, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [30], Train Loss: 0.0431, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [31], Train Loss: 0.0448, Val Loss: 0.0035, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [32], Train Loss: 0.0487, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [33], Train Loss: 0.0413, Val Loss: 0.0036, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [34], Train Loss: 0.0416, Val Loss: 0.0036, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [35], Train Loss: 0.0477, Val Loss: 0.0036, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [36], Train Loss: 0.0455, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [37], Train Loss: 0.0400, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0022
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R05
+Epoch [38], Train Loss: 0.0465, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0022

@@ -1,5 +1,5 @@
 import torch
-from networkx.algorithms.smallworld import omega
+# from networkx.algorithms.smallworld import omega
 
 
 def dynamics(x, u, Rs, Ls, Kt, J, b):

@@ -21,7 +21,7 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        prob_2000 = 0.55 # 1 - ratio between samples that go >2000 rpm and not
+        prob_2000 = 0.55 # 0.55 # 1 - ratio between samples that go >2000 rpm and not
         prob_0 = 0.1 # probability of getting a sample with a zero in it
         prob_step = 0.5 # ratio between constant samples and step samples
 
@@ -245,7 +245,7 @@ def load_dataframes_from_folder(folder_path):
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../../../in-context-bldc-data/simulated/90_percent_with_alfa_beta_alt'
+    folder_path = '../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected'
     # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
@@ -278,10 +278,10 @@ if __name__ == "__main__":
 
     # Plot each component of batch_u
     plt.subplot(2, 1, 2)
-    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (iq)', color='orange')
-    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (id)', color='green')
-    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (vq)', color='red')
-    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vd)', color='purple')
+    plt.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
+    plt.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
+    plt.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
+    plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
     plt.title('Batch u (iq, id, vq, vd)')
     plt.xlabel('Time step')
     plt.ylabel('Value')
