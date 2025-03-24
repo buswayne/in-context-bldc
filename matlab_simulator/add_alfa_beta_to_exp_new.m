@@ -7,7 +7,7 @@ temp_name = strsplit(pwd,'in-context-bldc');
 % data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
 % save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
 data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current";
-save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new";
+save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new3";
 
 % folder = "50_percent_add";
 % 
@@ -25,6 +25,12 @@ idx = 0;
 for file = file_list
     idx
     idx = idx+1;
+
+    tmp1 = split(file, "_i_omega_");
+    tmp2 = split(tmp1{end}, ".");
+    tmp3 = strrep(tmp2{1},"_",".");
+    i_omega = str2double(tmp3);
+
     exp = readmatrix(fullfile(data_filepath, file));
     %%% t,theta,omega,r,i_d,i_q,i_q_ref,v_d,v_q
     t = exp(:,1);
@@ -37,7 +43,9 @@ for file = file_list
     vd = exp(:,8);
     vq = exp(:,9);
 
-    theta_e_grad = theta * 180 / pi * 7 * 1.41;
+    % theta_e_grad = theta * 180 / pi * 7 * 1.41 * i_omega;
+    % theta_e_grad = theta * 180 / pi * 7 * 1.41;
+    theta_e_grad = theta * 180 / pi * 7;
     theta_e = wrapTo180(theta_e_grad) / 180 * pi;
 
     
