@@ -8,3 +8,11 @@
 {"time":"2025-03-19T10:04:40.3498633+01:00","level":"INFO","msg":"Starting system monitor"}
 {"time":"2025-03-20T22:46:14.794954+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/l862emmz/file_stream\": unexpected EOF"}
 {"time":"2025-03-21T06:25:51.7841403+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/l862emmz/file_stream"}
+{"time":"2025-03-21T18:51:14.5842164+01:00","level":"INFO","msg":"stream: closing","id":"l862emmz"}
+{"time":"2025-03-21T18:51:14.5842164+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-21T18:51:14.585645+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-21T18:51:16.8190271+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-21T18:51:17.1054375+01:00","level":"INFO","msg":"sender: closed","stream_id":"l862emmz"}
+{"time":"2025-03-21T18:51:17.1054375+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"l862emmz"}}
+{"time":"2025-03-21T18:51:17.1054375+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"l862emmz"}}
+{"time":"2025-03-21T18:51:17.1060003+01:00","level":"INFO","msg":"stream: closed","id":"l862emmz"}
