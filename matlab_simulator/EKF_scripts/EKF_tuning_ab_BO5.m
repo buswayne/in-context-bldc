@@ -48,14 +48,15 @@ Kt = p(3)/p(2);
 J = 3/2*7*Kt/p(4);
 Ts = 0.01;
 
-fun = @(var) EKF_tuning_ab_cost_function3(var, input_list, output_list, omega, [Rs,Ls,Kt,J,Ts]);
+fun = @(var) EKF_tuning_ab_cost_function5(var, input_list, output_list, omega, [Rs,Ls,Kt,J,Ts]);
 
 % these are the order of magnitude of the elements on the diagonal in Q
 p1 = optimizableVariable("p1",[-4,4],"Type","real"); %Q12
 p2 = optimizableVariable("p2",[-4,4],"Type","real"); %Q3
 p3 = optimizableVariable("p3",[-4,4],"Type","real"); %Q4
+p4 = optimizableVariable("p4",[-4,4],"Type","real"); %P04
 
-result_kf = bayesopt(fun, [p1,p2,p3],"Verbose",2, ...
+result_kf = bayesopt(fun, [p1,p2,p3,p4],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
     NumSeedPoints=300, MaxObjectiveEvaluations=800, ExplorationRatio=0.7);
@@ -81,8 +82,11 @@ Q = diag([10^esp(1), ...
           10^esp(3), ...
           10^esp(4)]);
 
-esp_P0 = -6;
-P0 = 10^esp_P0*diag([1,1,1,1]);
+esp_P0 = result_kf.XAtMinObjective.p4;
+P0 = diag([10^-6, ...
+          10^-6, ...
+          10^-6, ...
+          10^esp_P0]);
 
 EKF = extendedKalmanFilter(@(x,u)bldcEKFModel_F_dq(x,u, Rs,Ls,Kt,J,Ts), ...
                            @(x)bldcEKFModel_H_dq(x, Rs,Ls,Kt,J,Ts), ...
@@ -100,73 +104,99 @@ omega_pred = zeros(length(output_list(:,1)),1);
 % [PredictedState,PredictedStateCovariance] = predict(EKF, [0,0]);
 
 
-theta_e_last = initial_state(4);
+% theta_e_last = initial_state(4);
 
 conversion_mat_dq_ab = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 conversion_mat_ab_dq = @(x) [cos(x) sin(x); -sin(x) cos(x)];
 
-converted_input_list = zeros(size(input_list));
-converted_output_list = zeros(size(output_list));
+% converted_input_list = zeros(size(input_list));
+% converted_output_list = zeros(size(output_list));
 
-for i = 1:length(input_list)
+% for i = 1:length(input_list)
+% 
+%     output_now = conversion_mat_ab_dq(theta_e_last) * output_list(i,:)';
+%     input_now = conversion_mat_ab_dq(theta_e_last) * input_list(i,:)';
+% 
+%     converted_output_list(i,:) = output_now';
+%     converted_input_list(i,:) = input_now';
+% 
+%     [Residual,ResidualCovariance] = residual(EKF,output_now);
+%     [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
+%     [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
+% 
+%     % [Residual,ResidualCovariance] = residual(EKF,output_list(i,:));
+%     % [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_list(i,:));
+%     % [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i,:));
+% 
+%     y_pred(i,:) = conversion_mat_dq_ab(CorrectedState(4)) * CorrectedState(1:2);
+%     omega_pred(i,:) = CorrectedState(3);
+%     theta_e_last = CorrectedState(4);
+% 
+%     % residBuf(i,:) = Residual;
+%     % xcorBuf(i,:) = CorrectedState';
+%     % xpredBuf(i,:) = PredictedState';
+% end
 
-    output_now = conversion_mat_ab_dq(theta_e_last) * output_list(i,:)';
-    input_now = conversion_mat_ab_dq(theta_e_last) * input_list(i,:)';
 
-    converted_output_list(i,:) = output_now';
-    converted_input_list(i,:) = input_now';
+for i = (1:(length(input_list)-1))+1
+
+    output_now =  output_list(i,:)'; 
+    input_now =  input_list(i-1,:)';
+
+
+    [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
+
+
 
     [Residual,ResidualCovariance] = residual(EKF,output_now);
     [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
-    [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
 
     % [Residual,ResidualCovariance] = residual(EKF,output_list(i,:));
     % [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_list(i,:));
     % [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i,:));
 
-    y_pred(i,:) = conversion_mat_dq_ab(CorrectedState(4)) * CorrectedState(1:2);
+    % y_pred(i,:) = conversion_mat_dq_ab(CorrectedState(4)) * CorrectedState(1:2);
+    y_pred(i,:) =  CorrectedState(1:2);
     omega_pred(i,:) = CorrectedState(3);
+    theta_pred(i,:) = CorrectedState(4);
     theta_e_last = CorrectedState(4);
 
-    % residBuf(i,:) = Residual;
-    % xcorBuf(i,:) = CorrectedState';
-    % xpredBuf(i,:) = PredictedState';
+    residBuf(i,:) = Residual;
+    xcorBuf(i,:) = CorrectedState';
+    xpredBuf(i,:) = PredictedState';
 end
 
 
 figure
-subplot(511)
+subplot(411)
 plot(y_pred(:,1))
 hold on
-plot(converted_output_list(:,1))
-plot(I_d)
-legend(["Id_{est}","Id_{converted}","Id_{real}"])
+plot(I_alpha)
+legend(['Ia_{est}','Ia_{real}'])
 
 
-subplot(512)
+subplot(412)
 plot(y_pred(:,2))
 hold on
-plot(converted_output_list(:,2))
-plot(I_q)
-legend(["Iq_{est}","Iq_{converted}","Iq_{real}"])
+plot(I_beta)
+legend(['Ib_{est}','Ib_{real}'])
 
-subplot(513)
-plot(converted_input_list(:,1))
-hold on
-plot(V_d)
-legend(["Vd_{converted}","Vd_{real}"])
 
-subplot(514)
-plot(converted_input_list(:,2))
-hold on
-plot(V_q)
-legend(["Vq_{converted}","Vq_{real}"])
-
-subplot(515)
-plot(omega_pred/pi*30)
+subplot(413)
+plot(omega_pred)
 hold on
 plot(omega)
-legend(["Omega_{est}", "Omega_{real}"])
+legend(['Omega_{est}','Omega_{real}'])
+
+
+subplot(414)
+plot(theta_pred)
+hold on
+plot(theta_e)
+legend(['Theta_{est}','Theta_{real}'])
+
+
+
 
 rmse(omega_pred/pi*30, omega)
 

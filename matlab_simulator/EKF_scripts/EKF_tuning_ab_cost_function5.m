@@ -1,4 +1,4 @@
-function error = EKF_tuning_ab_cost_function4(var, input_list, output_list, omega_list, P_BLDC_list)
+function error = EKF_tuning_ab_cost_function5(var, input_list, output_list, omega_list, P_BLDC_list)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,18 +12,20 @@ p(1) = var.p1;
 p(2) = var.p2;
 p(3) = var.p3;
 p(4) = var.p4;
-% p(5) = var.p5;
 
 
 initial_state = [0,0,0,0]';
-R =  10^(-6)*[1,0;0,1];
+R =  [1,0;0,1];
 Q = diag([10^p(1), ...
+          10^p(1), ...
           10^p(2), ...
-          10^p(3), ...
+          10^p(3)]);
+
+
+P0 = diag([10^-6, ...
+          10^-6, ...
+          10^-6, ...
           10^p(4)]);
-
-
-P0 = 10^(-6)*diag([1,1,1,1]);
 
 EKF = extendedKalmanFilter(@(x,u)bldcEKFModel_F_ab(x,u, Rs,Ls,Kt,J,Ts), ...
                            @(x)bldcEKFModel_H_ab(x, Rs,Ls,Kt,J,Ts), ...
@@ -35,20 +37,27 @@ EKF = extendedKalmanFilter(@(x,u)bldcEKFModel_F_ab(x,u, Rs,Ls,Kt,J,Ts), ...
                            "StateCovariance", P0);
 
 omega_pred = zeros(length(output_list(:,1)),1);
-
+% theta_e_last = initial_state(4);
+% 
+% conversion_mat_dq_ab = @(x) [cos(x) -sin(x); sin(x) cos(x)];
+% conversion_mat_ab_dq = @(x) [cos(x) sin(x); -sin(x) cos(x)];
+% 
+% converted_input_list = zeros(size(input_list));
+% converted_output_list = zeros(size(output_list));
 
 for i = (1:(length(input_list)-1))+1
 
+    output_now =  output_list(i,:)'; 
+    input_now =  input_list(i-1,:)';
 
-    [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i-1,:));
-    [Residual,ResidualCovariance] = residual(EKF,output_list(i,:));
-    [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_list(i,:));
 
-    omega_pred(i,:) = CorrectedState(3);
+    [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
 
-    % residBuf(i,:) = Residual;
-    % xcorBuf(i,:) = CorrectedState';
-    % xpredBuf(i,:) = PredictedState';
+    [Residual,ResidualCovariance] = residual(EKF,output_now);
+    [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
+
+    omega_pred(i) = CorrectedState(3);
+
 end
 omega_pred = omega_pred/pi*30;
 

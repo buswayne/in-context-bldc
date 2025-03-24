@@ -11,7 +11,8 @@ name = now_string + "_BO_result.mat";
 bayes_save_file_name = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","EKF_scripts/", name);
 
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor\train\inertia13_ki-0.0061-kp-11.8427\2025-03-03--14-51-19_exp   1.csv");
-real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new\Experiment__2025-03-17_09-17-14_i_omega_2_4970.csv";
+% real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta2\Experiment_2025-03-24_16-09-36_i_omega_2_4970.csv";
+real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta_800\Experiment_2025-03-24_18-10-26_i_omega_2_4970.csv";
 data = readtable(real_data_path);
 
 % Extract relevant columns
@@ -48,19 +49,22 @@ Kt = p(3)/p(2);
 J = 3/2*7*Kt/p(4);
 Ts = 0.01;
 
-fun = @(var) EKF_tuning_ab_cost_function4(var, input_list, output_list, theta_e, [Rs,Ls,Kt,J,Ts]);
+fun = @(var) EKF_tuning_ab_cost_function4(var, input_list, output_list, omega, [Rs,Ls,Kt,J,Ts]);
 
 % these are the order of magnitude of the elements on the diagonal in Q
+% p1 = optimizableVariable("p1",[0,2.5],"Type","real");
+% p2 = optimizableVariable("p2",[1.5,3],"Type","real");
+% p3 = optimizableVariable("p3",[3,4],"Type","real");
+% p4 = optimizableVariable("p4",[-3,0],"Type","real");
 p1 = optimizableVariable("p1",[-4,4],"Type","real");
 p2 = optimizableVariable("p2",[-4,4],"Type","real");
-p3 = optimizableVariable("p3",[-5,4],"Type","real");
+p3 = optimizableVariable("p3",[-4,4],"Type","real");
 p4 = optimizableVariable("p4",[-4,4],"Type","real");
-% p5 = optimizableVariable("p5",[0,4],"Type","real");
 
 result_kf = bayesopt(fun, [p1,p2,p3,p4],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
-    NumSeedPoints=300, MaxObjectiveEvaluations=2000, ExplorationRatio=0.7);
+    NumSeedPoints=800, MaxObjectiveEvaluations=1600, ExplorationRatio=0.5);
 
 save(bayes_save_file_name, "result_kf")
 
@@ -102,9 +106,11 @@ theta_pred = zeros(length(output_list(:,1)),1);
 
 % [PredictedState,PredictedStateCovariance] = predict(EKF, [0,0]);
 
-for i = 1:length(input_list)
-    [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i,:));
 
+for i = (1:(length(input_list)-1))+1
+
+
+    [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i-1,:));
     [Residual,ResidualCovariance] = residual(EKF,output_list(i,:));
     [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_list(i,:));
     y_pred(i,:) = CorrectedState(1:2);

@@ -6,8 +6,8 @@ temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 % data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
 % save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
-data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current";
-save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new3";
+data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_800";
+save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta_800";
 
 % folder = "50_percent_add";
 % 
@@ -43,9 +43,9 @@ for file = file_list
     vd = exp(:,8);
     vq = exp(:,9);
 
-    % theta_e_grad = theta * 180 / pi * 7 * 1.41 * i_omega;
+    theta_e_grad = theta * 180 / pi * 7 * 1.41 * i_omega;
     % theta_e_grad = theta * 180 / pi * 7 * 1.41;
-    theta_e_grad = theta * 180 / pi * 7;
+    % theta_e_grad = theta * 180 / pi * 7;
     theta_e = wrapTo180(theta_e_grad) / 180 * pi;
 
     
