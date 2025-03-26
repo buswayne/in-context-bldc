@@ -3,17 +3,26 @@ clc
 close all
 tic
 
+inertia_number = "09";
 
 temp_name = strsplit(pwd,'in-context-bldc');
-savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
+% savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 name = now_string + "_BO_result.mat";
 bayes_save_file_name = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","BO_results_final", name);
-name_tmp = now_string + "_BO_result_tmp.mat";
-bayes_save_file_name_tmp = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","BO_results", name_tmp);
-real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia13_ki-0.0029-kp-3.0000\2025-03-25--17-26-19_exp  10.csv");
+% name_tmp = now_string + "_BO_result_tmp.mat";
+% bayes_save_file_name_tmp = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","BO_results", name_tmp);
+% real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia13_ki-0.0029-kp-3.0000\2025-03-25--17-26-19_exp  10.csv");
 % real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new\Experiment__2025-03-17_09-17-14_i_omega_2_4970.csv";
 % real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta\Experiment_2025-03-24_09-33-56_i_omega_2_4970.csv";
+
+real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia" + inertia_number + "_ki-0.0029-kp-3.0000\train");
+
+file_list_tmp = dir(real_data_path);
+file_list_tmp = {file_list_tmp(3:end).name};
+
+real_data_path = fullfile(real_data_path, file_list_tmp{1});
+
 data = readtable(real_data_path);
 
 % Extract relevant columns

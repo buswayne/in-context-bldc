@@ -3,6 +3,7 @@ clc
 close all
 tic
 
+inertia_number = "09";
 
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
@@ -10,10 +11,14 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 name = now_string + "_BO_result.mat";
 bayes_save_file_name = fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","EKF_BO_results", name);
 
-real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia13_ki-0.0029-kp-3.0000\test\2025-03-25--17-39-43_exp   2.csv");
+real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia" + inertia_number + "_ki-0.0029-kp-3.0000\test");
 
+file_list_tmp = dir(real_data_path);
+file_list_tmp = {file_list_tmp(3:end).name};
 
-folder = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia13_ki-0.0029-kp-3.0000\train");
+real_data_path = fullfile(real_data_path, file_list_tmp{1});
+
+folder = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_low_speed\final\inertia" + inertia_number + "_ki-0.0029-kp-3.0000\train");
 % real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor\train\inertia13_ki-0.0061-kp-11.8427\2025-03-03--14-51-19_exp   1.csv");
 % real_data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_current_with_alfa_beta_new3\Experiment__2025-03-17_09-17-14_i_omega_2_4970.csv";
 data = readtable(real_data_path);
@@ -48,7 +53,7 @@ input_list = [V_alpha, V_beta];
 output_list = [I_alpha, I_beta];
 % input_list = [V_d, V_q];
 % output_list = [I_d, I_q];
-results_file = "inertia_13.mat";
+results_file = "inertia_05.mat";
 load(fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","BO_results_final", results_file));
 
 p(1) = result.XAtMinObjective.p1;
@@ -68,16 +73,16 @@ Ts = 0.01;
 fun = @(var) EKF_tuning_ab_cost_function7(var, folder, [Rs,Ls,Kt,J,Ts]);
 
 % these are the order of magnitude of the elements on the diagonal in Q
-p1 = optimizableVariable("p1",[-3,3],"Type","real"); %Q1
-p2 = optimizableVariable("p2",[-3,3],"Type","real"); %Q2
-p3 = optimizableVariable("p3",[-3,3],"Type","real"); %Q3
-p4 = optimizableVariable("p4",[-3,3],"Type","real"); %Q4
-p5 = optimizableVariable("p5",[-3,3],"Type","real"); %P04
+p1 = optimizableVariable("p1",[-4,4],"Type","real"); %Q1
+p2 = optimizableVariable("p2",[-4,4],"Type","real"); %Q2
+p3 = optimizableVariable("p3",[-4,4],"Type","real"); %Q3
+p4 = optimizableVariable("p4",[-4,4],"Type","real"); %Q4
+p5 = optimizableVariable("p5",[-4,4],"Type","real"); %P04
 
 result_kf = bayesopt(fun, [p1,p2,p3,p4,p5],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
-    NumSeedPoints=100, MaxObjectiveEvaluations=600, ExplorationRatio=0.5);
+    NumSeedPoints=1000, MaxObjectiveEvaluations=1500, ExplorationRatio=0.5);
 
 save(bayes_save_file_name, "result_kf")
 
@@ -190,28 +195,28 @@ subplot(411)
 plot(y_pred(:,1))
 hold on
 plot(I_alpha)
-legend(['Ia_{est}','Ia_{real}'])
+legend(["Ia_{est}","Ia_{real}"])
 
 
 subplot(412)
 plot(y_pred(:,2))
 hold on
 plot(I_beta)
-legend(['Ib_{est}','Ib_{real}'])
+legend(["Ib_{est}","Ib_{real}"])
 
 
 subplot(413)
 plot(omega_pred/pi*30)
 hold on
 plot(omega)
-legend(['Omega_{est}','Omega_{real}'])
+legend(["Omega_{est}","Omega_{real}"])
 
 
 subplot(414)
 plot(mod(theta_pred+pi,2*pi)-pi)
 hold on
 plot(theta_e)
-legend(['Theta_{est}','Theta_{real}'])
+legend(["Theta_{est}","Theta_{real}"])
 
 
 
