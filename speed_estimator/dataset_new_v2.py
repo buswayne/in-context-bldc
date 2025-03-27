@@ -84,6 +84,15 @@ class Dataset(Dataset):
         obs_y = df['omega_obs'].to_numpy()
         
         return obs_y
+    
+    def get_experiment_ekf(self, idx):
+        """
+        returns pll observer estimated speed, non-normalized
+        """
+        df = self.dfs[idx]
+        obs_y = df['omega_ekf'].to_numpy()
+        
+        return obs_y
 
 
 
