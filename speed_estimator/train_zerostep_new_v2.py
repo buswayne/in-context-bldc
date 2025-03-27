@@ -17,14 +17,14 @@ import copy
 ### quick param selection
 ### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h50_real_val_speed_correction_v2"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h50_real_val_speed_correction_v2"
+checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed_v3"
+checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed_v2"
 mode = "resume"  # resume / scratch / pretrained
 
-sequence_length = 50
+sequence_length = 10
 # noise_std_value = 200
-batch_size_ = 64
-max_iteration_number = 20_000
+batch_size_ = 128
+max_iteration_number = 10_000
 learning_rate_value = 1e-5
 
 layers_number = 8 #8
@@ -34,16 +34,17 @@ embd_number = 16 #16
 
 
 # folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
+folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_low_speed_with_alfa_beta_speed_corrected']
 # folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta_speed_corrected','../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
 # folder_path_training = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
 # folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta']
 # folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
-folder_path_val = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
+# folder_path_val = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
+folder_path_val = ['../data/CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000']
 # folder_path_val = folder_path_training
 
 
-weird_stuff = True
+weird_stuff = False
 if weird_stuff:
     from dataset_new_v2_alt import Dataset, load_dataframes_from_folder
 else:

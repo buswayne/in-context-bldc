@@ -1,0 +1,134 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v2  ( pretrained )
+sequence length:  10
+max iterations:  10000
+batch size:  128
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [1], Train Loss: 0.0954, Val Loss: 0.0011, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [2], Train Loss: 0.0930, Val Loss: 0.0012, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [3], Train Loss: 0.0824, Val Loss: 0.0012, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [4], Train Loss: 0.0909, Val Loss: 0.0012, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [5], Train Loss: 0.1059, Val Loss: 0.0015, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [6], Train Loss: 0.0809, Val Loss: 0.0013, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [7], Train Loss: 0.0899, Val Loss: 0.0015, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [8], Train Loss: 0.0951, Val Loss: 0.0017, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [9], Train Loss: 0.0928, Val Loss: 0.0017, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [10], Train Loss: 0.0893, Val Loss: 0.0018, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [11], Train Loss: 0.0956, Val Loss: 0.0020, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [12], Train Loss: 0.0840, Val Loss: 0.0020, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [13], Train Loss: 0.0972, Val Loss: 0.0023, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [14], Train Loss: 0.0903, Val Loss: 0.0023, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [15], Train Loss: 0.0816, Val Loss: 0.0024, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [16], Train Loss: 0.0979, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [17], Train Loss: 0.0940, Val Loss: 0.0026, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [18], Train Loss: 0.0779, Val Loss: 0.0027, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [19], Train Loss: 0.0905, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [20], Train Loss: 0.0830, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [21], Train Loss: 0.0904, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [22], Train Loss: 0.0855, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [23], Train Loss: 0.0925, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [24], Train Loss: 0.0997, Val Loss: 0.0030, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [25], Train Loss: 0.0898, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [26], Train Loss: 0.0886, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [27], Train Loss: 0.0878, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [28], Train Loss: 0.0883, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [29], Train Loss: 0.0853, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [30], Train Loss: 0.0803, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [31], Train Loss: 0.0949, Val Loss: 0.0033, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [32], Train Loss: 0.0938, Val Loss: 0.0036, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [33], Train Loss: 0.0920, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [34], Train Loss: 0.0922, Val Loss: 0.0035, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [35], Train Loss: 0.0860, Val Loss: 0.0035, LR: 0.000000, best val loss was: 0.0011
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v2.py", line 431, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v2.py", line 138, in train
+    last_predictions = model(batch_u_tmp)[:, -1, :].view(-1)  # Ensure shape matches
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 192, in forward
+    x = block(x)
+        ^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 115, in forward
+    x = x + self.attn(self.ln_1(x))
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 80, in forward
+    y = y.transpose(1, 2).contiguous().view(B, T, C)  # re-assemble all head outputs side by side
+        ^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\fx\traceback.py", line 190, in format_stack
+    return traceback.format_list(traceback.extract_stack()[:-1])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 232, in extract_stack
+    stack = StackSummary.extract(walk_stack(f), limit=limit)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 395, in extract
+    return klass._extract_from_extended_frame_gen(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 423, in _extract_from_extended_frame_gen
+    fnames.add(filename)
+KeyboardInterrupt

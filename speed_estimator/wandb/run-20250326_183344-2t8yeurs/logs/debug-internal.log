@@ -1,0 +1,16 @@
+{"time":"2025-03-26T18:33:44.5485675+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-26T18:33:44.5485675+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250326_183344-2t8yeurs\\logs\\debug-core.log"}
+{"time":"2025-03-26T18:33:44.6646327+01:00","level":"INFO","msg":"created new stream","id":"2t8yeurs"}
+{"time":"2025-03-26T18:33:44.6646327+01:00","level":"INFO","msg":"stream: started","id":"2t8yeurs"}
+{"time":"2025-03-26T18:33:44.6652991+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"2t8yeurs"}}
+{"time":"2025-03-26T18:33:44.6652991+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"2t8yeurs"}}
+{"time":"2025-03-26T18:33:44.6652991+01:00","level":"INFO","msg":"sender: started","stream_id":"2t8yeurs"}
+{"time":"2025-03-26T18:33:45.1576207+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-26T21:17:10.0517313+01:00","level":"INFO","msg":"stream: closing","id":"2t8yeurs"}
+{"time":"2025-03-26T21:17:10.0517313+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-26T21:17:10.052679+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-26T21:17:11.3795321+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-26T21:17:11.6204931+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"2t8yeurs"}}
+{"time":"2025-03-26T21:17:11.6204931+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"2t8yeurs"}}
+{"time":"2025-03-26T21:17:11.6204931+01:00","level":"INFO","msg":"sender: closed","stream_id":"2t8yeurs"}
+{"time":"2025-03-26T21:17:11.6211156+01:00","level":"INFO","msg":"stream: closed","id":"2t8yeurs"}
