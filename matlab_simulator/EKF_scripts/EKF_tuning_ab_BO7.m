@@ -3,7 +3,7 @@ clc
 close all
 tic
 
-inertia_number = "09";
+inertia_number = "11";
 
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
@@ -53,7 +53,7 @@ input_list = [V_alpha, V_beta];
 output_list = [I_alpha, I_beta];
 % input_list = [V_d, V_q];
 % output_list = [I_d, I_q];
-results_file = "inertia_05.mat";
+results_file = "inertia_" + inertia_number + ".mat";
 load(fullfile(temp_name{1}, "in-context-bldc", "matlab_simulator","BO_results_final", results_file));
 
 p(1) = result.XAtMinObjective.p1;
@@ -73,16 +73,16 @@ Ts = 0.01;
 fun = @(var) EKF_tuning_ab_cost_function7(var, folder, [Rs,Ls,Kt,J,Ts]);
 
 % these are the order of magnitude of the elements on the diagonal in Q
-p1 = optimizableVariable("p1",[-4,4],"Type","real"); %Q1
-p2 = optimizableVariable("p2",[-4,4],"Type","real"); %Q2
-p3 = optimizableVariable("p3",[-4,4],"Type","real"); %Q3
-p4 = optimizableVariable("p4",[-4,4],"Type","real"); %Q4
-p5 = optimizableVariable("p5",[-4,4],"Type","real"); %P04
+p1 = optimizableVariable("p1",[-4,0],"Type","real"); %Q1
+p2 = optimizableVariable("p2",[0,5],"Type","real"); %Q2
+p3 = optimizableVariable("p3",[0,4],"Type","real"); %Q3
+p4 = optimizableVariable("p4",[0,4],"Type","real"); %Q4
+p5 = optimizableVariable("p5",[0,4],"Type","real"); %P04
 
 result_kf = bayesopt(fun, [p1,p2,p3,p4,p5],"Verbose",2, ...
     "AcquisitionFunctionName","expected-improvement-plus", ...
     "UseParallel",true, ...
-    NumSeedPoints=1000, MaxObjectiveEvaluations=1500, ExplorationRatio=0.5);
+    NumSeedPoints=800, MaxObjectiveEvaluations=1000, ExplorationRatio=0.5);
 
 save(bayes_save_file_name, "result_kf")
 

@@ -3,7 +3,7 @@ clc
 close all
 tic
 
-inertia_number = "09";
+inertia_number = "11";
 
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
@@ -49,7 +49,7 @@ output_list = [I_d, I_q];
 p1 = optimizableVariable("p1",[100,400],"Type","real");
 p2 = optimizableVariable("p2",[10,200],"Type","real");
 p3 = optimizableVariable("p3",[2,50],"Type","real");
-p4 = optimizableVariable("p4",[50,1000],"Type","real");
+p4 = optimizableVariable("p4",[40,1000],"Type","real");
 % p5 = optimizableVariable("p5",[0.000001,0.001],"Type","real");
 % p6 = optimizableVariable("p6",[-pi,+pi],"Type","real");
 
@@ -123,9 +123,9 @@ plot(input_list(:,2))
 legend(["Vd","Vq"])
 
 subplot(224)
-plot(omega)
-hold on 
 plot(omega_pred/pi*30)
+hold on 
+plot(omega)
 legend(["Omega_{est}","Omega_{real}"])
 
 toc
