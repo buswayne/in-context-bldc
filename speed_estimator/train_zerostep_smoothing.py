@@ -13,39 +13,43 @@ import wandb
 import torch.nn as nn
 import pandas as pd
 import copy
+import os
 
 ### quick param selection
-### ckpt_zerostep_sim_matlab_50pct_mix_real_val_noise_h50
 
-checkpoint_name_to_save = "ckpt_50pct_recursive_h10_real_val_speed_correction_R05"
-checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_v2"
-mode = "pretrained"  # resume / scratch / pretrained
 
+checkpoint_name_to_save = "test"
+checkpoint_name_to_open = "test"
+mode = "scratch"  # resume / scratch / pretrained
+
+# model parameters
 sequence_length = 10
-R_training = 0.5
-# noise_std_value = 200
-batch_size_ = 128
-max_iteration_number = 20_000
-learning_rate_value = 1e-5
-
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
 
+# training parameters
+batch_size_ = 128
+max_iteration_number = 10_000
+learning_rate_value = 1e-5
+R_training = 0.5  #smoothing coefficient, see "train" function below
+
+alternative_batch_extractor = False
+wandb_record = False
+
+current_path = os.getcwd().split("in-context-bldc")[0]
+data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
-# folder_path_training = ['../data/simulated/50_percent_longer_steps', '../data/simulated/50_percent_shorter_steps']
-folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
-# folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta_speed_corrected','../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected']
-# folder_path_training = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
-# folder_path_training = ['../../../in-context-bldc-data/simulated/50_percent_with_alfa_beta']
-# folder_path_val = ['../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia07_ki-0.0061-kp-11.8427','../data/CL_experiments/test/inertia04_ki-0.0061-kp-11.8427']
-folder_path_val = ['../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427']
-# folder_path_val = folder_path_training
+# multiple folders can be selected
+folder_training = ["simulated/50_percent_low_speed"]
+folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
+folder_vaildation = ["CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000"]
+folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
-weird_stuff = True
-if weird_stuff:
+alternative_batch_extractor = True
+if alternative_batch_extractor:
     from dataset_new_v2_alt import Dataset, load_dataframes_from_folder
 else:
     from dataset_new_v2 import Dataset, load_dataframes_from_folder
@@ -62,52 +66,14 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # warnings.filterwarnings("default")
 
 # # # start a new wandb run to track this script
-wandb.init(
-    # set the wandb project where this run will be logged
-    project="in-context bldc estimator",
-    name=checkpoint_name_to_save
-)
+if wandb_record:
+    # # # start a new wandb run to track this script
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="in-context bldc estimator",
+        name=checkpoint_name_to_save
+    )
 
-
-# def train(model, dataloader, criterion, optimizer, device):
-#     torch.autograd.set_detect_anomaly(True)
-#     model.train()
-#     running_loss = 0.0
-#     for batch in dataloader:
-#         batch_u, batch_y = batch
-#         batch_u, batch_y = batch_u.to(device), batch_y.to(device)
-
-#         optimizer.zero_grad()
-
-#         batch_y_pred = torch.zeros_like(batch_y)
-        
-#         # create a copy of batch_u to work with, then overwrite the real velocity (symbolic, may not be needed for the code)
-#         batch_u_copy = batch_u.clone().detach()
-#         batch_u_copy[:,:,4] = 0
-
-#         # simulate step by step
-#         last_predictions = torch.zeros(batch_u_copy.shape[0], device=device)
-
-#         for t in range(batch_u_copy.shape[1]):
-#             batch_u_step = batch_u_copy.clone()
-#             batch_u_step[:,t,4] = last_predictions
-#             batch_u_tmp = batch_u_step[:,:t+1,:]
-#             #update last predictions
-#             last_predictions = model(batch_u_tmp)[:,-1,:].view(-1)
-#             batch_y_pred[:,t,0] = last_predictions
-
-#         loss = criterion(batch_y, batch_y_pred)
-
-#         loss.backward()
-#         optimizer.step()
-
-#         running_loss += loss.item()
-
-#         for name, param in model.named_parameters():
-#             if param.grad is None:
-#                 print(f"No gradient computed for {name}")
-
-#     return running_loss / len(dataloader)
 
 
 def train(model, dataloader, criterion, optimizer, device, R):
@@ -365,7 +331,7 @@ if __name__ == '__main__':
     print("heads: ", heads_number)
     print("embd: ", embd_number)
     
-    if weird_stuff:
+    if alternative_batch_extractor:
         print("using experimental batch extractor")
     
     input("everything ok?")
@@ -476,7 +442,8 @@ if __name__ == '__main__':
         
         print("model: ", checkpoint_name_to_save)
         print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}, best val loss was: {best_val_loss:.4f}")
-        wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss, "best_epoch": best_epoch})
+        if wandb_record:
+            wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss, "best_epoch": best_epoch})
 
     print("Training complete. Best model saved as: ", checkpoint_name_to_save)
     checkpoint = {
