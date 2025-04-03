@@ -9,7 +9,7 @@ save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-dat
 % data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_800";
 % save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta_800";
 
-folder = "50_percent_low_speed";
+folder = "50_percent_add";
 
 data_filepath = fullfile(data_path, folder);
 % data_filepath = data_path; 
