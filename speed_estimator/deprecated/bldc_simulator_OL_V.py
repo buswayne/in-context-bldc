@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from bldc_utils import *
-from signals import *
+from deprecated.signals import *
 import wandb
 
 wandb.init(
