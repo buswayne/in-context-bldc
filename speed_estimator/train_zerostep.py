@@ -22,7 +22,6 @@ checkpoint_name_to_open = "ckpt_50pct_recursive_h10_real_val_speed_correction_lo
 mode = "resume"  # resume / scratch / pretrained
 
 sequence_length = 10
-# noise_std_value = 200
 batch_size_ = 128
 max_iteration_number = 10_000
 learning_rate_value = 1e-5
