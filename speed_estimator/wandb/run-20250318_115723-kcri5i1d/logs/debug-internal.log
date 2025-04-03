@@ -1,0 +1,16 @@
+{"time":"2025-03-18T11:57:23.6142244+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-18T11:57:23.6142244+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250318_115723-kcri5i1d\\logs\\debug-core.log"}
+{"time":"2025-03-18T11:57:23.7295115+01:00","level":"INFO","msg":"created new stream","id":"kcri5i1d"}
+{"time":"2025-03-18T11:57:23.7295115+01:00","level":"INFO","msg":"stream: started","id":"kcri5i1d"}
+{"time":"2025-03-18T11:57:23.7295115+01:00","level":"INFO","msg":"sender: started","stream_id":"kcri5i1d"}
+{"time":"2025-03-18T11:57:23.7295115+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"kcri5i1d"}}
+{"time":"2025-03-18T11:57:23.7295115+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"kcri5i1d"}}
+{"time":"2025-03-18T11:57:24.1093829+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-18T11:57:36.0896829+01:00","level":"INFO","msg":"stream: closing","id":"kcri5i1d"}
+{"time":"2025-03-18T11:57:36.0896829+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-18T11:57:36.0906968+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-18T11:57:36.9249476+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-18T11:57:37.3672065+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"kcri5i1d"}}
+{"time":"2025-03-18T11:57:37.3672065+01:00","level":"INFO","msg":"sender: closed","stream_id":"kcri5i1d"}
+{"time":"2025-03-18T11:57:37.3672065+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"kcri5i1d"}}
+{"time":"2025-03-18T11:57:37.3679579+01:00","level":"INFO","msg":"stream: closed","id":"kcri5i1d"}

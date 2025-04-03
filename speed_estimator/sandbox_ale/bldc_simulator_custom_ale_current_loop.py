@@ -11,21 +11,13 @@ J = 44e-4  # Rotor inertia (kg.m^2)
 B = 0.528e-3  # Mechanical damping (Nms)
 V_nominal = 24  # Nominal voltage (Volts)
 I_nominal = 10
+n_poles_pairs = 14/2
+
 
 # PI controller parameters
-# Kp_speed = 0.5  # Proportional gain for speed control
-# Ki_speed = 0.005  # Integral gain for speed control
-Kp_current = 0.5  # Proportional gain for current control (d/q axis)
-Ki_current = 0.05  # Integral gain for current control (d/q axis)
-
-# Kp_speed = 10.0  # Proportional gain for speed control
-# Ki_speed = 0.01  # Integral gain for speed control
-Kp_current = 0.6  # Proportional gain for current control (d/q axis)
-Ki_current = 0.1  # Integral gain for current control (d/q axis)
-
 
 kp_list =  [0.01]
-ki_list =  [25]
+ki_list =  [30]
 
 # kp_list =  [0.05]
 # ki_list =  [13]
@@ -128,7 +120,7 @@ def current_pi_controller_aw(i_ref, i_actual, integral_error, delta_sat, Kp, Ki,
     error = i_ref - i_actual
 
     # Update integral term
-    integral_error += (error + delta_sat) * dt
+    integral_error += (error + 1*delta_sat) * dt
 
     # PI control law for voltage
     voltage_ref = Kp * error + Ki * integral_error
@@ -151,9 +143,9 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
     i_a, i_b, i_c, omega, theta = state
 
     # Back EMF for each phase
-    e_a = Ke * omega * trapezoidal_emf(theta)
-    e_b = Ke * omega * trapezoidal_emf(theta - 2 * np.pi / 3)
-    e_c = Ke * omega * trapezoidal_emf(theta + 2 * np.pi / 3)
+    e_a = Ke * omega * trapezoidal_emf(theta) * n_poles_pairs
+    e_b = Ke * omega * trapezoidal_emf(theta - 2 * np.pi / 3) * n_poles_pairs
+    e_c = Ke * omega * trapezoidal_emf(theta + 2 * np.pi / 3) * n_poles_pairs
 
     # Electrical dynamics (di/dt for each phase)
     di_a_dt = (V_a - R * i_a - e_a) / L
@@ -162,7 +154,7 @@ def bldc_dynamics(t, state, V_a, V_b, V_c):
 
     # Mechanical torque
     T_m = Kt * (i_a * trapezoidal_emf(theta) + i_b * trapezoidal_emf(theta - 2 * np.pi / 3) + i_c * trapezoidal_emf(
-        theta + 2 * np.pi / 3))
+        theta + 2 * np.pi / 3)) * n_poles_pairs
 
     # Mechanical dynamics
     domega_dt = (T_m - B * omega) / J
@@ -195,13 +187,6 @@ for i in range(len(step_times)):
 
 for Kp_current in kp_list:
     for Ki_current in ki_list:
-
-
-
-        # plt.figure()
-        # plt.plot(t_span, i_q_ref)
-        # plt.show()
-
         # Initialize lists for storing results
         i_d_sol = [0]
         i_q_sol = [0]
@@ -210,6 +195,18 @@ for Kp_current in kp_list:
         reference_iq = [0]
         omega_sol_rpm = [0]
         theta_sol = [0]
+
+        V_a_sat_array = [0]
+        V_b_sat_array = [0]
+        V_c_sat_array = [0]
+        V_a_array = [0]
+        V_b_array = [0]
+        V_c_array = [0]
+
+        V_d_array = [0]
+        V_q_array = [0]
+        V_d_sat_array = [0]
+        V_q_sat_array = [0]
 
         # Initialize the integral errors for the PI controllers
         # integral_error_speed = 0.0
@@ -237,19 +234,16 @@ for Kp_current in kp_list:
             i_d_sol.append(i_d)
             i_q_sol.append(i_q)
 
-            # # Get speed reference in RPM and apply speed PI controller
-            # omega_ref_rpm = speed_reference_rpm[t_idx]
-            # omega_rpm = rad_s_to_rpm(state[3])  # Convert omega from rad/s to RPM
-
-            # i_q_ref = speed_pi_controller(omega_ref_rpm, omega_rpm, dt)
-
             # Current control (for both i_d and i_q)
-            V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
-            V_q, integral_error_iq = current_pi_controller(i_q_ref[t_idx], i_q, integral_error_iq, Kp_current, Ki_current, dt)
+            # V_d, integral_error_id = current_pi_controller(i_d_ref, i_d, integral_error_id, Kp_current, Ki_current, dt)
+            # V_q, integral_error_iq = current_pi_controller(i_q_ref[t_idx], i_q, integral_error_iq, Kp_current, Ki_current, dt)
 
             
-            # V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current, Ki_current, dt)
-            # V_q, integral_error_iq = current_pi_controller_aw(i_q_ref[t_idx], i_q, integral_error_iq, V_q_delta_sat, Kp_current, Ki_current, dt)
+            V_d, integral_error_id = current_pi_controller_aw(i_d_ref, i_d, integral_error_id, V_d_delta_sat, Kp_current, Ki_current, dt)
+            V_q, integral_error_iq = current_pi_controller_aw(i_q_ref[t_idx], i_q, integral_error_iq, V_q_delta_sat, Kp_current, Ki_current, dt)
+
+            V_d_array.append(V_d)
+            V_q_array.append(V_q)
 
             # Inverse Park Transform to get V_alpha and V_beta
             V_alpha, V_beta = inverse_park_transform(V_d, V_q, state[4])
@@ -257,15 +251,26 @@ for Kp_current in kp_list:
             # Inverse Clarke Transform to get phase voltages V_a, V_b, V_c
             V_a, V_b, V_c = inverse_clarke_transform(V_alpha, V_beta)
 
+            V_a_array.append(V_a)
+            V_b_array.append(V_b)
+            V_c_array.append(V_c)
+
             # Apply voltage limits (nominal voltage)
             V_a = np.clip(V_a, - V_nominal, V_nominal)
             V_b = np.clip(V_b, - V_nominal, V_nominal)
             V_c = np.clip(V_c, - V_nominal, V_nominal)
 
+            V_a_sat_array.append(V_a)
+            V_b_sat_array.append(V_b)
+            V_c_sat_array.append(V_c)
+
             V_alpha_tmp, V_beta_tmp = clarke_transform(V_a,V_b,V_c)
             V_d_sat, V_q_sat = park_transform(V_alpha_tmp, V_beta_tmp, state[4])
             V_d_delta_sat = V_d_sat - V_d
             V_q_delta_sat = V_q_sat - V_q
+
+            V_d_sat_array.append(V_d_sat)
+            V_q_sat_array.append(V_q_sat)
 
             # Simulate motor dynamics using ODE solver
             sol = solve_ivp(bldc_dynamics, [0, dt], initial_state, args=(V_a, V_b, V_c), t_eval=[dt])
@@ -317,13 +322,41 @@ for Kp_current in kp_list:
 
         plt.tight_layout()
 
+        plt.figure(figsize=(12, 7))
+
+        plt.subplot(3, 1, 1)
+        plt.plot(t_span, V_a_sat_array, color='blue')
+        plt.plot(t_span, V_a_array, color='red', linestyle='--')
+        plt.title('Phase A')
+        plt.xlabel('Time (s)')
+
+        plt.subplot(3, 1, 2)
+        plt.plot(t_span, V_b_sat_array, color='blue')
+        plt.plot(t_span, V_b_array, color='red', linestyle='--')
+        plt.title('Phase B')
+        plt.xlabel('Time (s)')
+
+        plt.subplot(3, 1, 3)
+        plt.plot(t_span, V_c_sat_array, color='blue')
+        plt.plot(t_span, V_c_array, color='red', linestyle='--')
+        plt.title('Phase C')
+        plt.xlabel('Time (s)')
+
+        plt.tight_layout()
+        
+        # plt.figure(figsize=(12, 7))
+        # plt.subplot(2,1,1)
+        # plt.plot(t_span, V_q_array)
+        # plt.plot(t_span, V_q_sat_array)
+        # plt.subplot(2,1,2)
+        # plt.plot(t_span, V_d_array)
+        # plt.plot(t_span, V_d_sat_array)
 
 
-
-
-
-
-
+        # plt.figure(figsize=(12, 7))
+        # plt.plot(t_span, V_a_array)
+        # plt.plot(t_span, V_b_array)
+        # plt.plot(t_span, V_c_array)
 
 
 plt.show()

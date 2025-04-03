@@ -1,0 +1,16 @@
+{"time":"2025-03-26T13:35:39.3180194+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-03-26T13:35:39.3180194+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_estimator\\wandb\\run-20250326_133539-0gyhu13m\\logs\\debug-core.log"}
+{"time":"2025-03-26T13:35:40.1264253+01:00","level":"INFO","msg":"created new stream","id":"0gyhu13m"}
+{"time":"2025-03-26T13:35:40.1264253+01:00","level":"INFO","msg":"stream: started","id":"0gyhu13m"}
+{"time":"2025-03-26T13:35:40.1264253+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"0gyhu13m"}}
+{"time":"2025-03-26T13:35:40.1264253+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"0gyhu13m"}}
+{"time":"2025-03-26T13:35:40.1264253+01:00","level":"INFO","msg":"sender: started","stream_id":"0gyhu13m"}
+{"time":"2025-03-26T13:35:40.4666776+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-26T13:52:31.6586841+01:00","level":"INFO","msg":"stream: closing","id":"0gyhu13m"}
+{"time":"2025-03-26T13:52:31.6600177+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-26T13:52:31.663005+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-26T13:52:34.1577858+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-26T13:52:34.4151154+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"0gyhu13m"}}
+{"time":"2025-03-26T13:52:34.4151154+01:00","level":"INFO","msg":"sender: closed","stream_id":"0gyhu13m"}
+{"time":"2025-03-26T13:52:34.4151154+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"0gyhu13m"}}
+{"time":"2025-03-26T13:52:34.4151154+01:00","level":"INFO","msg":"stream: closed","id":"0gyhu13m"}

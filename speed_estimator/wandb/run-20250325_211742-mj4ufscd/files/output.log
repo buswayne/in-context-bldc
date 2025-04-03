@@ -1,0 +1,44 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_low_speed_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_v2  ( pretrained )
+sequence length:  10
+max iterations:  10000
+batch size:  128
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [1], Train Loss: 0.0407, Val Loss: 0.0011, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [2], Train Loss: 0.0484, Val Loss: 0.0012, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [3], Train Loss: 0.0420, Val Loss: 0.0013, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [4], Train Loss: 0.0356, Val Loss: 0.0013, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [5], Train Loss: 0.0370, Val Loss: 0.0016, LR: 0.000000, best val loss was: 0.0011
+model:  ckpt_50pct_recursive_h10_real_val_speed_correction_low_speed
+Epoch [6], Train Loss: 0.0365, Val Loss: 0.0015, LR: 0.000000, best val loss was: 0.0011
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v2.py", line 431, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v2.py", line 149, in train
+    loss.backward()
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\_tensor.py", line 648, in backward
+    torch.autograd.backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\__init__.py", line 353, in backward
+    _engine_run_backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\graph.py", line 824, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

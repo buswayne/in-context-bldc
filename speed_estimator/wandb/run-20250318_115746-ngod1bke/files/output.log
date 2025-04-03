@@ -1,0 +1,46 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2  ( resume )
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 452, in <module>
+    val_loss = validate(model, val_dl, criterion, device, R_training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 176, in validate
+    for batch in dataloader:
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\utils\data\dataloader.py", line 732, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\utils\data\dataloader.py", line 788, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\utils\data\_utils\fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\dataset_new_v2_alt.py", line 63, in __getitem__
+    df_idx = np.random.choice(len(self.dfs))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "numpy\\random\\mtrand.pyx", line 998, in numpy.random.mtrand.RandomState.choice
+  File "numpy\\random\\mtrand.pyx", line 780, in numpy.random.mtrand.RandomState.randint
+  File "numpy\\random\\_bounded_integers.pyx", line 2847, in numpy.random._bounded_integers._rand_int32
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\numpy\core\fromnumeric.py", line 3100, in prod
+    return _wrapreduction(a, np.multiply, 'prod', axis, dtype, out,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\numpy\core\fromnumeric.py", line 79, in _wrapreduction
+    pass
+KeyboardInterrupt

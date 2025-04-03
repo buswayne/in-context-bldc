@@ -1,0 +1,96 @@
+10
+True
+0
+Loaded 1000 DataFrames from ../../../in-context-bldc-data/simulated/50_percent_add_with_alfa_beta_speed_corrected.
+Loaded 100 DataFrames from ../data/CL_experiments_double_sensor/train/inertia13_ki-0.0061-kp-11.8427.
+saving model in:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2
+starting from model:  ckpt_50pct_recursive_h10_real_val_speed_correction_R1_v2  ( resume )
+sequence length:  10
+max iterations:  20000
+batch size:  64
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+using experimental batch extractor
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 24,832 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 451, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device, R_training)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\train_zerostep_new_v3.py", line 139, in train
+    last_predictions = model(batch_u_tmp)[:, -1, :].view(-1)  # Ensure shape matches
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 192, in forward
+    x = block(x)
+        ^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 115, in forward
+    x = x + self.attn(self.ln_1(x))
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_estimator\transformer_zerostep_new_v2.py", line 83, in forward
+    y = self.resid_dropout(self.c_proj(y))
+                           ^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\fx\traceback.py", line 190, in format_stack
+    return traceback.format_list(traceback.extract_stack()[:-1])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 41, in format_list
+    return StackSummary.from_list(extracted_list).format()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 562, in format
+    result.append(formatted_frame)
+KeyboardInterrupt
