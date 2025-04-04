@@ -37,6 +37,8 @@ learning_rate_value = 1e-5
 # the alternative one enforces the extraction of windows that possess specific characteristics with a certain probability,
 # e.g. 50% chance of extracting a sample window in which the speed is >2000RPM at least once
 alternative_batch_extractor = False
+
+# whether or not to log training data on wandb
 wandb_record = False
 
 current_path = os.getcwd().split("in-context-bldc")[0]
@@ -49,9 +51,6 @@ folder_path_training = [os.path.join(data_path, folder) for folder in folder_tra
 
 folder_vaildation = ["CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
-
-
-
 
 if alternative_batch_extractor:
     from dataset_alt import Dataset, load_dataframes_from_folder
@@ -68,7 +67,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # warnings.filterwarnings("default")
 
 if wandb_record:
-    # # # start a new wandb run to track this script
+    # start a new wandb run to track this script
     wandb.init(
         # set the wandb project where this run will be logged
         project="in-context bldc estimator",
@@ -77,6 +76,10 @@ if wandb_record:
 
 
 def train(model, dataloader, criterion, optimizer, device):
+    '''
+    Trains the model over the given data batches. Along the windows of length h, the model estimates recursively the output omega_hat_t, with t = 1...h.
+    At each iteration the model receives as input the previous estimated outputs, which is initialized at 0 e.g. omega_hat_3 = f(..., [0, omega_hat_1, omega_hat_2]). Performs back-propagation to update the model weights. Returns the training loss, as the mse between the recursively obtained output estimations, and the real outputs inside the window.
+    '''
     torch.autograd.set_detect_anomaly(True)
     model.train()
     running_loss = 0.0
@@ -89,11 +92,11 @@ def train(model, dataloader, criterion, optimizer, device):
 
         # Create a copy of batch_u to work with, and set the velocity column (index 4) to zero
         batch_u_copy = batch_u.clone()
-        batch_u_copy[:,:,4] = 0  # No need to detach() because we want gradients to propagate
+        batch_u_copy[:,:,4] = 0  
 
         # Store predictions
-        last_predictions = torch.zeros(batch_u_copy.shape[0], device=device, requires_grad=True)
-        batch_y_pred_list = []  # Use a list to accumulate outputs
+        last_predictions = torch.zeros(batch_u_copy.shape[0], device=device, requires_grad=True) # batch_u_copy.shape[0] is the batch size
+        batch_y_pred_list = []  # list to accumulate outputs
 
         # Simulate step by step
         for t in range(batch_u_copy.shape[1]):
@@ -128,6 +131,10 @@ def train(model, dataloader, criterion, optimizer, device):
 
 
 def validate(model, dataloader, criterion, device):
+    '''
+    Evaluates the model over the given data batches. Along the windows of length h, the model estimates recursively the output omega_hat_t, with t = 1...h.
+    At each iteration the model receives as input the previous estimated outputs, which is initialized at 0 e.g. omega_hat_3 = f(..., [0, omega_hat_1, omega_hat_2]). Returns the validation loss, as the mse between the recursively obtained output estimations, and the real outputs inside the window.
+    '''
     model.eval()
     running_loss = 0.0
     with torch.no_grad():
@@ -142,7 +149,7 @@ def validate(model, dataloader, criterion, device):
             batch_u_copy[:,:,4] = 0
 
             # simulate step by step
-            last_predictions = torch.zeros(batch_u_copy.shape[0], device=device)
+            last_predictions = torch.zeros(batch_u_copy.shape[0], device=device) # batch_u_copy.shape[0] is the batch size
 
             for t in range(batch_u_copy.shape[1]):
                 batch_u_step = batch_u_copy.clone()
@@ -279,16 +286,7 @@ if __name__ == '__main__':
         print(f"Loaded {len(new_dfs)} DataFrames from {path_iter}.")
 
     train_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
-    train_dl = DataLoader(train_ds, batch_size=cfg.batch_size)
-
-    # if we work with a constant model we also validate with the same (thus same seed!)
-    # val_ds = Dataset(dfs=dfs, seq_len=cfg.seq_len)
-    # val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size)
-
-    ##########################
-
-    #######here change the validation ds, put the real data
-    ##### may god forgive us
+    train_dl = DataLoader(train_ds, batch_size=cfg.batch_size, pin_memory=True, shuffle=True)
 
     dfs_val = []
     for path_iter in folder_path_val:
@@ -296,9 +294,7 @@ if __name__ == '__main__':
         print(f"Loaded {len(dfs_val)} DataFrames from {path_iter}.")
 
     val_ds = Dataset(dfs=dfs_val, seq_len=cfg.seq_len)
-    # val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size, pin_memory=True, num_workers=4, shuffle=True)
     val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size, pin_memory=True, shuffle=True)
-    #train_loader = DataLoader(train_dataset, batch_size=args.batch_size, pin_memory=True, num_workers=4, shuffle=True)
 
 
     print("saving model in: ", checkpoint_name_to_save)
@@ -313,7 +309,7 @@ if __name__ == '__main__':
     print("embd: ", embd_number)
     
     if alternative_batch_extractor:
-        print("using experimental batch extractor")
+        print("using alternative batch extractor")
     
     input("everything ok?")
 
@@ -427,6 +423,9 @@ if __name__ == '__main__':
             wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss, "best_epoch": best_epoch})
 
     print("Training complete. Best model saved as: ", checkpoint_name_to_save)
+
+
+    # when the last iteration is reached, a checkpoint is saved, just to be able to see how the training and validation losses progressed after finding a minimum validation loss point
     checkpoint = {
                 'model': model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict(),
                 'optimizer': optimizer.state_dict(),
