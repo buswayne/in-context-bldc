@@ -50,10 +50,9 @@ folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildati
 
 
 if alternative_batch_extractor:
-    from dataset_new_v2_alt import Dataset, load_dataframes_from_folder
+    from dataset_alt import Dataset, load_dataframes_from_folder
 else:
-    from dataset_new_v2 import Dataset, load_dataframes_from_folder
-# from dataset_new_v2 import Dataset, load_dataframes_from_folder
+    from dataset import Dataset, load_dataframes_from_folder
 
 
 
