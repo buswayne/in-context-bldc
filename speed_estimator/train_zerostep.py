@@ -6,7 +6,7 @@ import math
 import gc
 from functools import partial
 from torch.utils.data import DataLoader
-from transformer_zerostep_new_v2 import GPTConfig, GPT, warmup_cosine_lr
+from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import argparse
 import warnings
 import wandb
@@ -22,7 +22,7 @@ checkpoint_name_to_open = "test"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 10
+sequence_length = 10 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
@@ -32,6 +32,10 @@ batch_size_ = 128
 max_iteration_number = 10_000
 learning_rate_value = 1e-5
 
+
+# standard batch extractor selects a random window of length h, from a random experiment, with a uniform probability. 
+# the alternative one enforces the extraction of windows that possess specific characteristics with a certain probability,
+# e.g. 50% chance of extracting a sample window in which the speed is >2000RPM at least once
 alternative_batch_extractor = False
 wandb_record = False
 

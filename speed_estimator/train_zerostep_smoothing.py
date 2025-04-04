@@ -6,7 +6,7 @@ import math
 import gc
 from functools import partial
 from torch.utils.data import DataLoader
-from transformer_zerostep_new_v2 import GPTConfig, GPT, warmup_cosine_lr
+from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import argparse
 import warnings
 import wandb
