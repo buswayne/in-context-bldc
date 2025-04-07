@@ -6,52 +6,43 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 import copy
-# import logging
-# from bldc_simulator_OL_V import BLDCMotor
-# from signals import steps_sequence
 
-# Assuming your DataFrame is named df and contains 6 columns
 class Dataset(Dataset):
     def __init__(self, dfs, seq_len):
         self.dfs = dfs
         self.seq_len = seq_len
 
     def __len__(self):
+        # maximum set of samples considered at each iteration
         return 512
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
         df_idx = np.random.choice(len(self.dfs))
         df = self.dfs[df_idx]
-        # print(len(df))
 
-        # difference between starting time and ending time of the batch
+        # evaluate whether the first and last element of the window of length H of the reference speed are different (e.g. if a step is present inside the window)
         diff_array = df['r'].diff(-self.seq_len).to_numpy()
         diff_array = diff_array[~np.isnan(diff_array)]
-        # print(len(diff_array))
+
         prob_ratio = 0.5 # ratio between constant samples and step samples
-        if np.random.rand() >= prob_ratio:
+        if np.random.rand() >= prob_ratio: # filter indices that correspond to a window without a step in it
             good_idx = np.flatnonzero(diff_array == 0)
-            if len(good_idx) == 0:
+            if len(good_idx) == 0: # if no indices satisfy the request, look for windows with no step 
                 good_idx = np.flatnonzero(diff_array != 0)
         else:
-            good_idx = np.flatnonzero(diff_array != 0)
-            if len(good_idx) == 0:
+            good_idx = np.flatnonzero(diff_array != 0) # filter indices that correspond to a window with a step in it
+            if len(good_idx) == 0: # if no indices satisfy the request, look for windows with steps
                 good_idx = np.flatnonzero(diff_array == 0)
 
-        # Randomly select a starting index
-        # max_val = len(df) - self.seq_len
-        # start_idx = np.random.randint(0, max_val)
-        start_idx = np.random.choice(good_idx)
+        start_idx = np.random.choice(good_idx)  # select a random starting index among the one filtered above
+
+        # generate a column in the dataset for the "past" values of omega. These are not actually used in training, but are overwritten with the past estimations
         tmp = copy.deepcopy(df['omega'].to_numpy())
         tmp[1:-1] = tmp[0:-2]
         tmp[0] = 0
-
         df['last_omega'] = tmp
 
-        # print(df['omega'].to_numpy()[100:110])
-        # print(df['last_omega'].to_numpy()[100:110])
-        # print("...")
 
         # Get the sequence for batch_u and batch_y
         batch_y = torch.tensor(df['omega'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
@@ -64,6 +55,9 @@ class Dataset(Dataset):
         return batch_u, batch_y
 
     def get_full_experiment(self, idx):
+        '''
+        Outputs the entirety of the experiment at index idx as a torch tensor (normalized if the data files were passed to the Dataset object correctly)
+        '''
         df = self.dfs[idx]
         tmp = copy.deepcopy(df['omega'].to_numpy())
         tmp[1:-1] = tmp[0:-2]
@@ -87,7 +81,7 @@ class Dataset(Dataset):
     
     def get_experiment_ekf(self, idx):
         """
-        returns pll observer estimated speed, non-normalized
+        returns ekf estimated speed, non-normalized
         """
         df = self.dfs[idx]
         obs_y = df['omega_ekf'].to_numpy()
@@ -99,6 +93,9 @@ class Dataset(Dataset):
 
 # Normalization function
 def normalize_fixed_ranges(df):
+    '''
+    Transforms the relevant column of the dataframe so that their valuse is in the range [0,1], or at least in its order of magnitude
+    '''
     df['ia'] = (df['ia'] + 5) / 10  # Normalize iq from -5 to 5 -> [0, 1]
     df['ib'] = (df['ib'] + 5) / 10  # Normalize id from -5 to 5 -> [0, 1]
     df['va'] = (df['va'] + 24) / 48  # Normalize vq from -24 to 24 -> [0, 1]
@@ -108,6 +105,9 @@ def normalize_fixed_ranges(df):
 
 
 def reverse_normalization(batch_u, batch_y, batch_y_pred):
+    '''
+    Transforms the batch values into their orignal values, inverting the transfotrmation of "normalized_fixed_ranges()"
+    '''
     # Define the normalization constants
     min_currents = -5
     max_currents = 5
@@ -134,6 +134,9 @@ def reverse_normalization(batch_u, batch_y, batch_y_pred):
 
 
 def load_dataframes_from_folder(folder_path):
+    '''
+    Genertes a list of dataframes corresponding to all csv files in the given folder "folder_path".
+    '''
     # Create a list to hold all DataFrames
     dataframes = []
     # Use glob to find all CSV files in the specified folder
@@ -144,17 +147,20 @@ def load_dataframes_from_folder(folder_path):
         except:
             pass
         df = normalize_fixed_ranges(df)
-        # Find the first index where r changes from 0 to 1
-        first_non_zero_index = df.index[df['r'].diff().gt(0)].min()
-        # df = df.loc[first_non_zero_index:]  # Keep rows up to that index
         dataframes.append(df)
 
     return dataframes
 
 # Example usage
 if __name__ == "__main__":
-    folder_path = '../../../in-context-bldc-data/simulated/90_percent_with_alfa_beta_alt'
-    # folder_path = '../data/CL_experiments/train/inertia13_ki-0.0061-kp-11.8427'
+    
+    current_path = os.getcwd().split("in-context-bldc")[0]
+    data_path = os.path.join(current_path,"in-context-bldc", "data")
+
+    # folder = "CL_experiments_double_sensor_low_speed_ekf_and_meta/final/inertia13_ki-0.0029-kp-3.0000"
+    folder = "CL_experiments_double_sensor_high_speed_ekf_and_meta/final/inertia13_ki-0.0061-kp-11.8427"
+    folder_path = os.path.join(data_path, folder)
+
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
@@ -163,7 +169,6 @@ if __name__ == "__main__":
 
     # Create an instance of the dataset
     dataset = Dataset(dfs=dfs, seq_len=seq_len)
-    # dataset = DatasetOnTheFly(dt=0.01, seq_len=50, perturbation_percentage=0.5)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
     # Example of accessing an item
@@ -178,30 +183,14 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
 
     # Plot batch_y (omega)
-    # plt.subplot(2, 1, 1)
     ax1 = fig.add_subplot(2,1,1)
-    # plt.scatter(np.ones_like(batch_y_np[:,:,0].T) * seq_len,batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
-    # plt.title('Batch y (omega)')
-    # plt.xlabel('Time step')
-    # plt.ylabel('Value')
-    ax1.scatter(np.ones_like(batch_y_np[:,:,0].T) * seq_len,batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
+    ax1.plot(batch_y_np[:,:,0].T, label='Batch y (omega)', color='blue')
     ax1.set_title('Batch y (omega)')
     ax1.set_xlabel('Time step')
     ax1.set_ylabel('Value')
     
-    # plt.legend()
-
     # Plot each component of batch_u
-    # plt.subplot(2, 1, 2)
     ax2 = fig.add_subplot(2,1,2, sharex = ax1)
-    # plt.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
-    # plt.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
-    # plt.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
-    # plt.plot(batch_u_np[:, :, 3].T, label='Batch u (vb)', color='purple')
-    # plt.plot(batch_u_np[:, :, 4].T, label='Batch u (last_omega)', color='grey')
-    # plt.title('Batch u (ia, ib, va, vb, last_omega)')
-    # plt.xlabel('Time step')
-    # plt.ylabel('Value')
     ax2.plot(batch_u_np[:, :, 0].T, label='Batch u (ia)', color='orange')
     ax2.plot(batch_u_np[:, :, 1].T, label='Batch u (ib)', color='green')
     ax2.plot(batch_u_np[:, :, 2].T, label='Batch u (va)', color='red')
@@ -210,52 +199,32 @@ if __name__ == "__main__":
     ax2.set_title('Batch u (ia, ib, va, vb, last_omega)')
     ax2.set_xlabel('Time step')
     ax2.set_ylabel('Value')
-    # plt.legend()
 
     plt.tight_layout()
 
+
+    # plot some window examples
     batch_u, batch_y, _ = reverse_normalization(batch_u, batch_y, batch_y)
 
     for i in range(2):
         fig = plt.figure()
         ax0 = fig.add_subplot(4,1,1)
-        ax0.scatter(np.ones_like(batch_y_np[i,:,:].T) * seq_len,batch_y[i,:,:])
-        ax0.set_ylim(-50,3050)
+        ax0.plot(batch_y[i,:,:],label = "$\omega$")
+        ax0.legend()
+        # ax0.set_ylim(-50,3050)
         ax1 = fig.add_subplot(4,1,2, sharex = ax0)
-        ax1.plot(batch_u[i,:,0])
-        ax1.plot(batch_u[i,:,1])
+        ax1.plot(batch_u[i,:,0],label = "$I_a$")
+        ax1.plot(batch_u[i,:,1],label = "$I_b$")
+        ax1.legend()
         ax2 = fig.add_subplot(4,1,3, sharex = ax0)
-        ax2.plot(batch_u[i,:,2])
-        ax2.plot(batch_u[i,:,3])
+        ax2.plot(batch_u[i,:,2],label = "$V_a$")
+        ax2.plot(batch_u[i,:,3],label = "$V_b$")
+        ax2.legend()
         ax3 = fig.add_subplot(4,1,4, sharex = ax0, sharey = ax0)
-        ax3.plot(batch_u[i,:,4])
-        ax3.set_ylim(-50,3050)
+        ax3.plot(batch_u[i,:,4],label = "$\omega_{k-1}$")
+        ax3.legend()
+        # ax3.set_ylim(-50,3050)
 
-        fig = plt.figure()
-        plt.scatter(np.ones_like(batch_y_np[i,:,:].T) * seq_len,batch_y[i,:,:])
-        plt.plot(batch_u[i,:,4])
-        plt.legend(['orig speed', 'speed+noise'])
-        plt.ylim(-50,3050)
 
-    # plt.figure(figsize=(12, 6))
-    # # Plot batch_y (omega)
-    # plt.subplot(2, 1, 1)
-    # plt.plot(batch_y_np[:,:,0].T, label='example y (omega)', color='blue')
-    # plt.title('Batch y (omega)')
-    # plt.xlabel('Time step')
-    # plt.ylabel('Value')
-    # # plt.legend()
 
-    # # Plot each component of batch_u
-    # plt.subplot(2, 1, 2)
-    # plt.plot(batch_u_np[:, :, 0].T, label='example u (iq)', color='orange')
-    # plt.plot(batch_u_np[:, :, 1].T, label='example u (id)', color='green')
-    # plt.plot(batch_u_np[:, :, 2].T, label='example u (vq)', color='red')
-    # plt.plot(batch_u_np[:, :, 3].T, label='example u (vd)', color='purple')
-    # plt.title('Batch u (iq, id, vq, vd)')
-    # plt.xlabel('Time step')
-    # plt.ylabel('Value')
-    # # plt.legend()
-
-    # plt.tight_layout()
     plt.show()
