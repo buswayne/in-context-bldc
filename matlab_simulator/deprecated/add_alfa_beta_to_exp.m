@@ -4,17 +4,15 @@ close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
-data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
-% data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_800";
-% save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\low_speed_alpha_beta_800";
+data_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
+save_path = "C:\Users\aless\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta";
 
-folder = "50_percent_add";
+folder = "50_percent";
+
 
 data_filepath = fullfile(data_path, folder);
-% data_filepath = data_path; 
-save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected");
-% save_filepath = save_path;
+
+save_filepath = fullfile(save_path, folder + "_with_alfa_beta");
 [~, ~] = mkdir(save_filepath);
 
 file_list = dir(data_filepath);
@@ -24,12 +22,6 @@ idx = 0;
 for file = file_list
     idx
     idx = idx+1;
-
-    tmp1 = split(file, "_i_omega_");
-    tmp2 = split(tmp1{end}, ".");
-    tmp3 = strrep(tmp2{1},"_",".");
-    i_omega = str2double(tmp3);
-
     exp = readmatrix(fullfile(data_filepath, file));
     %%% t,theta,omega,r,i_d,i_q,i_q_ref,v_d,v_q
     t = exp(:,1);
@@ -42,9 +34,7 @@ for file = file_list
     vd = exp(:,8);
     vq = exp(:,9);
 
-    theta_e_grad = theta * 180 / pi * 7 * 1.41 * i_omega;
-    % theta_e_grad = theta * 180 / pi * 7 * 1.41;
-    % theta_e_grad = theta * 180 / pi * 7;
+    theta_e_grad = theta * 180 / pi * 7;
     theta_e = wrapTo180(theta_e_grad) / 180 * pi;
 
     
@@ -79,7 +69,7 @@ for file = file_list
     % tab = struct2table(struct_tmp);
 
 
-    tab = table(t,iq,id,vq,vd,ia,ib,va,vb,theta_e,omega*1.41,r*1.41,'variableNames', ...
+    tab = table(t,iq,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,'variableNames', ...
             {'t','iq','id','vq','vd','ia','ib','va','vb','theta_e','omega','r'});
     
     writetable(tab, fullfile(save_filepath, file),"WriteVariableNames",true);
