@@ -5,9 +5,9 @@ close all
 
 temp_name = strsplit(pwd,'in-context-bldc');
 
-folder_name = "inertia09_ki-0.0029-kp-3.0000";
-model_name = "inertia_09.mat";
-ekf_name = "inertia_09_trained.mat";
+folder_name = "inertia11_ki-0.0029-kp-3.0000";
+model_name = "inertia_11.mat";
+ekf_name = "inertia_11_trained.mat";
 
 save_predictions = true;
 

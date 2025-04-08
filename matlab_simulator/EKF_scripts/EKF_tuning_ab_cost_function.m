@@ -1,6 +1,9 @@
-function error = EKF_tuning_ab_cost_function(var, input_list, output_list, omega_list, P_BLDC_list)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+function error_avg = EKF_tuning_ab_cost_function(var, folder, P_BLDC_list)
+%Cost function for the BO optimization of the EKF for BLDC. Minimizes speed
+%estimation error
+%   
+
+
 
 Rs = P_BLDC_list(1);
 Ls = P_BLDC_list(2);
@@ -23,33 +26,72 @@ Q = diag([10^p(1), ...
           10^p(4)]);
 
 
-P0 = diag([1,1,1,10^p(5)]);
-
-EKF = extendedKalmanFilter(@(x,u)bldcEKFModel_F_ab(x,u, Rs,Ls,Kt,J,Ts), ...
-                           @(x)bldcEKFModel_H_ab(x, Rs,Ls,Kt,J,Ts), ...
-                           initial_state,...
-                           "HasAdditiveProcessNoise", true, ...
-                           "ProcessNoise", Q,...
-                           "HasAdditiveMeasurementNoise", true,...
-                           "MeasurementNoise", R, ...
-                           "StateCovariance", P0);
-
-omega_pred = zeros(length(output_list(:,1)),1);
+P0 = diag([10^-6, ...
+          10^-6, ...
+          10^-6, ...
+          10^p(5)]);
 
 
-for i = 1:length(input_list)
-    [Residual,ResidualCovariance] = residual(EKF,output_list(i,:));
-    [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_list(i,:));
-    [PredictedState,PredictedStateCovariance] = predict(EKF, input_list(i,:));
+file_list = dir(folder);
+file_list = {file_list(3:end).name};
+j = 0;
+error = zeros(length(file_list),1);
 
-    omega_pred(i,:) = CorrectedState(3);
+for file = file_list
+    j = j+1;
 
-    % residBuf(i,:) = Residual;
-    % xcorBuf(i,:) = CorrectedState';
-    % xpredBuf(i,:) = PredictedState';
+    file_path = fullfile(folder, file);
+    data = readtable(file_path);
+    
+
+
+    V_alpha = data.va;
+    V_beta = data.vb;
+    I_alpha = data.ia;
+    I_beta = data.ib;
+    omega = data.omega;
+
+    input_list = [V_alpha, V_beta];
+    output_list = [I_alpha, I_beta];
+    
+    EKF = extendedKalmanFilter(@(x,u)bldcEKFModel_F_ab(x,u, Rs,Ls,Kt,J,Ts), ...
+                               @(x)bldcEKFModel_H_ab(x, Rs,Ls,Kt,J,Ts), ...
+                               initial_state,...
+                               "HasAdditiveProcessNoise", true, ...
+                               "ProcessNoise", Q,...
+                               "HasAdditiveMeasurementNoise", true,...
+                               "MeasurementNoise", R, ...
+                               "StateCovariance", P0);
+    
+    omega_pred = zeros(length(output_list(:,1)),1);
+    % theta_e_last = initial_state(4);
+    % 
+    % conversion_mat_dq_ab = @(x) [cos(x) -sin(x); sin(x) cos(x)];
+    % conversion_mat_ab_dq = @(x) [cos(x) sin(x); -sin(x) cos(x)];
+    % 
+    % converted_input_list = zeros(size(input_list));
+    % converted_output_list = zeros(size(output_list));
+    
+    for i = (1:(length(input_list)-1))+1
+    
+        output_now =  output_list(i,:)'; 
+        input_now =  input_list(i-1,:)';
+    
+    
+        [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
+    
+        [Residual,ResidualCovariance] = residual(EKF,output_now);
+        [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
+    
+        omega_pred(i) = CorrectedState(3);
+    
+    end
+    omega_pred = omega_pred/pi*30;
+    
+    error(j) = mse(omega, omega_pred);
+    
 end
-omega_pred = omega_pred/pi*30;
 
-error = mse(omega_list, omega_pred);
+error_avg = mean(error);
 
 end

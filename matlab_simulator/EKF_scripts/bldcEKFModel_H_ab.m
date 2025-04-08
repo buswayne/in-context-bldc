@@ -1,4 +1,5 @@
-function y = bldcEKFModel_H_dq(x, Rs, Ls, Kt, J, Ts)
+function y = bldcEKFModel_H_ab(x, Rs, Ls, Kt, J, Ts)
+% Measurement function for the BLDC model in the Alpha/Beta framework
     
 
     % u = u(:);

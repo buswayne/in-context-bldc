@@ -1,4 +1,5 @@
 function y = bldcEKFModel_H_dq(x, Rs, Ls, Kt, J, Ts)
+% Measurement function for the BLDC model in the Direct/Quadrature framework
     
 
     % u = u(:);

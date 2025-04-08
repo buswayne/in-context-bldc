@@ -1,4 +1,5 @@
 function xk1 = bldcEKFModel_F_dq(x, u, Rs, Ls, Kt, J, Ts)
+% State transition function for the BLDC model in the Direct/Quadrature framework
     
 
     u = u(:);

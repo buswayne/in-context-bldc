@@ -3,11 +3,16 @@ clc
 close all
 
 
+%%% this script adds the EKF profiles to the csv file containing the data
+%%% from the real motor, for the low speed experiments
+
+
 temp_name = strsplit(pwd,'in-context-bldc');
 
-folder_name = "inertia11_ki-0.0029-kp-3.0000";
-model_name = "inertia_11.mat";
-ekf_name = "inertia_11_trained.mat";
+inertia_number = "15";
+folder_name = "inertia" + inertia_number + "_ki-0.0029-kp-3.0000";
+model_name = "inertia_" + inertia_number + ".mat";
+ekf_name = "inertia_" + inertia_number + "_trained.mat";
 
 save_predictions = true;
 
@@ -66,7 +71,7 @@ for file = file_list1
 
     file_path = fullfile(folder_data_path1, file);
     data = readtable(file_path);
-    
+
 
 
     V_alpha = data.va;
@@ -113,7 +118,7 @@ for file = file_list1
 
         output_now =  output_list(i,:)'; 
         input_now =  input_list(i-1,:)';
-    
+
         [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
         [Residual,ResidualCovariance] = residual(EKF,output_now);
         [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
@@ -121,32 +126,6 @@ for file = file_list1
         omega_pred(i) = CorrectedState(3);
         theta_pred(i) = CorrectedState(4);
     end
-
-    % figure
-    % subplot(411)
-    % plot(omega_pred/pi*30)
-    % hold on
-    % plot(omega)
-    % legend(["Omega_{ekf}", "Omega_{real}"])
-    % 
-    % 
-    % subplot(412)
-    % plot(mod(theta_pred+pi, 2*pi)-pi)
-    % hold on
-    % plot(theta_e)
-    % legend(["Theta_{ekf}", "Theta_{real}"])
-    % 
-    % subplot(413)
-    % plot(current_pred(:,1))
-    % hold on
-    % plot(I_alpha)
-    % legend(["Ia_{ekf}", "Ia_{real}"])
-    % 
-    % subplot(414)
-    % plot(current_pred(:,2))
-    % hold on
-    % plot(I_beta)
-    % legend(["Ib_{ekf}", "Ib_{real}"])
 
     figure
     plot(omega_pred/pi*30)
@@ -176,7 +155,7 @@ for file = file_list2
 
     file_path = fullfile(folder_data_path2, file);
     data = readtable(file_path);
-    
+
 
 
     V_alpha = data.va;
@@ -189,19 +168,6 @@ for file = file_list2
     I_q = data.iq;
     omega = data.omega;
     theta_e = data.theta_e;
-
-    % start_idx = find(omega>0,1);
-    % 
-    % V_alpha = data.va(start_idx:end);
-    % V_beta = data.vb(start_idx:end);
-    % I_alpha = data.ia(start_idx:end);
-    % I_beta = data.ib(start_idx:end);
-    % V_d = data.vd(start_idx:end);
-    % V_q = data.vq(start_idx:end);
-    % I_d = data.id(start_idx:end);
-    % I_q = data.iq(start_idx:end);
-    % omega = data.omega(start_idx:end);
-    % theta_e = data.theta_e(start_idx:end);
 
     input_list = [V_alpha, V_beta];
     output_list = [I_alpha, I_beta];
@@ -223,7 +189,7 @@ for file = file_list2
 
         output_now =  output_list(i,:)'; 
         input_now =  input_list(i-1,:)';
-    
+
         [PredictedState,PredictedStateCovariance] = predict(EKF, input_now);
         [Residual,ResidualCovariance] = residual(EKF,output_now);
         [CorrectedState,CorrectedStateCovariance] = correct(EKF,output_now);
@@ -251,7 +217,4 @@ for file = file_list2
 
 
 end
-
-
-
 
