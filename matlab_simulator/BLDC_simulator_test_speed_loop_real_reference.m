@@ -1,6 +1,12 @@
 clear
 clc
 close all
+
+%%% starts the BLDC simulator multiple times and feeds it the reference
+%%% speed from an experiment on the real motor. Simulated current and 
+%%% voltage signals are compared with the real ones. Different combinations
+%%% of Kp and Ki for the speed and current controller can be set.
+
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
@@ -9,23 +15,14 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 speed_loop = 1;
 current_loop = 1;
 
-% set_parameters_perturbed
-% set_parameters_real
-set_parameters_corrected
-BLDC.StatorPhaseResistance = BLDC.StatorPhaseResistance * 1;
-BLDC.InductanceL0 = BLDC.InductanceL0 * 1;
-BLDC.InductanceLd = BLDC.InductanceL0;
-BLDC.InductanceLq = BLDC.InductanceL0;
-BLDC.Inertia = BLDC.Inertia;
-% BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1000000;
-BLDC.FluxLinkage = BLDC.FluxLinkage * 0.85;
+set_parameters
 
 
-% BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
 
-real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\train\inertia13_ki-0.0061-kp-11.8427");
-real_data_path = fullfile(real_data_path, "2024-10-16--10-57-42_exp  26.csv");
-% real_data_path = fullfile(real_data_path, "2024-10-16--10-57-42_exp  93.csv");
+real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor\train\inertia13_ki-0.0061-kp-11.8427");
+exp_name = "2025-03-03--14-51-19_exp  10.csv";
+real_data_path = fullfile(real_data_path, exp_name);
+
 real_data = readmatrix(real_data_path);
 real_data = real_data(1:1000,:);
 
@@ -34,20 +31,13 @@ T = time(end);
 Ts =  time(2) - time(1);
 
 
-reference_speed = real_data(:,7) / 30 * pi;
-% BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
-
-
-% PID_current.p = 50;
-% PID_current.i = 1;
+reference_speed = real_data(:,13) / 30 * pi;
 
 P_list_current = [1];
 I_list_current = [200];
 
 P_list_speed = [0.1];
 I_list_speed = [0.1];
-% P_list = [0.5];
-% I_list = [10];
 
 for P_c = P_list_current
     for I_c = I_list_current
@@ -66,13 +56,13 @@ for P_c = P_list_current
                 load_input.time = time;
                 load_input.signals.values = zeros(length(time),1);
                 current_input.time = time;
-                current_input.signals.values = zeros(length(time),1);% + BLDC.CurrentMax/4;
+                current_input.signals.values = zeros(length(time),1);
                 voltage_d_input.time = time;
                 voltage_d_input.signals.values = zeros(length(time),1);
                 voltage_q_input.time = time;
                 voltage_q_input.signals.values = zeros(length(time),1);
         
-                mdl = 'BLDC_simulator2';
+                mdl = 'BLDC_simulator';
                 
                 output = sim(mdl);
                 
@@ -90,7 +80,6 @@ for P_c = P_list_current
                 out_tab = struct2table(output_clean);
                 
                 exp_name = "Experiment_" + now_string + ".csv";
-                % writetable(out_tab,fullfile(savepath,exp_name));
                 toc
                 
                 figure
@@ -99,7 +88,7 @@ for P_c = P_list_current
                 grid on
                 plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
                 plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-                plot(output.output.time, real_data(:,6), "DisplayName","Omega real")
+                plot(output.output.time, real_data(:,11), "DisplayName","Omega real")
                 legend()
                 tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
                 title(tit)
@@ -110,7 +99,6 @@ for P_c = P_list_current
                 grid on
                 plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
                 plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
-                % plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
                 plot(output.output.time, real_data(:,2), "DisplayName","iq real")
                 legend()
                 tit = "P_c: " + P_c + ", I_c: " + I_c + ", P_s: " + P_s + ", I_s: " + I_s;
@@ -120,8 +108,6 @@ for P_c = P_list_current
                 ax3 = subplot(1,1,1);
                 hold on
                 grid on
-                % plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-                % plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
                 plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
                 plot(output.output.time, real_data(:,3), "DisplayName","id real")
                 legend()
@@ -132,7 +118,6 @@ for P_c = P_list_current
                 ax4 = subplot(1,1,1);
                 hold on
                 grid on
-                % plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
                 plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
                 plot(output.output.time, real_data(:,4), "DisplayName","vq real")
                 legend()
@@ -144,7 +129,6 @@ for P_c = P_list_current
                 hold on
                 grid on
                 plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
-                % plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
                 plot(output.output.time, real_data(:,5), "DisplayName","vd real")
                 legend()
                 linkaxes([ax1, ax2, ax3, ax4, ax5], 'x')
@@ -155,7 +139,4 @@ for P_c = P_list_current
     end
 end
 
-
-% logsout_autotuned = logsout;
-% save('AutotunedSpeed','logsout_autotuned')
 

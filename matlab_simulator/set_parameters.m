@@ -1,29 +1,29 @@
-PID_speed.p = 0.5;
-PID_speed.i = 10;
+PID_speed.p = 0.1;
+PID_speed.i = 0.1;
 
-PID_current.p = 0.01;
-PID_current.i = 100;
-
+PID_current.p = 1;
+PID_current.i = 200;
 
 BLDC.RatedVoltage = 48;
-BLDC.RatedSpeed = 5320/30*pi;
-BLDC.CurrentMax = 1.09 * 3;
+BLDC.RatedSpeed = 4390 / 30 * pi;
+BLDC.CurrentMax = 4.8;
 BLDC.VoltageMax = BLDC.RatedVoltage;
-BLDC.PolePairs = 4;
-BLDC.StatorPhaseResistance = 2.065;
-BLDC.InductanceLd = 1.44e-3;
-BLDC.InductanceLq = 1.44e-3;
-BLDC.InductanceL0 = 1.44e-3;
-BLDC.FluxLinkage = 0.0119333333333333;
-BLDC.Inertia = 4.97e-07;
-BLDC.BreakawayFrictionTorque = 0.002130661000000 *1e-6; %??
-BLDC.CoulombFrictionTorque = 0.002130661000000 *1e-6; %??
-BLDC.ViscousFrictionCoefficient = 0.001;
+BLDC.PolePairs = 7;
+BLDC.StatorPhaseResistance = 0.994 * 0.357256158228637;
+BLDC.InductanceLd = 0.995e-3 * 1.383264744587776;
+BLDC.InductanceLq = BLDC.InductanceLd;
+BLDC.InductanceL0 = BLDC.InductanceLd;
+BLDC.FluxLinkage = 48/BLDC.RatedSpeed/(BLDC.PolePairs) * 1.179953752195608;
+BLDC.Inertia = 44e-07; %44e-07 * 29.043590734405700;
+BLDC.BreakawayFrictionTorque = 0.002130661000000 *1e-3; %??
+BLDC.CoulombFrictionTorque = 0.002130661000000 *1e-3; %??
+BLDC.ViscousFrictionCoefficient = 0.0083*1e-6;
 BLDC.RotorPositionInit = 0;
 BLDC.RotorVelocityInit = 0;
+i_omega = 2.497;
 
 inverter.BusVoltage = BLDC.RatedVoltage;
-inverter.CurrentMax = 2;
+inverter.CurrentMax = BLDC.CurrentMax;
 inverter.GatesActiveHigh = true;
 inverter.GatesComplementary = true;
 
@@ -31,7 +31,7 @@ paramPwmCompareAtZeroVolt = 330;
 paramPwmCompareMax = 660;
 paramPwmComparePerVolt = paramPwmCompareMax/2/BLDC.RatedVoltage;
 
-disc.Inertia = 9.500000000000000e-05;
+disc.Inertia =  8.7749e-04 - 44e-07; %0.7497e-03;
 
 pwm.CounterMax = 660;
 pwm.CountPerPeriod = 1320;

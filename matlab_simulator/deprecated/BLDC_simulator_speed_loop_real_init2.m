@@ -11,7 +11,7 @@ current_loop = 1;
 
 % set_parameters_perturbed
 % set_parameters_real
-set_parameters_corrected
+set_parameters
 % BLDC.StatorPhaseResistance = BLDC.StatorPhaseResistance * 1;
 % BLDC.InductanceL0 = BLDC.InductanceL0 * 1;
 % BLDC.InductanceLd = BLDC.InductanceL0;
@@ -34,7 +34,7 @@ T = time(end);
 Ts =  time(2) - time(1);
 
 
-reference_speed = real_data(:,-1) / 30 * pi;
+reference_speed = real_data(:,end) / 30 * pi;
 % BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
 theta_e_real = real_data(:,10);
 
@@ -73,7 +73,7 @@ for P_c = P_list_current
                 voltage_q_input.time = time;
                 voltage_q_input.signals.values = zeros(length(time),1);
         
-                mdl = 'BLDC_simulator2';
+                mdl = 'BLDC_simulator';
                 
                 output = sim(mdl);
                 

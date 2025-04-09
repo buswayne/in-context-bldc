@@ -1,6 +1,10 @@
 clear
 clc
 close all
+
+%%% starts the BLDC simulator multiple times to test different combinations
+%%% of Kp and Ki for the speed PI controller
+
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
@@ -9,14 +13,7 @@ now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 speed_loop = 1;
 current_loop = 1;
 
-% set_parameters_perturbed
-% set_parameters_real
-% set_parameters_corrected
-% perturbation = 0.5;
-% set_parameters_corrected_perturbed
-
-% BLDC.ViscousFrictionCoefficient = BLDC.ViscousFrictionCoefficient*1e-6;
-
+set_parameters
 
 T = 5;
 Ts = 1e-4;
@@ -30,42 +27,28 @@ Max_duration = 2;
 reference_speed = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 reference_speed = reference_speed / 30 * pi; %in rad/s
 
-% 
-% PID_current.p = 40;
-% PID_current.i = 1;
-
 
 P_list = [0.1];
 I_list = [0.1];
-% P_list = [0.5];
-% I_list = [10];
 
 for P = P_list
     for I = I_list
         PID_speed.p = P;
         PID_speed.i = I;
-
-        perturbation = 0.5;
-        % set_parameters_corrected_perturbed2
-        set_parameters_corrected
-        BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
         
-        % BLDC.RatedSpeed / pi * 30
-
         
         speed_input.time = time;
         speed_input.signals.values = reference_speed;
-        % speed_input.signals.values = ones(length(time),1)* 100000;
         load_input.time = time;
         load_input.signals.values = zeros(length(time),1);
         current_input.time = time;
-        current_input.signals.values = zeros(length(time),1);% + BLDC.CurrentMax/4;
+        current_input.signals.values = zeros(length(time),1);
         voltage_d_input.time = time;
         voltage_d_input.signals.values = zeros(length(time),1);
         voltage_q_input.time = time;
         voltage_q_input.signals.values = zeros(length(time),1);
 
-        mdl = 'BLDC_simulator2';
+        mdl = 'BLDC_simulator';
         
         output = sim(mdl);
         
@@ -114,6 +97,4 @@ for P = P_list
     end
 end
 
-% logsout_autotuned = logsout;
-% save('AutotunedSpeed','logsout_autotuned')
 

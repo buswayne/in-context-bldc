@@ -1,34 +1,26 @@
 clear
 clc
 close all
+
+%%% starts the BLDC simulator multiple times to test different combinations
+%%% of Kp and Ki for the current PI controller
+
 tic
-% temp_name = strsplit(pwd,'in-context-bldc');
-% savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
 speed_loop = 0;
 current_loop = 1;
 
-% set_parameters_perturbed
-% set_parameters_real
-set_parameters_corrected
+set_parameters
 T = 2;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
 
-% Min_value = -BLDC.CurrentMax;
-% Max_value = BLDC.CurrentMax;
 Max_abs_value = BLDC.CurrentMax;
 Min_duration = 0.1;
 Max_duration = 0.3;
 
-% reference_current = step_sequence(T, Ts, Min_value, Max_value, Min_duration, Max_duration);
 reference_current = step_sequence_current(T, Ts,Max_abs_value, Min_duration, Max_duration);
-% reference_current = ones(length(reference_current),1)*BLDC.CurrentMax;
-% reference_current = reference_speed / 30 * pi; %in rad/s
-% 
-% P_list = [100,10,1,0.1,0.01];
-% I_list = [100,10,1];
 
 P_list = [1];
 I_list = [200];
@@ -45,13 +37,12 @@ for P = P_list
         load_input.signals.values = zeros(length(time),1);
         current_input.time = time;
         current_input.signals.values = reference_current;
-        % current_input.signals.values = ones(length(time),1)*BLDC.CurrentMax;
         voltage_d_input.time = time;
         voltage_d_input.signals.values = zeros(length(time),1);
         voltage_q_input.time = time;
         voltage_q_input.signals.values = zeros(length(time),1);
 
-        mdl = 'BLDC_simulator2';
+        mdl = 'BLDC_simulator';
         
         output = sim(mdl);
         
@@ -69,7 +60,6 @@ for P = P_list
         out_tab = struct2table(output_clean);
         
         exp_name = "Experiment_" + now_string + ".csv";
-        % writetable(out_tab,fullfile(savepath,exp_name));
         toc
         
         figure
@@ -99,7 +89,4 @@ for P = P_list
         linkaxes([ax1, ax2, ax3], 'x')
     end
 end
-
-% logsout_autotuned = logsout;
-% save('AutotunedSpeed','logsout_autotuned')
 

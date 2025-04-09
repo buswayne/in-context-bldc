@@ -1,38 +1,31 @@
 clear
 clc
 close all
+
+%%% starts the BLDC simulator for high speed experiments
+
 tic
-pause on
 temp_name = strsplit(pwd,'in-context-bldc');
-% savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 
 perturbation_percent = 50;
 
 perturbation = perturbation_percent / 100;
-savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-folder_name = sprintf('%02.0f_percent_add', perturbation_percent);
+savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
+folder_name = sprintf('%02.0f_percent_high_speed', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
-% savepath = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated\15_percent";
 speed_loop = 1;
 current_loop = 1;
-
-
 
 T = 4.5;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
-% Min_value = 0;
-% Max_value = 3000; %in rpm
-% Min_duration = 1;
-% Max_duration = 3;
 
 
-N_exp = 1000;
+N_exp = 1;
 
-mdl = 'BLDC_simulator2';
-% Simulink.BlockDiagram.buildRapidAcceleratorTarget(mdl);
+mdl = 'BLDC_simulator';
 
 for idx_exp = 1:N_exp
     fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
@@ -43,11 +36,15 @@ for idx_exp = 1:N_exp
     Ts = 1e-4;
     time = 0:Ts:T-Ts;
 
+
+    % some combination of perturbed parameters may lead to motor instancese
+    % in which the maximum speed is low. Hence we briefly check
+    % how fast can the motor go and we discard configurations that cannot
+    % get at least 2000 rpm
     while flag_speed_check
     
-        set_parameters_corrected_perturbed3
+        set_parameters_perturbed
         BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
-
 
         speed_input.time = time;
         speed_input.signals.values = ones(length(time),1)*1e6;
@@ -61,11 +58,7 @@ for idx_exp = 1:N_exp
         voltage_q_input.signals.values = zeros(length(time),1);
         output = sim(mdl);
         final_speed = output.output.signals.values(end,2);
-        % figure
-        % hold on
-        % grid on
-        % plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-        % legend()
+
         fprintf("   detected final speed: %d RPM \n", final_speed)
         if (final_speed > 2000)
             flag_speed_check = false;
@@ -77,11 +70,6 @@ for idx_exp = 1:N_exp
     max_speed = min(final_speed, 4000);
     BLDC.RotorVelocityInit = 0;
 
-
-
-
-    
-    % set_parameters
     
     T = 5;
     Ts = 1e-4;
@@ -105,14 +93,7 @@ for idx_exp = 1:N_exp
     voltage_q_input.time = time;
     voltage_q_input.signals.values = zeros(length(time),1);
 
-    
-    % in = Simulink.SimulationInput(mdl);
-    % in = setModelParameter(in,SimulationMode="rapid-accelerator");
-    % in = setModelParameter(in,RapidAcceleratorUpToDateCheck="off");
-    % output = parsim(in);
     output = sim(mdl);
-    
-    
     output_clean.t = output.output.time;
     output_clean.theta = output.output.signals.values(:,1);
     output_clean.omega = output.output.signals.values(:,2);
@@ -129,35 +110,31 @@ for idx_exp = 1:N_exp
     
     exp_name = "Experiment_" + now_string + "_i_omega_" + str_speed + ".csv";
     writetable(out_tab,fullfile(savepath,exp_name));
-    
-    % if rem(idx_exp, 100) == 0
-    %     pause(1200)
-    % end
-    % 
-    % figure
-    % ax1 = subplot(3,1,1);
-    % hold on
-    % grid on
-    % plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
-    % plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-    % legend(["Omega ref", "Omega"])
-    % 
-    % 
-    % ax2 = subplot(3,1,2);
-    % hold on
-    % grid on
-    % plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-    % plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
-    % plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
-    % legend()
-    % 
-    % ax3 = subplot(3,1,3);
-    % hold on
-    % grid on
-    % plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
-    % plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
-    % legend()
-    % linkaxes([ax1, ax2, ax3], 'x')
+ 
+    figure
+    ax1 = subplot(3,1,1);
+    hold on
+    grid on
+    plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
+    plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
+    legend(["Omega ref", "Omega"])
+
+
+    ax2 = subplot(3,1,2);
+    hold on
+    grid on
+    plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+    plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+    plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+    legend()
+
+    ax3 = subplot(3,1,3);
+    hold on
+    grid on
+    plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
+    plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+    legend()
+    linkaxes([ax1, ax2, ax3], 'x')
 end
 
 toc

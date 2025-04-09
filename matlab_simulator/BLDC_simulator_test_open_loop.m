@@ -1,16 +1,17 @@
 clear
 clc
-% close all
+close all
+
+%%% starts the BLDC simulator and feeds it with direct and quadrature
+%%% voltage from a real experiment
+
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
 now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
-% real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia04_ki-0.0061-kp-11.8427\2024-10-16--15-16-43_exp   1.csv");
-% real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments\test\inertia07_ki-0.0061-kp-11.8427\2024-10-16--16-31-18_exp   6.csv");
 real_data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor\train\inertia13_ki-0.0061-kp-11.8427");
 exp_name = "2025-03-03--14-51-19_exp  10.csv";
-% exp_name = "2024-10-16--10-57-42_exp  79.csv";
 real_data_path = fullfile(real_data_path, exp_name);
 
 real_data = readmatrix(real_data_path);
@@ -27,20 +28,7 @@ real_speed = real_data(:,6);
 speed_loop = 0;
 current_loop = 0;
 
-% set_parameters_perturbed
-% set_parameters_real_bo
-set_parameters_corrected
-% BLDC.FluxLinkage = BLDC.FluxLinkage *0.90;
-% BLDC.RotorVelocityInit = real_data(1,6)/i_omega;
-
-
-% 
-% Min_value = -BLDC.CurrentMax*0;
-% Max_value = BLDC.CurrentMax;
-% Min_duration = 0.5;
-% Max_duration = 1;
-
-
+set_parameters
 
 speed_input.time = time;
 speed_input.signals.values = zeros(length(time),1);
@@ -48,14 +36,13 @@ load_input.time = time;
 load_input.signals.values = zeros(length(time),1);
 current_input.time = time;
 current_input.signals.values = zeros(length(time),1);
-% current_input.signals.values = ones(length(time),1)*BLDC.CurrentMax;
 voltage_q_input.time = time;
 voltage_q_input.signals.values = vq_ref;
 
 voltage_d_input.time = time;
 voltage_d_input.signals.values = vd_ref;
 
-mdl = 'BLDC_simulator2';
+mdl = 'BLDC_simulator';
 
 output = sim(mdl);
 
@@ -71,7 +58,7 @@ output_clean.v_d = output.output.signals.values(:,7);
 output_clean.v_q = output.output.signals.values(:,8);
 
 out_tab = struct2table(output_clean);
-% 
+
 % exp_name = "Experiment_" + now_string + ".csv";
 % writetable(out_tab,fullfile(savepath,exp_name));
 toc
@@ -81,22 +68,20 @@ ax1 = subplot(4,1,1);
 title(exp_name, Interpreter="none")
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
-plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
+plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega sim")
 plot(output.output.time, real_data(:,11), "DisplayName","Omega real")
 legend()
 ax2 = subplot(4,1,2);
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
-plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq sim")
 plot(output.output.time, real_data(:,2), "DisplayName","iq real")
 legend()
 
 ax3 = subplot(4,1,3);
 hold on
 grid on
-plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id sim ")
 plot(output.output.time, real_data(:,3), "DisplayName","id real")
 legend()
 
@@ -107,11 +92,4 @@ plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
 plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
 legend()
 linkaxes([ax1, ax2, ax3, ax4], 'x')
-
-% logsout_autotuned = logsout;
-% % save('AutotunedSpeed','logsout_autotuned')
-% figure
-% plot(time, real_data(:,11)./output.output.signals.values(:,2))
-% ylim([0,10])
-% legend('real Omega / Omega')
 
