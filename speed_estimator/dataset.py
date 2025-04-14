@@ -165,7 +165,7 @@ if __name__ == "__main__":
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
-    seq_len = 50
+    seq_len = 10
 
     # Create an instance of the dataset
     dataset = Dataset(dfs=dfs, seq_len=seq_len)

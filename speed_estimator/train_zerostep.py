@@ -49,7 +49,7 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 folder_training = ["simulated/50_percent_low_speed"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["CL_experiments_double_sensor_low_speed/train/inertia13_ki-0.0029-kp-3.0000"]
+folder_vaildation = ["simulated/50_percent_low_speed"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:
