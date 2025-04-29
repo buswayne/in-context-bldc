@@ -14,9 +14,8 @@ speed_loop = 1;
 current_loop = 1;
 
 set_parameters
-disc.Inertia = disc.Inertia*11;
 
-mdl = 'BLDC_simulator';
+mdl = 'BLDC_simulator_no_clamp';
 
 T = 5;
 Ts = 1e-4;
@@ -37,8 +36,8 @@ Max_duration = 2;
 
 step_sizes = [2000];
 
-P_list = [0.01 1];  %[0.01 ... 1]
-I_list = [0.0001 10]; %[0.001 ... 10]
+P_list = [0.1, 10];  %[0.01 ... 1]
+I_list = [0.0001 0.001 1]; %[0.001 ... 10]
 
 for P = P_list
     for I = I_list
