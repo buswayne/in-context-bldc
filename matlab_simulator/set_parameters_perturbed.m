@@ -14,7 +14,7 @@ PID_speed.i = 0.1 * coeff(rand());
 
 BLDC.RatedVoltage = 48;
 BLDC.RatedSpeed = 4390 / 30 * pi * coeff(rand());
-BLDC.CurrentMax = 4.8;
+BLDC.CurrentMax = 4.6;
 BLDC.VoltageMax = BLDC.RatedVoltage;
 BLDC.PolePairs = 7;
 BLDC.StatorPhaseResistance = 0.994 * 0.357256158228637  * coeff(rand());

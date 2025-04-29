@@ -6,7 +6,7 @@ PID_current.i = 200;
 
 BLDC.RatedVoltage = 48;
 BLDC.RatedSpeed = 4390 / 30 * pi;
-BLDC.CurrentMax = 4.8;
+BLDC.CurrentMax = 4.6;
 BLDC.VoltageMax = BLDC.RatedVoltage;
 BLDC.PolePairs = 7;
 BLDC.StatorPhaseResistance = 0.994 * 0.357256158228637;
