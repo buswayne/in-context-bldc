@@ -9,8 +9,12 @@ temp_name = strsplit(pwd,'in-context-bldc');
 
 perturbation_percent = 50;
 
+user_tmp = strsplit(pwd,'Users\');
+user_tmp2 = strsplit(user_tmp{2},'\');
+user = user_tmp2{1};
+
 perturbation = perturbation_percent / 100;
-savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
+savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
 folder_name = sprintf('%02.0f_percent_control', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
@@ -35,9 +39,10 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 10;
+N_exp = 100;
 
 mdl = 'BLDC_simulator';
+conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 
 for idx_exp = 1:N_exp
     fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
@@ -50,7 +55,7 @@ for idx_exp = 1:N_exp
     time = 0:Ts:T-Ts;
 
 
-    % some combination of perturbed parameters may lead to motor instancese
+    % some combination of perturbed parameters may lead to motor instances
     % in which the maximum speed is low. Hence we briefly check
     % how fast can the motor go and we discard configurations that cannot
     % get at least 2000 rpm
@@ -132,23 +137,43 @@ for idx_exp = 1:N_exp
     voltage_q_input.signals.values = zeros(length(time),1);
 
     output = sim(mdl);
-    output_clean.t = output.output.time;
-    output_clean.theta = output.output.signals.values(:,1);
-    output_clean.omega = output.output.signals.values(:,2);
-    output_clean.r = output.output.signals.values(:,3);
-    output_clean.i_d = output.output.signals.values(:,4);
-    output_clean.i_q = output.output.signals.values(:,5);
-    output_clean.i_q_ref = output.output.signals.values(:,6);
-    output_clean.v_d = output.output.signals.values(:,7);
-    output_clean.v_q = output.output.signals.values(:,8);
+    t = output.output.time;
+    theta = output.output.signals.values(:,1);
+    omega = output.output.signals.values(:,2);
+    r = output.output.signals.values(:,3);
+    id = output.output.signals.values(:,4);
+    iq = output.output.signals.values(:,5);
+    iq_ref = output.output.signals.values(:,6);
+    vd = output.output.signals.values(:,7);
+    vq = output.output.signals.values(:,8);
+
+    theta_e_grad = theta * 180/pi * BLDC.PolePairs * i_omega;
+    theta_e = wrapTo180(theta_e_grad) / 180 * pi;
+
+    i_dq = [id,iq]';
+    v_dq = [vd,vq]';
+    i_ab = zeros(size(i_dq));
+    v_ab = zeros(size(v_dq));
+    for j = 1:length(theta_e)
+        i_ab(:,j) = conversion_mat(theta_e(j)) * i_dq(:,j);
+        v_ab(:,j) = conversion_mat(theta_e(j)) * v_dq(:,j);
+    end
+    ia = i_ab(1,:)';
+    ib = i_ab(2,:)';
+    va = v_ab(1,:)';
+    vb = v_ab(2,:)';
+
     
-    out_tab = struct2table(output_clean);
-    out_tab.(meta_string) = zeros(size(output.output.signals.values(:,1)));
+    % out_tab = struct2table(output_clean);
+    % out_tab.(meta_string) = zeros(size(output.output.signals.values(:,1)));
+
     str_speed = sprintf("%.4f",i_omega);
     str_speed = strrep(str_speed, ".","_");
-    
     exp_name = "Experiment_" + now_string + "_i_omega_" + str_speed + ".csv";
+
     if save_data
+        out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
+            {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
         writetable(out_tab,fullfile(savepath,exp_name));
     end
 
