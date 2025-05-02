@@ -12,6 +12,11 @@ perturbation_percent = 50;
 user_tmp = strsplit(pwd,'Users\');
 user_tmp2 = strsplit(user_tmp{2},'\');
 user = user_tmp2{1};
+if user == 'aless'
+    usr_str = "__";
+else
+    usr_str = "_";
+end
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
@@ -39,7 +44,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 100;
+N_exp = 400;
 
 mdl = 'BLDC_simulator';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
