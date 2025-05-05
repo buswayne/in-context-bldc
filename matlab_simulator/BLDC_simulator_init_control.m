@@ -44,7 +44,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 400;
+N_exp = 80;
 
 mdl = 'BLDC_simulator';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
