@@ -77,6 +77,18 @@ class Dataset(Dataset):
         Outputs the entirety of the experiment at index idx as a torch tensor (normalized if the data files were passed to the Dataset object correctly)
         '''
         df = self.dfs[idx]
+        metadata = df.keys()[-1].split(',')
+        # print(metadata)
+        T_ass = float(metadata[0].split(":")[1]) / 3
+        S_pct = float(metadata[1].split(":")[1]) / 40
+        if "T_ass" not in df.keys():  
+            # print("adding T_ass")    
+            location = len(df.keys())-1
+            df.insert(loc=location, column='T_ass', value=np.ones_like(df["omega"].to_numpy())*T_ass)
+        if "S_pct" not in df.keys():            
+            # print("adding S_pct")        
+            location = len(df.keys())-1  
+            df.insert(loc=location, column='S_pct', value=np.ones_like(df["omega"].to_numpy())*S_pct)
         batch_y = torch.tensor(df['iq_ref'].to_numpy(), dtype=torch.float32)
         batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].to_numpy(), dtype=torch.float32)
         # Add a batch dimension

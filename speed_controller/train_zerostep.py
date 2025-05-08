@@ -29,7 +29,7 @@ embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 40_000
+max_iteration_number = 50_000
 learning_rate_value = 1e-5
 
 
@@ -39,7 +39,7 @@ learning_rate_value = 1e-5
 alternative_batch_extractor = False
 
 # whether or not to log training data on wandb
-wandb_record = False
+wandb_record = True
 
 current_path = os.getcwd().split("in-context-bldc")[0]
 data_path = os.path.join(current_path,"in-context-bldc", "data")
@@ -429,10 +429,20 @@ if __name__ == '__main__':
     best_epoch = iter_num -1
     for epoch in range(iter_num+1, cfg.max_iters):
 
+        #########################################
+        # aggiungi qua una stringa da mette nel file di check per savere il best model ogni 10k tipo iterazioni (e.g. checkpoint_stocazzo_***10k***.pt)
+
+        frequency = 10 #k
+
+        current_block = (epoch // (frequency * 1000) + 1) * frequency
+
+        name_suffix = '_' + str(current_block) + 'k'
+
+        checkpoint_name_to_save_file = checkpoint_name_to_save + name_suffix
 
 
 
-        
+
         ## I COMMENTED THIS PART BECAUSE THERE WAS A PROBLEM WITH LR : IT WAS STUCK TO 0
         if cfg.decay_lr:
             lr_iter = get_lr(epoch)
@@ -464,7 +474,7 @@ if __name__ == '__main__':
                 'cfg': cfg,
             }
 
-            torch.save(checkpoint, model_dir / f"{cfg.out_file}.pt")
+            torch.save(checkpoint, model_dir / f"{checkpoint_name_to_save_file}.pt")
 
         
         print("model: ", checkpoint_name_to_save)
