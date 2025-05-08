@@ -75,96 +75,6 @@ if wandb_record:
     )
 
 
-# def train(model, dataloader, criterion, optimizer, device):
-#     '''
-#     Trains the model over the given data batches. Along the windows of length h, the model estimates recursively the output omega_hat_t, with t = 1...h.
-#     At each iteration the model receives as input the previous estimated outputs, which is initialized at 0 e.g. omega_hat_3 = f(..., [0, omega_hat_1, omega_hat_2]). Performs back-propagation to update the model weights. Returns the training loss, as the mse between the recursively obtained output estimations, and the real outputs inside the window.
-#     '''
-#     torch.autograd.set_detect_anomaly(True)
-#     model.train()
-#     running_loss = 0.0
-    
-#     for batch in dataloader:
-#         batch_u, batch_y = batch
-#         batch_u, batch_y = batch_u.to(device), batch_y.to(device)
-
-#         optimizer.zero_grad()  # Clear previous gradients
-
-#         # Create a copy of batch_u to work with, and set the velocity column (index 4) to zero
-#         batch_u_copy = batch_u.clone()
-#         batch_u_copy[:,:,4] = 0  
-
-#         # Store predictions
-#         last_predictions = torch.zeros(batch_u_copy.shape[0], device=device, requires_grad=True) # batch_u_copy.shape[0] is the batch size
-#         batch_y_pred_list = []  # list to accumulate outputs
-
-#         # Simulate step by step
-#         for t in range(batch_u_copy.shape[1]):
-#             batch_u_step = batch_u_copy.clone()  # Clone to avoid modification issues
-#             batch_u_step[:, t, 4] = last_predictions  # Inject last predictions
-#             batch_u_tmp = batch_u_step[:, :t+1, :]  # Take relevant time slice
-
-#             # Forward pass
-#             last_predictions = model(batch_u_tmp)[:, -1, :].view(-1)  # Ensure shape matches
-
-#             batch_y_pred_list.append(last_predictions.unsqueeze(1))  # Store prediction
-
-#         # Concatenate all predictions along time dimension
-#         batch_y_pred = torch.cat(batch_y_pred_list, dim=1).unsqueeze(-1)  # Ensure shape matches batch_y
-
-#         # Compute loss
-#         loss = criterion(batch_y, batch_y_pred)
-
-#         # Backpropagation
-#         loss.backward()
-#         optimizer.step()
-
-#         running_loss += loss.item()
-
-#         # Debugging: Check if all parameters have gradients
-#         for name, param in model.named_parameters():
-#             if param.grad is None:
-#                 print(f"Warning: No gradient computed for {name}")
-
-#     return running_loss / len(dataloader)
-
-
-
-# def validate(model, dataloader, criterion, device):
-#     '''
-#     Evaluates the model over the given data batches. Along the windows of length h, the model estimates recursively the output omega_hat_t, with t = 1...h.
-#     At each iteration the model receives as input the previous estimated outputs, which is initialized at 0 e.g. omega_hat_3 = f(..., [0, omega_hat_1, omega_hat_2]). Returns the validation loss, as the mse between the recursively obtained output estimations, and the real outputs inside the window.
-#     '''
-#     model.eval()
-#     running_loss = 0.0
-#     with torch.no_grad():
-#         for batch in dataloader:
-#             batch_u, batch_y = batch
-#             batch_u, batch_y = batch_u.to(device), batch_y.to(device)
-
-#             batch_y_pred = torch.zeros_like(batch_y)
-        
-#             # create a copy of batch_u to work with, then overwrite the real velocity (symbolic, may not be needed for the code)
-#             batch_u_copy = batch_u.clone().detach()
-#             batch_u_copy[:,:,4] = 0
-
-#             # simulate step by step
-#             last_predictions = torch.zeros(batch_u_copy.shape[0], device=device) # batch_u_copy.shape[0] is the batch size
-
-#             for t in range(batch_u_copy.shape[1]):
-#                 batch_u_step = batch_u_copy.clone()
-#                 batch_u_step[:,t,4] = last_predictions
-#                 batch_u_tmp = batch_u_step[:,:t+1,:]
-#                 #update last predictions
-#                 last_predictions = model(batch_u_tmp)[:,-1,:].view(-1)
-#                 batch_y_pred[:,t,0] = last_predictions
-
-#             loss = criterion(batch_y, batch_y_pred)
-
-#             running_loss += loss.item()
-
-#     return running_loss / len(dataloader)
-
 
 def train(model, dataloader, criterion, optimizer, device):
     torch.autograd.set_detect_anomaly(True)
@@ -185,9 +95,6 @@ def train(model, dataloader, criterion, optimizer, device):
 
         running_loss += loss.item()
 
-        # for name, param in model.gpt_model.named_parameters():
-        #     if name == "proportional_coefficient":
-        #         print(f"Parameter Value: {param}")
         for name, param in model.named_parameters():
             if param.grad is None:
                 print(f"No gradient computed for {name}")
@@ -356,7 +263,7 @@ if __name__ == '__main__':
     if alternative_batch_extractor:
         print("using alternative batch extractor")
     
-    input("everything ok?")
+    # input("everything ok?")
 
     # Model
     model_args = dict(n_layer=cfg.n_layer, n_head=cfg.n_head, n_embd=cfg.n_embd, n_x=cfg.nx, n_y=cfg.ny, n_u=cfg.nu, block_size=cfg.block_size,
@@ -477,8 +384,8 @@ if __name__ == '__main__':
             torch.save(checkpoint, model_dir / f"{checkpoint_name_to_save_file}.pt")
 
         
-        print("model: ", checkpoint_name_to_save)
-        print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}, best val loss was: {best_val_loss:.4f}")
+        # print("model: ", checkpoint_name_to_save)
+        # print(f"Epoch [{epoch}], Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}, best val loss was: {best_val_loss:.4f}")
         if wandb_record:
             wandb.log({"epoch": epoch, "loss": train_loss, "val_loss": val_loss, "best_epoch": best_epoch})
 

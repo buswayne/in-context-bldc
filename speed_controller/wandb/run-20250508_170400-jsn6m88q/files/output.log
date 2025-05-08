@@ -1,0 +1,59 @@
+50
+True
+0
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\wandb\sdk\lib\exit_hooks.py", line 52, in exc_handler
+    traceback.print_exception(exc_type, exc, tb)
+  File "C:\Program Files\Python312\Lib\traceback.py", line 124, in print_exception
+    te = TracebackException(type(value), value, tb, limit=limit, compact=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 733, in __init__
+    self.stack = StackSummary._extract_from_extended_frame_gen(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\traceback.py", line 438, in _extract_from_extended_frame_gen
+    f.line
+  File "C:\Program Files\Python312\Lib\traceback.py", line 323, in line
+    self._line = linecache.getline(self.filename, self.lineno)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\linecache.py", line 30, in getline
+    lines = getlines(filename, module_globals)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\linecache.py", line 46, in getlines
+    return updatecache(filename, module_globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\linecache.py", line 136, in updatecache
+    with tokenize.open(fullname) as fp:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\tokenize.py", line 410, in open
+    buffer = _builtin_open(filename, 'rb')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+Original exception was:
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_no_curr.py", line 329, in <module>
+    new_dfs = load_dataframes_from_folder(path_iter)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\dataset.py", line 184, in load_dataframes_from_folder
+    df = normalize_fixed_ranges(df)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\dataset.py", line 127, in normalize_fixed_ranges
+    df['iq_ref'] = (df['iq_ref'] + 5) / 10  # Normalize iq_ref from -5 to 5 -> [0, 1]
+                    ~~^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\core\frame.py", line 4078, in __getitem__
+    return self._get_item_cache(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\core\frame.py", line 4639, in _get_item_cache
+    res = self._ixs(loc, axis=1)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\core\frame.py", line 4011, in _ixs
+    result = self._box_col_values(col_mgr, i)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\core\frame.py", line 4617, in _box_col_values
+    obj._name = name
+    ^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\core\generic.py", line 6313, in __setattr__
+    return object.__setattr__(self, name, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

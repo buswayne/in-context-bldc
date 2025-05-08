@@ -1,0 +1,43 @@
+50
+True
+0
+Loaded 700 DataFrames from C:\Users\39340\Documents\GitHub\in-context-bldc\data\simulated/50_percent_control/training.
+Loaded 300 DataFrames from C:\Users\39340\Documents\GitHub\in-context-bldc\data\simulated/50_percent_control/validation.
+saving model in:  test_no_curr
+sequence length:  50
+max iterations:  30000
+batch size:  128
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 25,488 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_no_curr.py", line 454, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_no_curr.py", line 179, in train
+    batch_y_pred = model(batch_u)
+                   ^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\transformer_zerostep.py", line 188, in forward
+    tok_emb = self.transformer.wte(batch_u)  # token embeddings of shape (b, t, n_embd)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1749, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\module.py", line 1760, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (6400x8 and 6x16)

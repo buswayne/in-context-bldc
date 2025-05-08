@@ -1,0 +1,23 @@
+50
+True
+0
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_HCP.py", line 236, in <module>
+    new_dfs = load_dataframes_from_folder(path_iter)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\dataset.py", line 183, in load_dataframes_from_folder
+    df = pd.read_csv(file)
+         ^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\io\parsers\readers.py", line 626, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\io\parsers\readers.py", line 1923, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 234, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

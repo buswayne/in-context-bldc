@@ -1,0 +1,63 @@
+50
+True
+0
+Loaded 700 DataFrames from C:\Users\39340\Documents\GitHub\in-context-bldc\data\simulated/50_percent_control/training.
+Loaded 300 DataFrames from C:\Users\39340\Documents\GitHub\in-context-bldc\data\simulated/50_percent_control/validation.
+saving model in:  test_no_curr
+sequence length:  50
+max iterations:  30000
+batch size:  128
+learning rate:  1e-05
+layers:  8
+heads:  4
+embd:  16
+number of parameters: 0.03M
+num decayed parameter tensors: 35, with 25,488 parameters
+num non-decayed parameter tensors: 19, with 289 parameters
+using fused AdamW: True
+model:  test_no_curr
+Epoch [1], Train Loss: 0.3888, Val Loss: 0.3844, LR: 0.000000, best val loss was: 0.3844
+model:  test_no_curr
+Epoch [2], Train Loss: 0.3926, Val Loss: 0.4015, LR: 0.000000, best val loss was: 0.3844
+model:  test_no_curr
+Epoch [3], Train Loss: 0.3934, Val Loss: 0.3939, LR: 0.000000, best val loss was: 0.3844
+model:  test_no_curr
+Epoch [4], Train Loss: 0.3874, Val Loss: 0.3866, LR: 0.000000, best val loss was: 0.3844
+model:  test_no_curr
+Epoch [5], Train Loss: 0.3910, Val Loss: 0.3816, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [6], Train Loss: 0.3951, Val Loss: 0.4149, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [7], Train Loss: 0.3979, Val Loss: 0.3935, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [8], Train Loss: 0.3896, Val Loss: 0.3959, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [9], Train Loss: 0.3789, Val Loss: 0.3857, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [10], Train Loss: 0.4095, Val Loss: 0.3819, LR: 0.000000, best val loss was: 0.3816
+model:  test_no_curr
+Epoch [11], Train Loss: 0.4000, Val Loss: 0.3777, LR: 0.000000, best val loss was: 0.3777
+model:  test_no_curr
+Epoch [12], Train Loss: 0.4003, Val Loss: 0.3878, LR: 0.000000, best val loss was: 0.3777
+model:  test_no_curr
+Epoch [13], Train Loss: 0.3892, Val Loss: 0.3763, LR: 0.000000, best val loss was: 0.3763
+model:  test_no_curr
+Epoch [14], Train Loss: 0.3840, Val Loss: 0.3924, LR: 0.000000, best val loss was: 0.3763
+model:  test_no_curr
+Epoch [15], Train Loss: 0.3973, Val Loss: 0.3800, LR: 0.000000, best val loss was: 0.3763
+model:  test_no_curr
+Epoch [16], Train Loss: 0.3800, Val Loss: 0.3951, LR: 0.000000, best val loss was: 0.3763
+Traceback (most recent call last):
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_no_curr.py", line 454, in <module>
+    train_loss = train(model, train_dl, criterion, optimizer, device)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\train_zerostep_no_curr.py", line 183, in train
+    loss.backward()
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\_tensor.py", line 648, in backward
+    torch.autograd.backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\__init__.py", line 353, in backward
+    _engine_run_backward(
+  File "C:\Users\39340\AppData\Roaming\Python\Python312\site-packages\torch\autograd\graph.py", line 824, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

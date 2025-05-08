@@ -17,8 +17,8 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "train_val_split"
-checkpoint_name_to_open = "train_val_split"
+checkpoint_name_to_save = "test_no_curr"
+checkpoint_name_to_open = "test_no_curr"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
@@ -53,9 +53,9 @@ folder_vaildation = ["simulated/50_percent_control/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:
-    from dataset_alt import Dataset, load_dataframes_from_folder
+    from dataset_no_curr_alt import Dataset, load_dataframes_from_folder
 else:
-    from dataset import Dataset, load_dataframes_from_folder
+    from dataset_no_curr import Dataset, load_dataframes_from_folder
 
 
 
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Meta system identification with transformers')
 
     # Overall
-    parser.add_argument('--model-dir', type=str, default="out", metavar='S',
+    parser.add_argument('--model-dir', type=str, default="out_no_curr", metavar='S',
                         help='Saved model folder')
     parser.add_argument('--out-file', type=str, default=checkpoint_name_to_save, metavar='S',
                         help='Saved model name')
@@ -232,7 +232,7 @@ if __name__ == '__main__':
     # Dataset
     parser.add_argument('--nx', type=int, default=4, metavar='N',
                         help='model order (default: 5)')
-    parser.add_argument('--nu', type=int, default=8, metavar='N',
+    parser.add_argument('--nu', type=int, default=6, metavar='N',
                         help='model order (default: 5)')
     parser.add_argument('--ny', type=int, default=1, metavar='N',
                         help='model order (default: 5)')

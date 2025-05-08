@@ -1,0 +1,16 @@
+{"time":"2025-05-08T17:04:00.087765+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-08T17:04:00.0883904+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250508_170400-jsn6m88q\\logs\\debug-core.log"}
+{"time":"2025-05-08T17:04:00.7953156+02:00","level":"INFO","msg":"created new stream","id":"jsn6m88q"}
+{"time":"2025-05-08T17:04:00.795962+02:00","level":"INFO","msg":"stream: started","id":"jsn6m88q"}
+{"time":"2025-05-08T17:04:00.795962+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"jsn6m88q"}}
+{"time":"2025-05-08T17:04:00.795962+02:00","level":"INFO","msg":"sender: started","stream_id":"jsn6m88q"}
+{"time":"2025-05-08T17:04:00.795962+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"jsn6m88q"}}
+{"time":"2025-05-08T17:04:01.1077857+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-08T17:04:05.7716179+02:00","level":"INFO","msg":"stream: closing","id":"jsn6m88q"}
+{"time":"2025-05-08T17:04:05.7716179+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-08T17:04:05.7721299+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-08T17:04:08.7133734+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-08T17:04:08.9298297+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"jsn6m88q"}}
+{"time":"2025-05-08T17:04:08.9298297+02:00","level":"INFO","msg":"sender: closed","stream_id":"jsn6m88q"}
+{"time":"2025-05-08T17:04:08.9298297+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"jsn6m88q"}}
+{"time":"2025-05-08T17:04:08.9302989+02:00","level":"INFO","msg":"stream: closed","id":"jsn6m88q"}
