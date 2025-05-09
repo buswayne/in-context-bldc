@@ -62717,3 +62717,633 @@ model:  test_no_curr_h10
 Epoch [31350], Train Loss: 0.0047, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
 model:  test_no_curr_h10
 Epoch [31351], Train Loss: 0.0039, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31352], Train Loss: 0.0052, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31353], Train Loss: 0.0042, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31354], Train Loss: 0.0047, Val Loss: 0.0056, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31355], Train Loss: 0.0041, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31356], Train Loss: 0.0056, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31357], Train Loss: 0.0039, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31358], Train Loss: 0.0047, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31359], Train Loss: 0.0035, Val Loss: 0.0035, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31360], Train Loss: 0.0042, Val Loss: 0.0060, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31361], Train Loss: 0.0061, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31362], Train Loss: 0.0048, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31363], Train Loss: 0.0045, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31364], Train Loss: 0.0049, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31365], Train Loss: 0.0059, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31366], Train Loss: 0.0052, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31367], Train Loss: 0.0051, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31368], Train Loss: 0.0049, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31369], Train Loss: 0.0046, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31370], Train Loss: 0.0044, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31371], Train Loss: 0.0045, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31372], Train Loss: 0.0041, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31373], Train Loss: 0.0048, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31374], Train Loss: 0.0048, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31375], Train Loss: 0.0044, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31376], Train Loss: 0.0045, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31377], Train Loss: 0.0042, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31378], Train Loss: 0.0041, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31379], Train Loss: 0.0047, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31380], Train Loss: 0.0040, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31381], Train Loss: 0.0051, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31382], Train Loss: 0.0054, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31383], Train Loss: 0.0043, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31384], Train Loss: 0.0046, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31385], Train Loss: 0.0044, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31386], Train Loss: 0.0056, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31387], Train Loss: 0.0057, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31388], Train Loss: 0.0045, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31389], Train Loss: 0.0046, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31390], Train Loss: 0.0042, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31391], Train Loss: 0.0046, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31392], Train Loss: 0.0051, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31393], Train Loss: 0.0039, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31394], Train Loss: 0.0046, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31395], Train Loss: 0.0039, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31396], Train Loss: 0.0048, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31397], Train Loss: 0.0044, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31398], Train Loss: 0.0057, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31399], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31400], Train Loss: 0.0043, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31401], Train Loss: 0.0039, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31402], Train Loss: 0.0048, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31403], Train Loss: 0.0035, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31404], Train Loss: 0.0045, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31405], Train Loss: 0.0041, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31406], Train Loss: 0.0046, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31407], Train Loss: 0.0040, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31408], Train Loss: 0.0040, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31409], Train Loss: 0.0048, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31410], Train Loss: 0.0047, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31411], Train Loss: 0.0048, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31412], Train Loss: 0.0047, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31413], Train Loss: 0.0047, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31414], Train Loss: 0.0044, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31415], Train Loss: 0.0047, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31416], Train Loss: 0.0040, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31417], Train Loss: 0.0048, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31418], Train Loss: 0.0044, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31419], Train Loss: 0.0051, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31420], Train Loss: 0.0046, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31421], Train Loss: 0.0042, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31422], Train Loss: 0.0047, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31423], Train Loss: 0.0039, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31424], Train Loss: 0.0037, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31425], Train Loss: 0.0045, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31426], Train Loss: 0.0049, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31427], Train Loss: 0.0044, Val Loss: 0.0036, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31428], Train Loss: 0.0047, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31429], Train Loss: 0.0047, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31430], Train Loss: 0.0044, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31431], Train Loss: 0.0041, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31432], Train Loss: 0.0047, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31433], Train Loss: 0.0048, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31434], Train Loss: 0.0050, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31435], Train Loss: 0.0045, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31436], Train Loss: 0.0039, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31437], Train Loss: 0.0057, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31438], Train Loss: 0.0045, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31439], Train Loss: 0.0049, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31440], Train Loss: 0.0039, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31441], Train Loss: 0.0039, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31442], Train Loss: 0.0047, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31443], Train Loss: 0.0051, Val Loss: 0.0059, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31444], Train Loss: 0.0051, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31445], Train Loss: 0.0049, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31446], Train Loss: 0.0051, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31447], Train Loss: 0.0047, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31448], Train Loss: 0.0055, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31449], Train Loss: 0.0043, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31450], Train Loss: 0.0045, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31451], Train Loss: 0.0046, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31452], Train Loss: 0.0049, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31453], Train Loss: 0.0046, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31454], Train Loss: 0.0041, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31455], Train Loss: 0.0043, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31456], Train Loss: 0.0047, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31457], Train Loss: 0.0044, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31458], Train Loss: 0.0045, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31459], Train Loss: 0.0043, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31460], Train Loss: 0.0038, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31461], Train Loss: 0.0045, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31462], Train Loss: 0.0046, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31463], Train Loss: 0.0046, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31464], Train Loss: 0.0043, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31465], Train Loss: 0.0055, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31466], Train Loss: 0.0039, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31467], Train Loss: 0.0049, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31468], Train Loss: 0.0051, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31469], Train Loss: 0.0051, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31470], Train Loss: 0.0051, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31471], Train Loss: 0.0045, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31472], Train Loss: 0.0053, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31473], Train Loss: 0.0039, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31474], Train Loss: 0.0048, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31475], Train Loss: 0.0046, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31476], Train Loss: 0.0043, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31477], Train Loss: 0.0043, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31478], Train Loss: 0.0047, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31479], Train Loss: 0.0045, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31480], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31481], Train Loss: 0.0053, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31482], Train Loss: 0.0049, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31483], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31484], Train Loss: 0.0044, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31485], Train Loss: 0.0038, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31486], Train Loss: 0.0049, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31487], Train Loss: 0.0042, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31488], Train Loss: 0.0044, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31489], Train Loss: 0.0049, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31490], Train Loss: 0.0049, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31491], Train Loss: 0.0053, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31492], Train Loss: 0.0042, Val Loss: 0.0061, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31493], Train Loss: 0.0043, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31494], Train Loss: 0.0047, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31495], Train Loss: 0.0049, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31496], Train Loss: 0.0049, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31497], Train Loss: 0.0049, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31498], Train Loss: 0.0048, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31499], Train Loss: 0.0056, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31500], Train Loss: 0.0054, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31501], Train Loss: 0.0052, Val Loss: 0.0061, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31502], Train Loss: 0.0043, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31503], Train Loss: 0.0041, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31504], Train Loss: 0.0042, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31505], Train Loss: 0.0047, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31506], Train Loss: 0.0042, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31507], Train Loss: 0.0046, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31508], Train Loss: 0.0042, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31509], Train Loss: 0.0047, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31510], Train Loss: 0.0048, Val Loss: 0.0053, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31511], Train Loss: 0.0040, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31512], Train Loss: 0.0047, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31513], Train Loss: 0.0052, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31514], Train Loss: 0.0045, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31515], Train Loss: 0.0044, Val Loss: 0.0059, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31516], Train Loss: 0.0042, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31517], Train Loss: 0.0042, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31518], Train Loss: 0.0045, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31519], Train Loss: 0.0045, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31520], Train Loss: 0.0039, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31521], Train Loss: 0.0044, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31522], Train Loss: 0.0039, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31523], Train Loss: 0.0036, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31524], Train Loss: 0.0042, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31525], Train Loss: 0.0044, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31526], Train Loss: 0.0042, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31527], Train Loss: 0.0039, Val Loss: 0.0056, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31528], Train Loss: 0.0050, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31529], Train Loss: 0.0045, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31530], Train Loss: 0.0039, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31531], Train Loss: 0.0042, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31532], Train Loss: 0.0047, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31533], Train Loss: 0.0047, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31534], Train Loss: 0.0041, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31535], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31536], Train Loss: 0.0043, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31537], Train Loss: 0.0048, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31538], Train Loss: 0.0038, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31539], Train Loss: 0.0047, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31540], Train Loss: 0.0046, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31541], Train Loss: 0.0038, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31542], Train Loss: 0.0049, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31543], Train Loss: 0.0047, Val Loss: 0.0056, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31544], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31545], Train Loss: 0.0042, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31546], Train Loss: 0.0048, Val Loss: 0.0057, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31547], Train Loss: 0.0041, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31548], Train Loss: 0.0048, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31549], Train Loss: 0.0041, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31550], Train Loss: 0.0047, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31551], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31552], Train Loss: 0.0049, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31553], Train Loss: 0.0039, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31554], Train Loss: 0.0038, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31555], Train Loss: 0.0042, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31556], Train Loss: 0.0055, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31557], Train Loss: 0.0043, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31558], Train Loss: 0.0045, Val Loss: 0.0060, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31559], Train Loss: 0.0046, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31560], Train Loss: 0.0042, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31561], Train Loss: 0.0047, Val Loss: 0.0053, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31562], Train Loss: 0.0040, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31563], Train Loss: 0.0046, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31564], Train Loss: 0.0045, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31565], Train Loss: 0.0061, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31566], Train Loss: 0.0040, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31567], Train Loss: 0.0042, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31568], Train Loss: 0.0046, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31569], Train Loss: 0.0052, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31570], Train Loss: 0.0055, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31571], Train Loss: 0.0044, Val Loss: 0.0056, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31572], Train Loss: 0.0037, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31573], Train Loss: 0.0042, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31574], Train Loss: 0.0053, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31575], Train Loss: 0.0044, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31576], Train Loss: 0.0041, Val Loss: 0.0061, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31577], Train Loss: 0.0050, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31578], Train Loss: 0.0046, Val Loss: 0.0064, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31579], Train Loss: 0.0046, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31580], Train Loss: 0.0044, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31581], Train Loss: 0.0040, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31582], Train Loss: 0.0043, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31583], Train Loss: 0.0046, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31584], Train Loss: 0.0046, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31585], Train Loss: 0.0049, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31586], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31587], Train Loss: 0.0044, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31588], Train Loss: 0.0050, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31589], Train Loss: 0.0034, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31590], Train Loss: 0.0042, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31591], Train Loss: 0.0039, Val Loss: 0.0034, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31592], Train Loss: 0.0054, Val Loss: 0.0053, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31593], Train Loss: 0.0048, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31594], Train Loss: 0.0049, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31595], Train Loss: 0.0042, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31596], Train Loss: 0.0056, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31597], Train Loss: 0.0043, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31598], Train Loss: 0.0040, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31599], Train Loss: 0.0041, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31600], Train Loss: 0.0055, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31601], Train Loss: 0.0039, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31602], Train Loss: 0.0041, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31603], Train Loss: 0.0042, Val Loss: 0.0053, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31604], Train Loss: 0.0051, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31605], Train Loss: 0.0049, Val Loss: 0.0055, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31606], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31607], Train Loss: 0.0046, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31608], Train Loss: 0.0048, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31609], Train Loss: 0.0053, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31610], Train Loss: 0.0051, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31611], Train Loss: 0.0046, Val Loss: 0.0053, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31612], Train Loss: 0.0044, Val Loss: 0.0044, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31613], Train Loss: 0.0053, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31614], Train Loss: 0.0052, Val Loss: 0.0032, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31615], Train Loss: 0.0047, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31616], Train Loss: 0.0051, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31617], Train Loss: 0.0047, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31618], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31619], Train Loss: 0.0047, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31620], Train Loss: 0.0050, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31621], Train Loss: 0.0046, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31622], Train Loss: 0.0042, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31623], Train Loss: 0.0044, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31624], Train Loss: 0.0046, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31625], Train Loss: 0.0051, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31626], Train Loss: 0.0043, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31627], Train Loss: 0.0043, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31628], Train Loss: 0.0040, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31629], Train Loss: 0.0039, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31630], Train Loss: 0.0048, Val Loss: 0.0054, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31631], Train Loss: 0.0045, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31632], Train Loss: 0.0046, Val Loss: 0.0048, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31633], Train Loss: 0.0053, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31634], Train Loss: 0.0051, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31635], Train Loss: 0.0042, Val Loss: 0.0045, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31636], Train Loss: 0.0047, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31637], Train Loss: 0.0050, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31638], Train Loss: 0.0048, Val Loss: 0.0040, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31639], Train Loss: 0.0043, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31640], Train Loss: 0.0042, Val Loss: 0.0059, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31641], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31642], Train Loss: 0.0047, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31643], Train Loss: 0.0046, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31644], Train Loss: 0.0047, Val Loss: 0.0056, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31645], Train Loss: 0.0049, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31646], Train Loss: 0.0051, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31647], Train Loss: 0.0045, Val Loss: 0.0052, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31648], Train Loss: 0.0051, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31649], Train Loss: 0.0044, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31650], Train Loss: 0.0041, Val Loss: 0.0039, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31651], Train Loss: 0.0044, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31652], Train Loss: 0.0040, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31653], Train Loss: 0.0047, Val Loss: 0.0051, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31654], Train Loss: 0.0041, Val Loss: 0.0042, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31655], Train Loss: 0.0048, Val Loss: 0.0037, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31656], Train Loss: 0.0047, Val Loss: 0.0038, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31657], Train Loss: 0.0049, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31658], Train Loss: 0.0051, Val Loss: 0.0050, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31659], Train Loss: 0.0045, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31660], Train Loss: 0.0048, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31661], Train Loss: 0.0043, Val Loss: 0.0046, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31662], Train Loss: 0.0037, Val Loss: 0.0047, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31663], Train Loss: 0.0042, Val Loss: 0.0049, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31664], Train Loss: 0.0043, Val Loss: 0.0041, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31665], Train Loss: 0.0049, Val Loss: 0.0043, LR: 0.000000, best val loss was: 0.0029
+model:  test_no_curr_h10
+Epoch [31666], Train Loss: 0.0046, Val Loss: 0.0058, LR: 0.000000, best val loss was: 0.0029
