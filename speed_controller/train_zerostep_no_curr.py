@@ -17,20 +17,20 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "test_no_curr"
-checkpoint_name_to_open = "test_no_curr"
+checkpoint_name_to_save = "test_no_curr_h10"
+checkpoint_name_to_open = "test_no_curr_h10"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 50 #h
+sequence_length = 10 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 30_000
-learning_rate_value = 1e-5
+max_iteration_number = 50_000
+learning_rate_value = 1e-6
 
 
 # standard batch extractor selects a random window of length h, from a random experiment, with a uniform probability. 

@@ -1,0 +1,9 @@
+{"time":"2025-05-09T09:30:49.8663547+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-09T09:30:49.8663547+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250509_093049-yywnyjv8\\logs\\debug-core.log"}
+{"time":"2025-05-09T09:30:50.5821615+02:00","level":"INFO","msg":"created new stream","id":"yywnyjv8"}
+{"time":"2025-05-09T09:30:50.5821615+02:00","level":"INFO","msg":"stream: started","id":"yywnyjv8"}
+{"time":"2025-05-09T09:30:50.5828471+02:00","level":"INFO","msg":"sender: started","stream_id":"yywnyjv8"}
+{"time":"2025-05-09T09:30:50.5828471+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"yywnyjv8"}}
+{"time":"2025-05-09T09:30:50.5828471+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"yywnyjv8"}}
+{"time":"2025-05-09T09:30:50.8762177+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-09T09:31:00.8771382+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
