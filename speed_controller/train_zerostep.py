@@ -17,9 +17,9 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "train_val_split"
-checkpoint_name_to_open = "train_val_split"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "perturbed_control_h50"
+checkpoint_name_to_open = "perturbed_control_h50"
+mode = "resume"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 50 #h
@@ -29,7 +29,7 @@ embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 30_000
+max_iteration_number = 100_000
 learning_rate_value = 1e-5
 
 
@@ -46,10 +46,10 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control/training"]
+folder_training = ["simulated/50_percent_control_alt/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_control/validation"]
+folder_vaildation = ["simulated/50_percent_control_alt/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:

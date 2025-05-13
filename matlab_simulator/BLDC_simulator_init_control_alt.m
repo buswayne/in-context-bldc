@@ -30,8 +30,8 @@ current_loop = 1;
 stepsize = 2000;
 eps = 0.05 * stepsize;
 
-save_data = true;
-show_figures = false;
+save_data = false;
+show_figures = true;
 
 P_min = 0.01;
 P_max = 1;
@@ -44,7 +44,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 1000;
+N_exp = 1;
 
 mdl = 'BLDC_simulator';
 mdl_alt = 'BLDC_simulator_alt';

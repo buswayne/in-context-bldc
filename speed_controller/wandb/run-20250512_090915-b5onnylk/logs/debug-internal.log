@@ -1,0 +1,17 @@
+{"time":"2025-05-12T09:09:15.1501073+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-12T09:09:15.1501073+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250512_090915-b5onnylk\\logs\\debug-core.log"}
+{"time":"2025-05-12T09:09:15.7390344+02:00","level":"INFO","msg":"created new stream","id":"b5onnylk"}
+{"time":"2025-05-12T09:09:15.7390344+02:00","level":"INFO","msg":"stream: started","id":"b5onnylk"}
+{"time":"2025-05-12T09:09:15.7396678+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"b5onnylk"}}
+{"time":"2025-05-12T09:09:15.7396678+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"b5onnylk"}}
+{"time":"2025-05-12T09:09:15.7396678+02:00","level":"INFO","msg":"sender: started","stream_id":"b5onnylk"}
+{"time":"2025-05-12T09:09:16.0779589+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-12T09:09:26.0800686+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-12T09:09:30.5007099+02:00","level":"INFO","msg":"stream: closing","id":"b5onnylk"}
+{"time":"2025-05-12T09:09:30.501499+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-12T09:09:30.5020934+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-12T09:09:33.3821956+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-12T09:09:33.5785524+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"b5onnylk"}}
+{"time":"2025-05-12T09:09:33.5785524+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"b5onnylk"}}
+{"time":"2025-05-12T09:09:33.5785524+02:00","level":"INFO","msg":"sender: closed","stream_id":"b5onnylk"}
+{"time":"2025-05-12T09:09:33.5785524+02:00","level":"INFO","msg":"stream: closed","id":"b5onnylk"}

@@ -7,3 +7,12 @@
 {"time":"2025-05-09T09:30:50.5828471+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"yywnyjv8"}}
 {"time":"2025-05-09T09:30:50.8762177+02:00","level":"INFO","msg":"Starting system monitor"}
 {"time":"2025-05-09T09:31:00.8771382+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-09T20:44:34.0696617+02:00","level":"ERROR","msg":"runconsolelogs: failed to write to file: truncate C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250509_093049-yywnyjv8\\files\\output.log: The requested operation cannot be performed on a file with a user-mapped section open."}
+{"time":"2025-05-09T22:59:15.2794231+02:00","level":"INFO","msg":"stream: closing","id":"yywnyjv8"}
+{"time":"2025-05-09T22:59:15.2794231+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-09T22:59:15.2855995+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-09T22:59:18.0681631+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-09T22:59:18.2969844+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"yywnyjv8"}}
+{"time":"2025-05-09T22:59:18.2969844+02:00","level":"INFO","msg":"sender: closed","stream_id":"yywnyjv8"}
+{"time":"2025-05-09T22:59:18.2969844+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"yywnyjv8"}}
+{"time":"2025-05-09T22:59:18.2975884+02:00","level":"INFO","msg":"stream: closed","id":"yywnyjv8"}

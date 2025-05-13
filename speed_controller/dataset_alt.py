@@ -19,7 +19,7 @@ class Dataset(Dataset):
     def __getitem__(self, idx):
         # Randomly select a DataFrame
         df_idx = np.random.choice(len(self.dfs))
-        df_idx = 582
+        # df_idx = 582
         df = self.dfs[df_idx]
 
         # evaluate whether the first and last element of the window of length H of the reference speed are different (e.g. if a step is present inside the window)
@@ -47,13 +47,19 @@ class Dataset(Dataset):
         # Ki = float(metadata[3].split(":")[1])
 
         if "T_ass" not in df.keys():  
-            print("adding T_ass")    
+            # print("adding T_ass")    
             location = len(df.keys())-1
             df.insert(loc=location, column='T_ass', value=np.ones_like(df["omega"].to_numpy())*T_ass)
         if "S_pct" not in df.keys():            
-            print("adding S_pct")        
+            # print("adding S_pct")        
             location = len(df.keys())-1  
             df.insert(loc=location, column='S_pct', value=np.ones_like(df["omega"].to_numpy())*S_pct)
+
+        if "next_iq_ref" not in df.keys(): 
+            tmp = copy.deepcopy(df['iq_ref'].to_numpy())
+            tmp[0:-2] = tmp[1:-1]
+            location = len(df.keys())-1 
+            df.insert(loc=location, column='next_iq_ref', value=tmp)
 
 
         
@@ -63,7 +69,7 @@ class Dataset(Dataset):
 
 
         # Get the sequence for batch_u and batch_y
-        batch_y = torch.tensor(df['iq_ref'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
+        batch_y = torch.tensor(df['next_iq_ref'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
         batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].iloc[start_idx:start_idx + self.seq_len].values,
                                dtype=torch.float32)
 
@@ -77,6 +83,18 @@ class Dataset(Dataset):
         Outputs the entirety of the experiment at index idx as a torch tensor (normalized if the data files were passed to the Dataset object correctly)
         '''
         df = self.dfs[idx]
+        metadata = df.keys()[-1].split(',')
+        print(metadata)
+        T_ass = float(metadata[0].split(":")[1]) / 3
+        S_pct = float(metadata[1].split(":")[1]) / 40
+        if "T_ass" not in df.keys():  
+            # print("adding T_ass")    
+            location = len(df.keys())-1
+            df.insert(loc=location, column='T_ass', value=np.ones_like(df["omega"].to_numpy())*T_ass)
+        if "S_pct" not in df.keys():            
+            # print("adding S_pct")        
+            location = len(df.keys())-1  
+            df.insert(loc=location, column='S_pct', value=np.ones_like(df["omega"].to_numpy())*S_pct)
         batch_y = torch.tensor(df['iq_ref'].to_numpy(), dtype=torch.float32)
         batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].to_numpy(), dtype=torch.float32)
         # Add a batch dimension
@@ -180,14 +198,14 @@ if __name__ == "__main__":
     current_path = os.getcwd().split("in-context-bldc")[0]
     data_path = os.path.join(current_path,"in-context-bldc", "data")
 
-    folder = "simulated/50_percent_control"
+    folder = "simulated/50_percent_control/training"
     folder_path = os.path.join(data_path, folder)
 
     dfs = load_dataframes_from_folder(folder_path)
     # Log the number of DataFrames loaded
     print(f"Loaded {len(dfs)} DataFrames from {folder_path}.")
 
-    seq_len = 100
+    seq_len = 10
 
     # Create an instance of the dataset
     dataset = Dataset(dfs=dfs, seq_len=seq_len)
