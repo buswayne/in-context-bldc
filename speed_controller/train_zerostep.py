@@ -17,19 +17,19 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "perturbed_control_h50"
-checkpoint_name_to_open = "perturbed_control_h50"
-mode = "resume"  # resume / scratch / pretrained
+checkpoint_name_to_save = "added_delay_h100"
+checkpoint_name_to_open = "added_delay_h100"
+mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 50 #h
+sequence_length = 100 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 100_000
+max_iteration_number = 50_000
 learning_rate_value = 1e-5
 
 
@@ -70,7 +70,7 @@ if wandb_record:
     # start a new wandb run to track this script
     wandb.init(
         # set the wandb project where this run will be logged
-        project="in-context bldc estimator",
+        project="in-context bldc controller",
         name=checkpoint_name_to_save
     )
 

@@ -1,0 +1,11 @@
+{"time":"2025-05-13T22:10:35.2879576+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-13T22:10:35.2879576+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250513_221035-rjqbweib\\logs\\debug-core.log"}
+{"time":"2025-05-13T22:10:35.4045982+02:00","level":"INFO","msg":"created new stream","id":"rjqbweib"}
+{"time":"2025-05-13T22:10:35.4045982+02:00","level":"INFO","msg":"stream: started","id":"rjqbweib"}
+{"time":"2025-05-13T22:10:35.4045982+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"rjqbweib"}}
+{"time":"2025-05-13T22:10:35.4045982+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"rjqbweib"}}
+{"time":"2025-05-13T22:10:35.4045982+02:00","level":"INFO","msg":"sender: started","stream_id":"rjqbweib"}
+{"time":"2025-05-13T22:10:35.8498349+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-13T22:10:45.8502085+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-14T01:57:21.5183126+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20estimator/rjqbweib/file_stream"}
+{"time":"2025-05-14T01:57:26.4298437+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}

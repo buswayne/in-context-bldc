@@ -20,7 +20,7 @@ end
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
-folder_name = sprintf('%02.0f_percent_control', perturbation_percent);
+folder_name = sprintf('%02.0f_percent_control_perturbed', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
@@ -30,8 +30,8 @@ current_loop = 1;
 stepsize = 2000;
 eps = 0.05 * stepsize;
 
-save_data = false;
-show_figures = true;
+save_data = true;
+show_figures = false;
 perturbed_reference = true;
 
 P_min = 0.01;
@@ -45,7 +45,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 1;
+N_exp = 1000;
 
 mdl = 'BLDC_simulator';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
