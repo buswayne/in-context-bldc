@@ -20,7 +20,7 @@ end
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
-folder_name = sprintf('%02.0f_percent_control', perturbation_percent);
+folder_name = sprintf('%02.0f_percent_control_perturbed', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
@@ -32,7 +32,7 @@ eps = 0.05 * stepsize;
 
 save_data = true;
 show_figures = false;
-perturbed_reference = false;
+perturbed_reference = true;
 
 P_min = 0.01;
 P_max = 1;
@@ -45,7 +45,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 80;
+N_exp = 1000-35;
 
 mdl = 'BLDC_simulator';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
@@ -127,33 +127,35 @@ for idx_exp = 1:N_exp
     if perturbed_reference
 
         max_freq = 10;
-        min_freq = 1;
+        min_freq = 0.5;
         max_amp = 200;
         min_amp = 0;
         max_phase = pi;
         min_phase = -pi;
 
-        freq = rand(6,1)*(max_freq-min_freq) + min_freq
-        amp = rand(6,1)*(max_amp-min_amp) + min_amp
-        phase = rand(6,1)*(max_phase-min_phase) + min_phase
+        f_num = 3;
+
+        freq = rand(f_num*2,1)*(max_freq-min_freq) + min_freq;
+        amp = rand(f_num*2,1)*(max_amp-min_amp) + min_amp;
+        phase = rand(f_num*2,1)*(max_phase-min_phase) + min_phase;
 
         %%% perturbation 1:
-        perturbation_signal_1 = time * 0
-        for i=1:3
-            perturbation_signal_1 = perturbation_signal_1 + amp(i) * sin(2 * pi * freq(i) * time + phase(i))
+        perturbation_signal_1 = time * 0;
+        for i=1:f_num
+            perturbation_signal_1 = perturbation_signal_1 + amp(i) * sin(2 * pi * freq(i) * time + phase(i));
         end
 
-        perturbation_signal_2 = time * 0
-        for i=4:6
-            perturbation_signal_2 = perturbation_signal_2 + amp(i) * sin(2 * pi * freq(i) * time + phase(i))
+        perturbation_signal_2 = time * 0;
+        for i=(f_num+1):(f_num*2)
+            perturbation_signal_2 = perturbation_signal_2 + amp(i) * sin(2 * pi * freq(i) * time + phase(i));
         end
 
 
 
 
         reference_speed = time * 0;
-        reference_speed(time <= 4.5) = rand() * max_speed + perturbation_signal_2;
-        reference_speed(time <= 2.5) = rand() * max_speed;
+        reference_speed(time <= 4.5) = rand() * max_speed + perturbation_signal_2(time <= 4.5);
+        reference_speed(time <= 2.5) = rand() * max_speed + perturbation_signal_1(time <= 2.5);
         reference_speed(time <= 0.5) = 0;
     else
         reference_speed = time * 0;
