@@ -1,0 +1,9 @@
+{"time":"2025-05-15T09:23:00.3569975+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-15T09:23:00.3569975+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250515_092300-u7vaz3ka\\logs\\debug-core.log"}
+{"time":"2025-05-15T09:23:01.146033+02:00","level":"INFO","msg":"created new stream","id":"u7vaz3ka"}
+{"time":"2025-05-15T09:23:01.1466236+02:00","level":"INFO","msg":"stream: started","id":"u7vaz3ka"}
+{"time":"2025-05-15T09:23:01.1466236+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"u7vaz3ka"}}
+{"time":"2025-05-15T09:23:01.1466236+02:00","level":"INFO","msg":"sender: started","stream_id":"u7vaz3ka"}
+{"time":"2025-05-15T09:23:01.1466236+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"u7vaz3ka"}}
+{"time":"2025-05-15T09:23:01.5326166+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-15T09:23:11.5349294+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}

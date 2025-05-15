@@ -84,7 +84,7 @@ class Dataset(Dataset):
         '''
         df = self.dfs[idx]
         metadata = df.keys()[-1].split(',')
-        print(metadata)
+        # print(metadata)
         T_ass = float(metadata[0].split(":")[1]) / 3
         S_pct = float(metadata[1].split(":")[1]) / 40
         if "T_ass" not in df.keys():  
@@ -95,7 +95,12 @@ class Dataset(Dataset):
             # print("adding S_pct")        
             location = len(df.keys())-1  
             df.insert(loc=location, column='S_pct', value=np.ones_like(df["omega"].to_numpy())*S_pct)
-        batch_y = torch.tensor(df['iq_ref'].to_numpy(), dtype=torch.float32)
+        if "next_iq_ref" not in df.keys(): 
+            tmp = copy.deepcopy(df['iq_ref'].to_numpy())
+            tmp[0:-2] = tmp[1:-1]
+            location = len(df.keys())-1 
+            df.insert(loc=location, column='next_iq_ref', value=tmp)
+        batch_y = torch.tensor(df['next_iq_ref'].to_numpy(), dtype=torch.float32)
         batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].to_numpy(), dtype=torch.float32)
         # Add a batch dimension
         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)

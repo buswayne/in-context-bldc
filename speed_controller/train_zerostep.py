@@ -17,19 +17,19 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "added_delay_h100"
-checkpoint_name_to_open = "added_delay_h100"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "added_delay_h10_v2"
+checkpoint_name_to_open = "added_delay_h10"
+mode = "resume"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 100 #h
+sequence_length = 10 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 50_000
+max_iteration_number = 30_000
 learning_rate_value = 1e-5
 
 
