@@ -17,9 +17,9 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "added_delay_h10_v2"
-checkpoint_name_to_open = "added_delay_h10"
-mode = "resume"  # resume / scratch / pretrained
+checkpoint_name_to_save = "perturbed_data_h10_v3"
+checkpoint_name_to_open = "perturbed_data_h10"
+mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 10 #h
@@ -46,10 +46,10 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control_alt/training"]
+folder_training = ["simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_control_alt/validation"]
+folder_vaildation = ["simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:

@@ -1,0 +1,28 @@
+{"time":"2025-05-16T09:01:39.2514868+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-16T09:01:39.2520749+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250516_090139-jph49ubd\\logs\\debug-core.log"}
+{"time":"2025-05-16T09:01:39.3686357+02:00","level":"INFO","msg":"created new stream","id":"jph49ubd"}
+{"time":"2025-05-16T09:01:39.3693514+02:00","level":"INFO","msg":"stream: started","id":"jph49ubd"}
+{"time":"2025-05-16T09:01:39.3693514+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"jph49ubd"}}
+{"time":"2025-05-16T09:01:39.3693514+02:00","level":"INFO","msg":"sender: started","stream_id":"jph49ubd"}
+{"time":"2025-05-16T09:01:39.3693514+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"jph49ubd"}}
+{"time":"2025-05-16T09:01:39.7890478+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-16T09:01:49.7895754+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-16T10:58:10.2508606+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:12.6444345+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:17.5351657+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:26.413807+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:31.907657+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.1.152:53724->35.186.228.49:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."}
+{"time":"2025-05-16T10:58:34.3831549+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:38.4254619+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:42.7921084+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:46.7929037+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:59:04.3448102+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:59:17.1680791+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/jph49ubd/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T18:35:40.1745749+02:00","level":"INFO","msg":"stream: closing","id":"jph49ubd"}
+{"time":"2025-05-16T18:35:40.1745749+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-16T18:35:40.1755743+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-16T18:35:43.2613768+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-16T18:35:43.4619837+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"jph49ubd"}}
+{"time":"2025-05-16T18:35:43.4619837+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"jph49ubd"}}
+{"time":"2025-05-16T18:35:43.4619837+02:00","level":"INFO","msg":"sender: closed","stream_id":"jph49ubd"}
+{"time":"2025-05-16T18:35:43.4625096+02:00","level":"INFO","msg":"stream: closed","id":"jph49ubd"}

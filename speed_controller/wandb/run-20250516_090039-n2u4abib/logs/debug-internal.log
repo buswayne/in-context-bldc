@@ -1,0 +1,31 @@
+{"time":"2025-05-16T09:00:39.0801312+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-16T09:00:39.0801312+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250516_090039-n2u4abib\\logs\\debug-core.log"}
+{"time":"2025-05-16T09:00:39.8170344+02:00","level":"INFO","msg":"created new stream","id":"n2u4abib"}
+{"time":"2025-05-16T09:00:39.8170344+02:00","level":"INFO","msg":"stream: started","id":"n2u4abib"}
+{"time":"2025-05-16T09:00:39.8175532+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"n2u4abib"}}
+{"time":"2025-05-16T09:00:39.8175532+02:00","level":"INFO","msg":"sender: started","stream_id":"n2u4abib"}
+{"time":"2025-05-16T09:00:39.8175532+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"n2u4abib"}}
+{"time":"2025-05-16T09:00:40.1799696+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-16T09:00:50.1811629+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-16T10:58:10.669684+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:12.839087+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:16.8604054+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:26.3690174+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:34.4866187+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.1.152:53741->35.186.228.49:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."}
+{"time":"2025-05-16T10:58:36.7518022+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:41.3912155+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:45.9120279+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:58:49.7484806+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:59:08.3153045+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T10:59:19.9948139+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-16T12:33:30.8450155+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": unexpected EOF"}
+{"time":"2025-05-16T13:30:16.4356681+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/n2u4abib/file_stream\": unexpected EOF"}
+{"time":"2025-05-16T18:00:42.4433331+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2025-05-16T18:25:44.4353588+02:00","level":"INFO","msg":"stream: closing","id":"n2u4abib"}
+{"time":"2025-05-16T18:25:44.4353588+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-16T18:25:44.4371832+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-16T18:25:47.5908495+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-16T18:25:47.7888711+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"n2u4abib"}}
+{"time":"2025-05-16T18:25:47.7888711+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"n2u4abib"}}
+{"time":"2025-05-16T18:25:47.7888711+02:00","level":"INFO","msg":"sender: closed","stream_id":"n2u4abib"}
+{"time":"2025-05-16T18:25:47.7888711+02:00","level":"INFO","msg":"stream: closed","id":"n2u4abib"}
