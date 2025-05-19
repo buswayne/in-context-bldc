@@ -1,0 +1,20 @@
+{"time":"2025-05-17T23:46:02.4338225+02:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-05-17T23:46:02.4344019+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\speed_controller\\wandb\\run-20250517_234602-3rkgg7gf\\logs\\debug-core.log"}
+{"time":"2025-05-17T23:46:02.5465807+02:00","level":"INFO","msg":"created new stream","id":"3rkgg7gf"}
+{"time":"2025-05-17T23:46:02.5465807+02:00","level":"INFO","msg":"stream: started","id":"3rkgg7gf"}
+{"time":"2025-05-17T23:46:02.5465807+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"3rkgg7gf"}}
+{"time":"2025-05-17T23:46:02.5465807+02:00","level":"INFO","msg":"sender: started","stream_id":"3rkgg7gf"}
+{"time":"2025-05-17T23:46:02.5465807+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"3rkgg7gf"}}
+{"time":"2025-05-17T23:46:03.17595+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-17T23:46:13.1762342+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-05-18T07:09:31.0087206+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/3rkgg7gf/file_stream\": unexpected EOF"}
+{"time":"2025-05-18T10:02:20.3143563+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/3rkgg7gf/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-18T10:02:22.3571452+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/alessandro4-colombo-politecnico-di-milano/in-context%20bldc%20controller/3rkgg7gf/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-05-18T10:08:12.7109638+02:00","level":"INFO","msg":"stream: closing","id":"3rkgg7gf"}
+{"time":"2025-05-18T10:08:12.7109638+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-18T10:08:12.7117032+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-18T10:08:16.6560905+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-18T10:08:17.1235551+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"3rkgg7gf"}}
+{"time":"2025-05-18T10:08:17.1235551+02:00","level":"INFO","msg":"sender: closed","stream_id":"3rkgg7gf"}
+{"time":"2025-05-18T10:08:17.1235551+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"3rkgg7gf"}}
+{"time":"2025-05-18T10:08:17.1235551+02:00","level":"INFO","msg":"stream: closed","id":"3rkgg7gf"}

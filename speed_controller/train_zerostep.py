@@ -17,8 +17,8 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "perturbed_data_h10_v3"
-checkpoint_name_to_open = "perturbed_data_h10"
+checkpoint_name_to_save = "new_delay_mixed_data_h10"
+checkpoint_name_to_open = "new_delay_mixed_data_h10"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
@@ -36,7 +36,7 @@ learning_rate_value = 1e-5
 # standard batch extractor selects a random window of length h, from a random experiment, with a uniform probability. 
 # the alternative one enforces the extraction of windows that possess specific characteristics with a certain probability,
 # e.g. 50% chance of extracting a sample window in which the speed is >2000RPM at least once
-alternative_batch_extractor = False
+alternative_batch_extractor = True
 
 # whether or not to log training data on wandb
 wandb_record = True
@@ -46,10 +46,12 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control_perturbed/training"]
+# folder_training = ["simulated/50_percent_control_perturbed/training"]
+folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
 folder_vaildation = ["simulated/50_percent_control_perturbed/validation"]
+folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:
@@ -335,8 +337,9 @@ if __name__ == '__main__':
 
     dfs_val = []
     for path_iter in folder_path_val:
-        dfs_val = dfs_val + load_dataframes_from_folder(path_iter)
-        print(f"Loaded {len(dfs_val)} DataFrames from {path_iter}.")
+        new_dfs = load_dataframes_from_folder(path_iter)
+        dfs_val = dfs_val + new_dfs
+        print(f"Loaded {len(new_dfs)} DataFrames from {path_iter}.")
 
     val_ds = Dataset(dfs=dfs_val, seq_len=cfg.seq_len)
     val_dl = DataLoader(val_ds, batch_size=cfg.eval_batch_size, pin_memory=True, shuffle=True)
