@@ -96,7 +96,7 @@ class Dataset(Dataset):
         '''
         df = self.dfs[idx]
         metadata = df.keys()[-1].split(',')
-        print(metadata)
+        # print(metadata)
         T_ass = float(metadata[0].split(":")[1]) / 3
         S_pct = float(metadata[1].split(":")[1]) / 40
         if "T_ass" not in df.keys():  

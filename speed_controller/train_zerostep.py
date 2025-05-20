@@ -17,19 +17,19 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "new_delay_mixed_data_h10"
-checkpoint_name_to_open = "new_delay_mixed_data_h10"
+checkpoint_name_to_save = "new_delay_perturbed_data_h50"
+checkpoint_name_to_open = "new_delay_perturbed_data_h50"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 10 #h
+sequence_length = 50 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
 
 # training parameters
 batch_size_ = 128
-max_iteration_number = 30_000
+max_iteration_number = 20_000
 learning_rate_value = 1e-5
 
 
@@ -46,12 +46,12 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-# folder_training = ["simulated/50_percent_control_perturbed/training"]
-folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
+folder_training = ["simulated/50_percent_control_perturbed/training"]
+# folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
 folder_vaildation = ["simulated/50_percent_control_perturbed/validation"]
-folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
+# folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
 if alternative_batch_extractor:
