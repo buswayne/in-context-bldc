@@ -1,0 +1,205 @@
+clear
+clc
+close all
+tic
+temp_name = strsplit(pwd,'in-context-bldc');
+data_path = fullfile(temp_name{1}, "in-context-bldc","data","CL_experiments_double_sensor_control\test\inertia05");
+% "C:\Users\39340\Documents\GitHub\in-context-bldc\data\CL_experiments_double_sensor_control\test\inertia05\2025-04-30--09-28-13.csv"
+data_path_sim = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
+folder = "50_percent_control_perturbed";
+
+data_path_sim = fullfile(data_path_sim,folder);
+
+list_struct = dir(data_path);
+list = {list_struct(3:end).name};
+
+% 
+% list_struct_sim = dir(data_path_sim);
+% list_sim = {list_struct_sim(3:end).name};
+
+% single file
+exp_num = 3;
+% iq_mse = zeros(1,length(list));
+% id_mse = zeros(1,length(list));
+% vq_mse = zeros(1,length(list));
+% vd_mse = zeros(1,length(list));
+
+% for exp_num = 1:length(list)
+    % sim = false;
+    % if sim
+    %     filename = fullfile(data_path_sim, list_sim{exp_num});
+    %     exp = readmatrix(filename);
+    %     t = exp(:,1);
+    %     iq = exp(:,6);
+    %     id = exp(:,5);
+    %     vq = exp(:,9);
+    %     vd = exp(:,8);
+    %     omega = exp(:,3);
+    %     ref = exp(:,4);
+
+
+
+    % else
+filename = fullfile(data_path, list{exp_num});
+exp = readtable(filename);
+t = exp.t;
+iq = exp.iq;
+id = exp.id;
+vq = exp.vq;
+vd = exp.vd;
+omega = exp.omega;
+ref = exp.r;
+
+figure
+subplot(211)
+hold on
+grid on
+plot(vq)
+plot(vd)
+
+subplot(212)
+hold on
+grid on
+plot(iq)
+plot(id)
+        
+
+
+iq_rms = [];
+id_rms = [];
+vq_rms = [];
+vd_rms = [];
+       
+% % exp 1
+% interval_set = [33,444;
+%                 502, 740;
+%                 775, 1138;
+%                 1165, 1483;
+%                 1545, 1936];
+% % iq 0.0543
+% % id 0.0727
+% % vq 0.2732
+% % vd 0.3878
+
+
+% % exp 2
+% interval_set = [39,391;
+%                 421, 840;
+%                 880, 1194;
+%                 1222, 1492;
+%                 1540, 1873;
+%                 1918, 2001];
+% % iq 0.0662
+% % id 0.0989
+% % vq 0.3223
+% % vd 0.5133
+
+
+
+% exp 3
+interval_set = [63,243;
+                273,536;
+                594,982;
+                1044, 1384;
+                1450, 1786;
+                1877, 2001];
+% iq 0.0533
+% id 0.0878
+% vq 0.2694
+% vd 0.4574
+
+
+
+
+
+
+for interval = interval_set'
+    start = interval(1);
+    fin = interval(2);
+
+
+    t = exp.t(start:fin);
+    iq = exp.iq(start:fin);
+    id = exp.id(start:fin);
+    vq = exp.vq(start:fin);
+    vd = exp.vd(start:fin);
+    omega = exp.omega(start:fin);
+    ref = exp.r(start:fin);
+
+    % end
+ 
+    %%%%% obtained "by hand"
+    %%% vq 0.1
+    %%% vd 0.1
+    %%% iq 0.01
+    %%% id 0.008
+
+    %%%%% obtained here
+    %%% vq 0.7986, 0.4997, 0.3995
+    %%% vd 0.2658, 0.2224, 0.2112 
+    %%% iq 0.2454, 0.2057, 0.1597 
+    %%% id 0.0050, 0.0047, 0.0054 
+
+    %%%%% what I'll use (iq and vq move a lot, maybe the transitories stain
+    %%%%% the calculations)
+    %%% vq 0.2
+    %%% vd 0.2
+    %%% iq 0.1
+    %%% id 0.005
+    % 
+    % windowsize = 20;
+    % 
+    % iq_filt = movavg(iq,"linear",windowsize,"shrink");
+    % id_filt = movavg(id,"linear",windowsize,"shrink");
+    % vq_filt = movavg(vq,"linear",windowsize,"shrink");
+    % vd_filt = movavg(vd,"linear",windowsize,"shrink");
+
+    figure
+    subplot(211)
+    hold on
+    grid on
+    plot(vq)
+    % plot(vq_filt)
+    plot(vd)
+    % plot(vd_filt)
+
+    subplot(212)
+    hold on
+    grid on
+    plot(iq)
+    % plot(iq_filt)
+    plot(id)
+    % plot(id_filt)
+
+    % iq_noise = iq-iq_filt;
+    % id_noise = id-id_filt;
+    % vd_noise = vd-vd_filt;
+    % vq_noise = vq-vq_filt;
+
+    % iq_rms(exp_num) = rms(iq_noise-mean(iq_noise))
+    % id_rms(exp_num) = rms(id_noise-mean(id_noise))
+    % vq_rms(exp_num) = rms(vq_noise-mean(vq_noise))
+    % vd_rms(exp_num) = rms(vd_noise-mean(vd_noise))
+
+    iq_rms(end+1) = std(iq);
+    id_rms(end+1) = std(id);
+    vq_rms(end+1) = std(vq);
+    vd_rms(end+1) = std(vd);
+
+end
+
+mean(iq_rms)
+mean(id_rms)
+mean(vq_rms)
+mean(vd_rms)
+
+% 
+% % end
+% 
+% 
+% fprintf("vq noise power: %.4f \n", mean(vq_mse))
+% fprintf("vd noise power: %.4f \n", mean(vd_mse))
+% fprintf("iq noise power: %.4f \n", mean(iq_mse))
+% fprintf("id noise power: %.4f \n", mean(id_mse))
+% 
+% 

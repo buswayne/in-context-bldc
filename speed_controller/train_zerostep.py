@@ -17,12 +17,12 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "new_delay_perturbed_data_h50"
-checkpoint_name_to_open = "new_delay_perturbed_data_h50"
+checkpoint_name_to_save = "new_delay_perturbed_data_h100"
+checkpoint_name_to_open = "new_delay_perturbed_data_h100"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 50 #h
+sequence_length = 100 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
