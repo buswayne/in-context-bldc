@@ -17,12 +17,12 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "new_delay_perturbed_data_h100"
-checkpoint_name_to_open = "new_delay_perturbed_data_h100"
+checkpoint_name_to_save = "new_delay_noise_h10"
+checkpoint_name_to_open = "new_delay_noise_h10"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
-sequence_length = 100 #h
+sequence_length = 10 #h
 layers_number = 8 #8
 heads_number = 4 #4
 embd_number = 16 #16
@@ -46,11 +46,11 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control_perturbed/training"]
+folder_training = ["simulated/50_percent_control_with_noise/training"]
 # folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_control_perturbed/validation"]
+folder_vaildation = ["simulated/50_percent_control_with_noise/validation"]
 # folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 

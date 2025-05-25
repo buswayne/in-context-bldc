@@ -31,35 +31,40 @@ for folder = folder_list
         counter = counter + 1;
         fprintf("from folder %s, converting file # %d, called ''%s'' \n", folder{1}, counter, file{1})
 
-        exp = readmatrix(fullfile(data_filepath, file));
-        t = exp(:,1);
-        theta = exp(:,2);
-        omega = exp(:,3);
-        r = exp(:,4);
-        i_d = exp(:,5);
-        i_q = exp(:,6);
-        i_q_ref = exp(:,7);
-        v_d = exp(:,8);
-        v_q = exp(:,9);
+        exp = readtable(fullfile(data_filepath, file), 'VariableNamingRule','preserve');
+        % t = exp(:,1);
+        % theta = exp(:,2);
+        % omega = exp(:,3);
+        % r = exp(:,4);
+        % i_d = exp(:,5);
+        % i_q = exp(:,6);
+        % i_q_ref = exp(:,7);
+        % v_d = exp(:,8);
+        % v_q = exp(:,9);
 
-        iq_noise = sqrt(P_iq)*randn(length(t),1);
-        id_noise = sqrt(P_id)*randn(length(t),1);
-        vq_noise = sqrt(P_vq)*randn(length(t),1);
-        vd_noise = sqrt(P_vd)*randn(length(t),1);
+        exp.iq = exp.iq + sqrt(P_iq)*randn(length(exp.iq),1);
+        exp.id = exp.id + sqrt(P_id)*randn(length(exp.id),1);
+        exp.vq = exp.vq + sqrt(P_vq)*randn(length(exp.vq),1);
+        exp.vd = exp.vd + sqrt(P_vd)*randn(length(exp.vd),1);
 
-        struct_tmp.t = t;
-        struct_tmp.theta = theta;
-        struct_tmp.omega = omega;
-        struct_tmp.r = r;
-        struct_tmp.i_d = i_d + id_noise;
-        struct_tmp.i_q = i_q + iq_noise;
-        struct_tmp.i_q_ref = i_q_ref;
-        struct_tmp.v_d = v_d + vd_noise;
-        struct_tmp.v_q = v_q + vq_noise;
-
-        tab = struct2table(struct_tmp);
+        % iq_noise = sqrt(P_iq)*randn(length(t),1);
+        % id_noise = sqrt(P_id)*randn(length(t),1);
+        % vq_noise = sqrt(P_vq)*randn(length(t),1);
+        % vd_noise = sqrt(P_vd)*randn(length(t),1);
+        % 
+        % struct_tmp.t = t;
+        % struct_tmp.theta = theta;
+        % struct_tmp.omega = omega;
+        % struct_tmp.r = r;
+        % struct_tmp.i_d = i_d + id_noise;
+        % struct_tmp.i_q = i_q + iq_noise;
+        % struct_tmp.i_q_ref = i_q_ref;
+        % struct_tmp.v_d = v_d + vd_noise;
+        % struct_tmp.v_q = v_q + vq_noise;
+        % 
+        % tab = struct2table(struct_tmp);
         
         exp_name = file{1}(1:end-4) + "with_noise.csv";
-        writetable(tab,fullfile(save_filepath,exp_name));
+        writetable(exp,fullfile(save_filepath,exp_name));
     end
 end

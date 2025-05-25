@@ -28,18 +28,24 @@ for folder = folder_list
     counter = 0;
 
     for file = file_list
-        fprintf("from folder %s, converting file # %d, called ''%s'' ",)
+        counter = counter + 1;
+        fprintf("from folder %s, converting file # %d, called ''%s'' \n", folder{1}, counter, file{1})
 
-        exp = readmatrix(fullfile(data_filepath, file));
-        t = exp(:,1);
-        theta = exp(:,2);
-        omega = exp(:,3);
-        r = exp(:,4);
-        i_d = exp(:,5);
-        i_q = exp(:,6);
-        i_q_ref = exp(:,7);
-        v_d = exp(:,8);
-        v_q = exp(:,9);
+        exp = readtable(fullfile(data_filepath, file));
+        % t = exp(:,1);
+        % theta = exp(:,2);
+        % omega = exp(:,3);
+        % r = exp(:,4);
+        % i_d = exp(:,5);
+        % i_q = exp(:,6);
+        % i_q_ref = exp(:,7);
+        % v_d = exp(:,8);
+        % v_q = exp(:,9);
+
+        exp.iq = exp.iq + sqrt(P_iq)*randn(length(exp.iq),1);
+        exp.id = exp.id + sqrt(P_id)*randn(length(exp.id),1);
+        exp.vq = exp.vq + sqrt(P_vq)*randn(length(exp.vq),1);
+        exp.vd = exp.vd + sqrt(P_vd)*randn(length(exp.vd),1);
 
         iq_noise = sqrt(P_iq)*randn(length(t),1);
         id_noise = sqrt(P_id)*randn(length(t),1);
