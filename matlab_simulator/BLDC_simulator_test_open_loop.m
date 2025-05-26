@@ -15,7 +15,7 @@ exp_name = "2025-03-03--14-51-19_exp  10.csv";
 real_data_path = fullfile(real_data_path, exp_name);
 
 real_data = readmatrix(real_data_path);
-real_data = real_data(1:500,:);
+real_data = real_data(1:1500,:);
 
 vq_ref = real_data(:,4);
 vd_ref = real_data(:,5);
@@ -93,3 +93,33 @@ plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
 legend()
 linkaxes([ax1, ax2, ax3, ax4], 'x')
 
+
+lw = 1;
+figure
+subplot(3,1,1)
+hold on
+grid on
+plot(output.output.time, output.output.signals.values(:,7), "DisplayName","Vd_{real}", Color='red', LineWidth=lw)
+plot(output.output.time, output.output.signals.values(:,8), "DisplayName","Vq_{real}", Color='blue', LineWidth=lw)
+title("Input Voltages")
+ylabel("voltages [V]")
+legend()
+
+subplot(3,1,2)
+hold on
+grid on
+plot(output.output.time, real_data(:,2), "DisplayName","Iq_{real}", LineWidth=lw*1.5)
+plot(output.output.time, output.output.signals.values(:,5), "DisplayName","Iq_{sim}", LineWidth=lw)
+title("Current profiles")
+ylabel("current [A]")
+legend()
+
+subplot(3,1,3)
+hold on
+grid on
+plot(output.output.time, real_data(:,13), "DisplayName","\omega_{ref}", 'LineStyle','--', Color='black', LineWidth=lw)
+plot(output.output.time, real_data(:,11), "DisplayName","\omega_{real}", Color="#0072BD", LineWidth=lw*1.5)
+plot(output.output.time, output.output.signals.values(:,2), "DisplayName","\omega_{sim}", Color="#D95319", LineWidth=lw)
+title("Speed profiles")
+ylabel("speed [rpm]")
+legend()
