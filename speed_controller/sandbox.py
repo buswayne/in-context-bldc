@@ -34,10 +34,20 @@ print(onnxscript.__version__)
 # # print(T_ass, S_pct, Kp, Ki)
 
 
-model=torch.jit.load("test_controller2.pt", map_location='cpu')
-input = torch.zeros((1,10,8)).to('cpu')
-print(input.device)
-# print(model)
-print(model(input)[0,-1,0]*10+5)
+# model=torch.jit.load("test_controller2.pt", map_location='cpu')
+# input = torch.zeros((1,10,8)).to('cpu')
+# print(input.device)
+# # print(model)
+# print(model(input)[0,-1,0]*10+5)
+
+
+def bias_no_tril(block_size):
+    i = torch.arange(block_size).unsqueeze(0)
+    j = torch.arange(block_size).unsqueeze(1)
+    bias = (i <= j).float().view(1, 1, block_size, block_size)
+    return bias
+
+print(bias_no_tril(4))
+print(torch.tril(torch.ones(4,4)).view(1,1,4,4))
 
 

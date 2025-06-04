@@ -2253,3 +2253,10 @@ for name = transpose(fieldnames(s))
     s.(name{1}) = t.(name{1});
 end
 end
+
+
+function [Y, NumdimY] = PLACEHOLDER(X)
+[rows_number, cols_number] = size(X);
+Y = 1:rows_number <= (1:cols_number)';
+NumdimY = 2;
+end
