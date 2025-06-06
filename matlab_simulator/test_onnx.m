@@ -4,7 +4,7 @@ close all
 
 function_name = "fun_onnx";
 
-params = importONNXFunction("C:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\test_controller_onnx2.onnx", function_name);
+params = importONNXFunction("C:\Users\39340\Documents\GitHub\in-context-bldc\speed_controller\test_controller.onnx", function_name);
 input = zeros(1,10,8);
 
 function_file = function_name + ".m";
