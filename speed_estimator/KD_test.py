@@ -13,7 +13,6 @@ import wandb
 import torch.nn as nn
 import pandas as pd
 import copy
-wandb.login(key="e39b0c010c97782879054b547ee3914921b002f6")
 # import torch.multiprocessing as mp
 
 
