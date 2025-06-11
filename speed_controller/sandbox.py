@@ -5,14 +5,18 @@ from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 import copy
 import torch
-import onnx
-import onnxruntime
-import onnxscript
+# import onnx
+# import onnxruntime
+# import onnxscript
 import pandas as pd
-print(torch.__version__)
-print(onnx.__version__)
-print(onnxruntime.__version__)
-print(onnxscript.__version__)
+from transformer_zerostep import GPTConfig
+# print(torch.__version__)
+# print(onnx.__version__)
+# print(onnxruntime.__version__)
+# print(onnxscript.__version__)
+from collections import OrderedDict
+
+
 
 # current_path = os.getcwd().split("in-context-bldc")[0]
 # data_path = os.path.join(current_path,"in-context-bldc", "data")
@@ -38,16 +42,32 @@ print(onnxscript.__version__)
 # input = torch.zeros((1,10,8)).to('cpu')
 # print(input.device)
 # # print(model)
-# print(model(input)[0,-1,0]*10+5)
+# # print(model(input)[0,-1,0]*10+5)
 
 
-def bias_no_tril(block_size):
-    i = torch.arange(block_size).unsqueeze(0)
-    j = torch.arange(block_size).unsqueeze(1)
-    bias = (i <= j).float().view(1, 1, block_size, block_size)
-    return bias
+# def bias_no_tril(block_size):
+#     i = torch.arange(block_size).unsqueeze(0)
+#     j = torch.arange(block_size).unsqueeze(1)
+#     bias = (i <= j).float().view(1, 1, block_size, block_size)
+#     return bias
 
-print(bias_no_tril(4))
-print(torch.tril(torch.ones(4,4)).view(1,1,4,4))
+# print(bias_no_tril(4))
+# print(torch.tril(torch.ones(4,4)).view(1,1,4,4))
 
 
+model_args = dict(n_layer=8, n_head=4, n_embd=16, n_x=1, n_y=1, n_u=8, block_size=10,
+                      bias=False, dropout=0)  
+
+gptconf = GPTConfig(**model_args)
+keys_raw = gptconf.__dict__.keys()
+print(keys_raw)
+keys = [key for key in keys_raw if key[0] != '_']
+
+print(keys)
+
+gpt_dict_raw = gptconf.__dict__
+print(gpt_dict_raw)
+gpt_dict_ord = OrderedDict(gpt_dict_raw)
+print(gpt_dict_ord)
+# gpt_dict = gpt_dict_raw['block_size']
+# print(gpt_dict)
