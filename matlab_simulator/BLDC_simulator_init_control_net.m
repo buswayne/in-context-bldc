@@ -25,11 +25,15 @@ savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
 
-model_name = 'new_delay_h10_10kH10H.mat';
+model_name = 'new_delay_noise_h10_10kH10H.mat';
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
 model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks', model_name);
 % [net, H] = import_transformer_model(model_path);
+
+
+T_ass = 0.5;
+S_pct = 0;
 
 
 speed_loop = 1;
@@ -40,7 +44,7 @@ eps = 0.05 * stepsize;
 
 save_data = false;
 show_figures = true;
-perturbed_reference = false;
+perturbed_reference = true;
 
 P_min = 0.01;
 P_max = 1;
@@ -53,7 +57,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 5;
+N_exp = 1;
 
 mdl = 'BLDC_simulator';
 mdl2 = 'BLDC_simulator_controller';
@@ -125,9 +129,7 @@ for idx_exp = 1:N_exp
     % 
     % end
 
-    T_ass = 0.5;
-    S_pct = 10;
-    set_parameters_perturbed
+    set_parameters
     
     max_speed = 2500;
     BLDC.RotorVelocityInit = 0;
@@ -193,7 +195,7 @@ for idx_exp = 1:N_exp
     voltage_q_input.signals.values = zeros(length(time),1);
 
 
-    % open_system(mdl2)
+    load_system(mdl2)
     set_param(mdl2+"/Predict",'NetworkFilePath',model_path);
     output = sim(mdl2);
     t = output.output.time;
