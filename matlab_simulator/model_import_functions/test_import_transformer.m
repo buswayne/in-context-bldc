@@ -138,5 +138,5 @@ output = extractdata(predict(net,test_input));
 
 
 
-error = test_output-output;
+error = abs(test_output-output);
 mean(reshape(error,1,[]))

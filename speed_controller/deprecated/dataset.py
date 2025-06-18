@@ -60,18 +60,6 @@ class Dataset(Dataset):
             tmp[0:-2] = tmp[1:-1]
             location = len(df.keys())-1 
             df.insert(loc=location, column='next_iq_ref', value=tmp)
-        
-        if "next_omega" not in df.keys(): 
-            tmp = copy.deepcopy(df['omega'].to_numpy())
-            tmp[0:-2] = tmp[1:-1]
-            location = len(df.keys())-1 
-            df.insert(loc=location, column='next_omega', value=tmp)
-        
-        if "next_omega_ref" not in df.keys(): 
-            tmp = copy.deepcopy(df['r'].to_numpy())
-            tmp[0:-2] = tmp[1:-1]
-            location = len(df.keys())-1 
-            df.insert(loc=location, column='next_omega_ref', value=tmp)
 
 
         
@@ -82,7 +70,7 @@ class Dataset(Dataset):
 
         # Get the sequence for batch_u and batch_y
         batch_y = torch.tensor(df['next_iq_ref'].iloc[start_idx:start_idx + self.seq_len].values, dtype=torch.float32)
-        batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'next_omega', 'next_omega_ref', 'T_ass', 'S_pct']].iloc[start_idx:start_idx + self.seq_len].values,
+        batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].iloc[start_idx:start_idx + self.seq_len].values,
                                dtype=torch.float32)
 
         # Add a batch dimension
@@ -107,26 +95,13 @@ class Dataset(Dataset):
             # print("adding S_pct")        
             location = len(df.keys())-1  
             df.insert(loc=location, column='S_pct', value=np.ones_like(df["omega"].to_numpy())*S_pct)
-        
         if "next_iq_ref" not in df.keys(): 
             tmp = copy.deepcopy(df['iq_ref'].to_numpy())
             tmp[0:-2] = tmp[1:-1]
             location = len(df.keys())-1 
             df.insert(loc=location, column='next_iq_ref', value=tmp)
-        
-        if "next_omega" not in df.keys(): 
-            tmp = copy.deepcopy(df['omega'].to_numpy())
-            tmp[0:-2] = tmp[1:-1]
-            location = len(df.keys())-1 
-            df.insert(loc=location, column='next_omega', value=tmp)
-        
-        if "next_omega_ref" not in df.keys(): 
-            tmp = copy.deepcopy(df['r'].to_numpy())
-            tmp[0:-2] = tmp[1:-1]
-            location = len(df.keys())-1 
-            df.insert(loc=location, column='next_omega_ref', value=tmp)
         batch_y = torch.tensor(df['next_iq_ref'].to_numpy(), dtype=torch.float32)
-        batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'next_omega', 'next_omega_ref', 'T_ass', 'S_pct']].to_numpy(), dtype=torch.float32)
+        batch_u = torch.tensor(df[['id', 'iq', 'vd', 'vq', 'omega', 'r', 'T_ass', 'S_pct']].to_numpy(), dtype=torch.float32)
         # Add a batch dimension
         batch_y = batch_y.view(-1,1)  # Shape (1, seq_len, 1)
 
@@ -279,7 +254,7 @@ if __name__ == "__main__":
     # plot some window examples
     batch_u, batch_y, _ = reverse_normalization(batch_u, batch_y, batch_y)
 
-    for i in range(10):
+    for i in range(2):
         fig = plt.figure()
         ax0 = fig.add_subplot(5,1,1)
         ax0.plot(batch_y[i,:,:],label = "$iq_ref$")
