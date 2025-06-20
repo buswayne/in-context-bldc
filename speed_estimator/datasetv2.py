@@ -150,6 +150,7 @@ def load_dataframes_from_folder(folder_path, validation_split = 0.3):
     np.random.shuffle(file_list)
  
     for file_idx in np.arange(dataset_length):
+        df = pd.read_csv(file_list[file_idx])
         df = normalize_fixed_ranges(df)
         if file_idx < training_size:
             dataframes_training.append(df)
