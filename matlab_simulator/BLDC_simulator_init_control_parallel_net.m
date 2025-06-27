@@ -25,7 +25,7 @@ savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
 
-model_name = 'new_delay_h10_10kH10H.mat';
+model_name = 'normal_and_disturbed_h10_40kH10H.mat';
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
 model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks', model_name);
@@ -189,7 +189,7 @@ for idx_exp = 1:N_exp
     voltage_q_input.signals.values = zeros(length(time),1);
 
 
-    open_system(mdl2)
+    load_system(mdl2)
     set_param(mdl2+"/Predict",'NetworkFilePath',model_path);
     output = sim(mdl2);
     t = output.output.time;

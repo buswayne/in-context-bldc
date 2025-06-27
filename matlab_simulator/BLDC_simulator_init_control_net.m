@@ -25,14 +25,14 @@ savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
 
 
-model_name = 'new_delay_noise_h10_10kH10H.mat';
+model_name = 'normal_and_disturbed_and_perturbed_h10_40kH10H.mat';
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
 model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks', model_name);
 % [net, H] = import_transformer_model(model_path);
 
 
-T_ass = 0.5;
+T_ass = 1;
 S_pct = 0;
 
 
@@ -44,7 +44,7 @@ eps = 0.05 * stepsize;
 
 save_data = false;
 show_figures = true;
-perturbed_reference = true;
+perturbed_reference = false;
 
 P_min = 0.01;
 P_max = 1;
