@@ -20,9 +20,14 @@ end
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
-folder_name = sprintf('%02.0f_percent_control_alt', perturbation_percent);
+folder_name = sprintf('%02.0f_percent_control_perturbed', perturbation_percent);
 savepath = fullfile(savepath_tmp, folder_name);
 [tmp, tmp2] = mkdir(savepath);
+
+model_name = 'normal_and_disturbed_and_perturbed_h10_40kH10H.mat';
+tmp_H = strsplit(model_name, 'H');
+H = str2double(tmp_H{2});
+model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks', model_name);
 
 speed_loop = 1;
 current_loop = 1;
@@ -32,6 +37,7 @@ eps = 0.05 * stepsize;
 
 save_data = false;
 show_figures = true;
+perturbed_reference = false;
 
 P_min = 0.01;
 P_max = 1;
@@ -47,7 +53,7 @@ I_max_exp = log10(I_max);
 N_exp = 1;
 
 mdl = 'BLDC_simulator';
-mdl_alt = 'BLDC_simulator_alt';
+mdl2 = 'BLDC_simulator_controller_data_gen';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 
 for idx_exp = 1:N_exp
@@ -66,7 +72,7 @@ for idx_exp = 1:N_exp
     % how fast can the motor go and we discard configurations that cannot
     % get at least 2000 rpm
     while flag_control_check
-    
+
         set_parameters_perturbed
         Kp = 10^( P_min_exp + rand()*(P_max_exp-P_min_exp));
         Ki = 10^( I_min_exp + rand()*(I_max_exp-I_min_exp));
@@ -115,6 +121,39 @@ for idx_exp = 1:N_exp
         end
 
     end
+
+    if show_figures
+        load_system(mdl2)
+        set_param(mdl2+"/Predict",'NetworkFilePath',model_path);
+        output = sim(mdl2);
+        test_time2 = output.output.time;
+        test_speed2 = output.output.signals.values(:,2);
+
+        figure
+        grid on
+        hold on
+        plot(test_time, stepsize*ones(size(test_speed)))
+        plot(test_time, test_speed)
+        plot(test_time, test_speed2)
+        xlabel('Time [s]')
+        ylabel('\omega [rpm]')
+        legend(["Omega ref", "Omega pi", "Omega net"])
+
+        T_ass_idx2 = find(abs(stepsize-test_speed2)>=eps, 1, "last");
+        if isempty(T_ass_idx2)
+            fprintf("what\n\n")
+        else
+            T_ass2 = test_time(T_ass_idx2);
+            if T_ass2 > 4
+                fprintf("does not converge\n\n")
+            else
+                S_pct2 = max(test_speed2-stepsize)/stepsize*100;
+                fprintf("transformer: T_{ass}: %.2f s, S_{%%}: %.2f %%\n",T_ass2, S_pct2)
+                % meta_string = sprintf("T_ass:%.2f,S_pct:%.2f,kp:%.4f,ki:%.4f",T_ass, S_pct,Kp,Ki);
+                % flag_control_check = false;
+            end
+        end
+    end 
     
     max_speed = 2500;
     BLDC.RotorVelocityInit = 0;
@@ -123,10 +162,47 @@ for idx_exp = 1:N_exp
     T = 5.5;
     Ts = 1e-4;
     time = 0:Ts:T-Ts;
-    reference_speed = time * 0;
-    reference_speed(time <= 4.5) = rand() * max_speed;
-    reference_speed(time <= 2.5) = rand() * max_speed;
-    reference_speed(time <= 0.5) = 0;
+
+    if perturbed_reference
+
+        max_freq = 10;
+        min_freq = 0.5;
+        max_amp = 200;
+        min_amp = 0;
+        max_phase = pi;
+        min_phase = -pi;
+
+        f_num = 3;
+
+        freq = rand(f_num*2,1)*(max_freq-min_freq) + min_freq;
+        amp = rand(f_num*2,1)*(max_amp-min_amp) + min_amp;
+        phase = rand(f_num*2,1)*(max_phase-min_phase) + min_phase;
+
+        %%% perturbation 1:
+        perturbation_signal_1 = time * 0;
+        for i=1:f_num
+            perturbation_signal_1 = perturbation_signal_1 + amp(i) * sin(2 * pi * freq(i) * time + phase(i));
+        end
+
+        perturbation_signal_2 = time * 0;
+        for i=(f_num+1):(f_num*2)
+            perturbation_signal_2 = perturbation_signal_2 + amp(i) * sin(2 * pi * freq(i) * time + phase(i));
+        end
+
+
+
+
+        reference_speed = time * 0;
+        reference_speed(time <= 4.5) = rand() * max_speed + perturbation_signal_2(time <= 4.5);
+        reference_speed(time <= 2.5) = rand() * max_speed + perturbation_signal_1(time <= 2.5);
+        reference_speed(time <= 0.5) = 0;
+    else
+        reference_speed = time * 0;
+        reference_speed(time <= 4.5) = rand() * max_speed;
+        reference_speed(time <= 2.5) = rand() * max_speed;
+        reference_speed(time <= 0.5) = 0;
+        b=0;
+    end
 
     reference_speed = reference_speed / 30 * pi; %in rad/s
     
@@ -142,7 +218,10 @@ for idx_exp = 1:N_exp
     voltage_q_input.time = time;
     voltage_q_input.signals.values = zeros(length(time),1);
 
-    output = sim(mdl_alt);
+
+    load_system(mdl2)
+    set_param(mdl2+"/Predict",'NetworkFilePath',model_path);
+    output = sim(mdl2);
     t = output.output.time;
     theta = output.output.signals.values(:,1);
     omega = output.output.signals.values(:,2);
@@ -152,6 +231,7 @@ for idx_exp = 1:N_exp
     iq_ref = output.output.signals.values(:,6);
     vd = output.output.signals.values(:,7);
     vq = output.output.signals.values(:,8);
+    iq_ref_hat = output.output.signals.values(:,9);
 
     theta_e_grad = theta * 180/pi * BLDC.PolePairs * i_omega;
     theta_e = wrapTo180(theta_e_grad) / 180 * pi;
@@ -190,8 +270,6 @@ for idx_exp = 1:N_exp
         grid on
         plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
         plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-        xlabel('Time [s]')
-        ylabel('\omega [rpm]')
         legend()
     
     
@@ -199,10 +277,9 @@ for idx_exp = 1:N_exp
         hold on
         grid on
         plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+        plot(output.output.time, output.output.signals.values(:,9), "DisplayName","iq ref hat")
         plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
         plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
-        xlabel('Time [s]')
-        ylabel('Current [A]')
         legend()
     
         ax3 = subplot(3,1,3);
@@ -210,10 +287,48 @@ for idx_exp = 1:N_exp
         grid on
         plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
         plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+        legend()
+        linkaxes([ax1, ax2, ax3], 'x')
+
+        
+        output2 = sim(mdl);
+
+        figure
+        ax1 = subplot(3,1,1);
+        hold on
+        grid on
+        plot(output.output.time, r, "DisplayName","Omega ref net")
+        plot(output2.output.time, output2.output.signals.values(:,2), "DisplayName","Omega PI")
+        plot(output.output.time, omega, "DisplayName","Omega net")
+        ylabel('\omega [rpm]')
+        legend()
+    
+    
+        ax2 = subplot(3,1,2);
+        hold on
+        grid on
+        plot(output2.output.time, output2.output.signals.values(:,6), "DisplayName","iq ref pi")
+        plot(output2.output.time, output2.output.signals.values(:,5), "DisplayName","iq pi")
+        % plot(output2.output.time, output2.output.signals.values(:,4), "DisplayName","id pi")
+        plot(output.output.time, iq_ref_hat, "DisplayName","iq ref net")
+        plot(output.output.time, iq, "DisplayName","iq net")
+        % plot(output.output.time, id, "DisplayName","id net")
+        ylabel('Current [A]')
+        legend()
+    
+        ax3 = subplot(3,1,3);
+        hold on
+        grid on
+        plot(output2.output.time, output2.output.signals.values(:,7), "DisplayName","vd pi")
+        plot(output2.output.time, output2.output.signals.values(:,8), "DisplayName","vq pi")
+        plot(output.output.time, vd, "DisplayName","vd net")
+        plot(output.output.time, vq, "DisplayName","vq net")
         xlabel('Time [s]')
         ylabel('Voltage [V]')
         legend()
         linkaxes([ax1, ax2, ax3], 'x')
+
+
     end
 end
 

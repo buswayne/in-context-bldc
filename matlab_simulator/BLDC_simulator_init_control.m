@@ -30,8 +30,8 @@ current_loop = 1;
 stepsize = 2000;
 eps = 0.05 * stepsize;
 
-save_data = true;
-show_figures = false;
+save_data = false;
+show_figures = true;
 perturbed_reference = true;
 
 P_min = 0.01;
@@ -45,7 +45,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 39;
+N_exp = 1;
 
 mdl = 'BLDC_simulator';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
@@ -96,6 +96,8 @@ for idx_exp = 1:N_exp
             hold on
             plot(test_time, test_speed)
             plot(test_time, stepsize*ones(size(test_speed)))
+            xlabel('Time [s]')
+            ylabel('\omega [rpm]')
         end
 
 
@@ -227,7 +229,9 @@ for idx_exp = 1:N_exp
         grid on
         plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
         plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
-        legend(["Omega ref", "Omega"])
+        xlabel('Time [s]')
+        ylabel('\omega [rpm]')
+        legend()
     
     
         ax2 = subplot(3,1,2);
@@ -236,6 +240,8 @@ for idx_exp = 1:N_exp
         plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
         plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
         plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+        xlabel('Time [s]')
+        ylabel('Current [A]')
         legend()
     
         ax3 = subplot(3,1,3);
@@ -243,6 +249,8 @@ for idx_exp = 1:N_exp
         grid on
         plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
         plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+        xlabel('Time [s]')
+        ylabel('Voltage [V]')
         legend()
         linkaxes([ax1, ax2, ax3], 'x')
     end
