@@ -3,10 +3,11 @@ clc
 close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
-data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
-save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
-
-folder = "50_percent_add";
+% data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated3";
+% save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_alfa_beta_new";
+data_path = "C:/Users/81C3009S/OneDrive/Desktop/Tesi/data/rand_traj";
+save_path = "C:/Users/81C3009S/OneDrive/Desktop/Tesi/data/rand_traj_with_alfa_beta";
+folder = "00_percent_high_speed";
 
 data_filepath = fullfile(data_path, folder);
 save_filepath = fullfile(save_path, folder + "_with_alfa_beta_speed_corrected");
