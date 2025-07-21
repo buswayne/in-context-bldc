@@ -14,11 +14,12 @@ import torch.nn as nn
 import pandas as pd
 import copy
 import os
+wandb.login(key="e39b0c010c97782879054b547ee3914921b002f6")
 
 ### quick param selection
 
-checkpoint_name_to_save = "test"
-checkpoint_name_to_open = "test"
+checkpoint_name_to_save = "model_24h"
+checkpoint_name_to_open = "model_24h"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
@@ -39,18 +40,20 @@ learning_rate_value = 1e-5
 alternative_batch_extractor = False
 
 # whether or not to log training data on wandb
-wandb_record = False
+wandb_record = True
 
 current_path = os.getcwd().split("in-context-bldc")[0]
 data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_low_speed"]
-folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
+# folder_training = ["simulated/50_percent_low_speed"]
+# folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_low_speed"]
-folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
+# folder_vaildation = ["simulated/50_percent_low_speed"]
+# folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
+folder_path_training = ['/home/DATA/shared/st/50_percent_control/50_percent_high_speed']
+folder_path_val = ['/home/DATA/shared/st/50_percent_control/50_percent_high_speed']
 
 if alternative_batch_extractor:
     from dataset_alt import Dataset, load_dataframes_from_folder
