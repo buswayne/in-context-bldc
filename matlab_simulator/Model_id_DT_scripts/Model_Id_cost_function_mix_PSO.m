@@ -19,6 +19,6 @@ for i = 1:length(input_list)
     y_pred(i,:) = y;
 end
 error = mse(y_pred(:,1), output_list(:,1)) + mse(y_pred(:,2), output_list(:,2)) + ...
-        1e-4*mse(omega_pred/pi*30, output_list(:,3));
+        1e-6*mse(omega_pred/pi*30, output_list(:,3));
 
 end

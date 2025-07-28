@@ -7,7 +7,7 @@ close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 
-perturbation_percent = 50;
+perturbation_percent =  ;
 
 perturbation = perturbation_percent / 100;
 savepath_tmp = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";

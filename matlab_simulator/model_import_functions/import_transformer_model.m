@@ -135,8 +135,6 @@ net = connectLayers(net, last_name, 'lnf');
 net = initialize(net);
 output = extractdata(predict(net,test_input));
 
-
-
 error = abs(test_output-output);
 mean_error = mean(reshape(error,1,[]))
 
