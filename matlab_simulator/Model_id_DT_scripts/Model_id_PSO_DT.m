@@ -62,10 +62,10 @@ output_list = [I_d, I_q, omega];
 
 
 
-lb(1) = 1; ub(1) = 400;
-lb(2) = 1; ub(2) = 400;
-lb(3) = 0.1; ub(3) = 100;
-lb(4) = 0.1; ub(4) = 100;
+lb(1) = 0.1; ub(1) = 800;
+lb(2) = 0.1; ub(2) = 400;
+lb(3) = 0.1; ub(3) = 200;
+lb(4) = 0.1; ub(4) = 200;
 lb(5) = 1e-6; ub(5) = 1;
 
 fun = @(x)Model_Id_cost_function_mix_PSO(x, input_list, output_list);
@@ -86,8 +86,8 @@ options = optimoptions('particleswarm', 'UseParallel',true, 'Display', 'iter', '
 % p(2) = result.XAtMinObjective.p2;
 % p(3) = result.XAtMinObjective.p3;
 % p(4) = result.XAtMinObjective.p4;
-p=result;
 save(PSO_save_file_name, "result")
+p=result;
 
 % result.XAtMinObjective
 result
@@ -138,8 +138,8 @@ hold on
 plot(omega)
 legend(["Omega_{est}","Omega_{real}"])
 
-mse(y_pred(:,1), output_list(:,1)) 
-mse(y_pred(:,2), output_list(:,2))
-mse(omega_pred/pi*30, output_list(:,3))
+mse(y_pred(:,1), output_list(:,1))/var(output_list(:,1))
+mse(y_pred(:,2), output_list(:,2))/var(output_list(:,2))
+mse(omega_pred/pi*30, output_list(:,3))/var(output_list(:,3))
 
 toc

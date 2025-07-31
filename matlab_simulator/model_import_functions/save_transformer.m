@@ -6,8 +6,8 @@ clc
 temp_name = strsplit(pwd,'in-context-bldc');
 temp_name2 = fullfile(temp_name{1},'in-context-bldc/speed_controller');
 
-model_name = 'normal_and_disturbed_and_perturbed_h10_40k_weights.pkl';
-model_name_to_save = 'normal_and_disturbed_and_perturbed_h10_40k';
+model_name = 'ndp_noise_h10_40k_weights.pkl';
+model_name_to_save = 'ndp_noise_h10_40k';
 
 network_path = fullfile(temp_name2, model_name);
 save_path = fullfile(temp_name{1},'in-context-bldc/matlab_simulator/networks');

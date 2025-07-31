@@ -17,9 +17,9 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "normal_and_disturbed_and_perturbed_h10"
-checkpoint_name_to_open = "normal_and_disturbed_and_perturbed_h10"
-mode = "scratch"  # resume / scratch / pretrained
+checkpoint_name_to_save = "ndp_noise_h10"
+checkpoint_name_to_open = "ndp_noise_h10_20k"
+mode = "resume"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 10 #h
@@ -46,11 +46,11 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_current_disturbance/training", "simulated/50_percent_control_perturbed/training"]
+folder_training = ["simulated/50_percent_control_with_noise/training", "simulated/50_percent_control_current_disturbance_with_noise/training", "simulated/50_percent_control_perturbed_with_noise/training"]
 # folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_current_disturbance/validation", "simulated/50_percent_control_perturbed/validation"]
+folder_vaildation = ["simulated/50_percent_control_with_noise/validation", "simulated/50_percent_control_current_disturbance_with_noise/validation", "simulated/50_percent_control_perturbed_with_noise/validation"]
 # folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 
