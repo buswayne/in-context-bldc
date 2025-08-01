@@ -1,7 +1,7 @@
 clear
 close all
 
-path = '../../speed_controller/new_delay_h10_10k_weights.pkl';
+path = '../speed_controller/ndp_noise_h10_40k_weights.pkl';
 
 fid = py.open(path,'rb');
 data = py.pickle.load(fid);
@@ -137,6 +137,19 @@ net = initialize(net);
 output = extractdata(predict(net,test_input));
 
 
-
 error = abs(test_output-output);
+mean(reshape(error,1,[]))
+
+
+in_2 = double(data{'test_input'}.detach().numpy());
+
+[a,b,c]= size(in_2);
+out_2 = output*0;
+for jj = 1:a
+    out_2(jj,:) = net_predict_mex(in_2(jj,:,:));
+end
+
+
+
+error = abs(test_output-out_2);
 mean(reshape(error,1,[]))

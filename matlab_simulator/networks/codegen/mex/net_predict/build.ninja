@@ -1,0 +1,67 @@
+# CompilerName=msvc170
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root\build\win64
+matlabdir = C:\Program Files\MATLAB\R2024b
+startdir = C:\Users\39340\Documents\GitHub\ST-microelectronics\matlab\apps\app_usb_sensored\networks
+
+# Toolchain information
+cc = cl
+cxx = cl
+linker = link
+linkerxx = link
+
+cflags =  /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /utf-8 /I "$root" /I "$startdir" /I "$root\interface" /I "$matlabdir\extern\include" /I "." -DMODEL=net_predict_mex /openmp /wd4101 
+
+cxxflags =  /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /utf-8 /I "$root" /I "$startdir" /I "$root\interface" /I "$matlabdir\extern\include" /I "." -DMODEL=net_predict_mex /openmp /wd4101 
+
+ldflags =  /nologo    /DLL /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  /out:"net_predict_mex.mexw64" /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmwblas.lib libemlrt.lib libcovrt.lib libut.lib libmwmathutil.lib libiomp5md.lib /nodefaultlib:vcomp /LIBPATH:"$matlabdir\bin\win64" /export:mexFunction /export:mexfilerequiredapiversion /export:emlrtMexFcnProperties /export:net_predict /export:net_predict_initialize /export:net_predict_terminate /export:net_predict_atexit
+
+ldxxflags =  /nologo    /DLL /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib  /out:"net_predict_mex.mexw64" /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmwblas.lib libemlrt.lib libcovrt.lib libut.lib libmwmathutil.lib libiomp5md.lib /nodefaultlib:vcomp /LIBPATH:"$matlabdir\bin\win64" /export:mexFunction /export:mexfilerequiredapiversion /export:emlrtMexFcnProperties /export:net_predict /export:net_predict_initialize /export:net_predict_terminate /export:net_predict_atexit
+
+linkobjs = 
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in /Fo$out
+
+rule cxx
+    command = $cxx $cxxflags $in /Fo$out
+
+rule link
+    command = $linker @$out.rsp $linkobjs $ldflags
+    rspfile = $out.rsp
+    rspfile_content = $in
+
+rule linkxx
+    command = $linkerxx $in $linkobjs $ldxxflags
+
+# Build
+build $builddir\net_predict_data.obj : cc $root\net_predict_data.c
+build $builddir\rt_nonfinite.obj : cc $root\rt_nonfinite.c
+build $builddir\net_predict_initialize.obj : cc $root\net_predict_initialize.c
+build $builddir\net_predict_terminate.obj : cc $root\net_predict_terminate.c
+build $builddir\net_predict.obj : cc $root\net_predict.c
+build $builddir\callPredict.obj : cc $root\callPredict.c
+build $builddir\FullyConnectedLayer.obj : cc $root\FullyConnectedLayer.c
+build $builddir\binaryElementwise.obj : cc $root\binaryElementwise.c
+build $builddir\LayerNormalizationLayer.obj : cc $root\LayerNormalizationLayer.c
+build $builddir\sumMatrixIncludeNaN.obj : cc $root\sumMatrixIncludeNaN.c
+build $builddir\SelfAttentionLayer.obj : cc $root\SelfAttentionLayer.c
+build $builddir\computeSelfAttention.obj : cc $root\computeSelfAttention.c
+build $builddir\internal_softmax.obj : cc $root\internal_softmax.c
+build $builddir\mtimes.obj : cc $root\mtimes.c
+build $builddir\_coder_net_predict_api.obj : cc $root\interface\_coder_net_predict_api.c
+build $builddir\_coder_net_predict_mex.obj : cc $root\interface\_coder_net_predict_mex.c
+build $builddir\attentionForward.obj : cc $root\attentionForward.c
+build $builddir\addBiasApplyActivation.obj : cc $root\addBiasApplyActivation.c
+build $builddir\elementwiseOperationInPlace.obj : cc $root\elementwiseOperationInPlace.c
+build $builddir\GELULayer.obj : cc $root\GELULayer.c
+build $builddir\_coder_net_predict_info.obj : cc $root\interface\_coder_net_predict_info.c
+build $builddir\c_mexapi_version.obj : cc $matlabdir\extern\version\c_mexapi_version.c
+
+# Link
+build $root\net_predict_mex.mexw64 : link $builddir\net_predict_data.obj $builddir\rt_nonfinite.obj $builddir\net_predict_initialize.obj $builddir\net_predict_terminate.obj $builddir\net_predict.obj $builddir\callPredict.obj $builddir\FullyConnectedLayer.obj $builddir\binaryElementwise.obj $builddir\LayerNormalizationLayer.obj $builddir\sumMatrixIncludeNaN.obj $builddir\SelfAttentionLayer.obj $builddir\computeSelfAttention.obj $builddir\internal_softmax.obj $builddir\mtimes.obj $builddir\_coder_net_predict_api.obj $builddir\_coder_net_predict_mex.obj $builddir\attentionForward.obj $builddir\addBiasApplyActivation.obj $builddir\elementwiseOperationInPlace.obj $builddir\GELULayer.obj $builddir\_coder_net_predict_info.obj $builddir\c_mexapi_version.obj 
