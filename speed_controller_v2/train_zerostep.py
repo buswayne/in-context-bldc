@@ -17,9 +17,9 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "ndp_noise_h10"
-checkpoint_name_to_open = "ndp_noise_h10_20k"
-mode = "resume"  # resume / scratch / pretrained
+checkpoint_name_to_save = "noise_h10"
+checkpoint_name_to_open = "noise_h10"
+mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 10 #h
@@ -47,6 +47,7 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 # multiple folders can be selected
 folder_training = ["simulated/50_percent_control_with_noise/training", "simulated/50_percent_control_current_disturbance_with_noise/training", "simulated/50_percent_control_perturbed_with_noise/training"]
+# folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_current_disturbance/training", "simulated/50_percent_control_perturbed/training"]
 # folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
@@ -68,13 +69,6 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # Re-enable user warnings
 # warnings.filterwarnings("default")
 
-if wandb_record:
-    # start a new wandb run to track this script
-    wandb.init(
-        # set the wandb project where this run will be logged
-        project="in-context bldc controller",
-        name=checkpoint_name_to_save
-    )
 
 
 # def train(model, dataloader, criterion, optimizer, device):
@@ -234,7 +228,7 @@ if __name__ == '__main__':
     # Dataset
     parser.add_argument('--nx', type=int, default=4, metavar='N',
                         help='model order (default: 5)')
-    parser.add_argument('--nu', type=int, default=8, metavar='N',
+    parser.add_argument('--nu', type=int, default=6, metavar='N',
                         help='model order (default: 5)')
     parser.add_argument('--ny', type=int, default=1, metavar='N',
                         help='model order (default: 5)')
@@ -360,6 +354,15 @@ if __name__ == '__main__':
         print("using alternative batch extractor")
     
     input("everything ok?")
+
+    
+    if wandb_record:
+        # start a new wandb run to track this script
+        wandb.init(
+            # set the wandb project where this run will be logged
+            project="in-context bldc controller v2",
+            name=checkpoint_name_to_save
+        )
 
     # Model
     model_args = dict(n_layer=cfg.n_layer, n_head=cfg.n_head, n_embd=cfg.n_embd, n_x=cfg.nx, n_y=cfg.ny, n_u=cfg.nu, block_size=cfg.block_size,

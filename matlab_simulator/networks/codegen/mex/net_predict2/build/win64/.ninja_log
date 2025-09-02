@@ -1,0 +1,23 @@
+# ninja log v5
+16	487	7784328937244153	build/win64/net_predict2_data.obj	719e6916a43f1d92
+20	515	7784328937462643	build/win64/rt_nonfinite.obj	e22bb6c4a2cc6087
+14	518	7784328937482701	build/win64/net_predict2_initialize.obj	5d66d336133c3b8
+7	519	7784328937502746	build/win64/predict.obj	756b250cba5f3d5c
+68	520	7784328937462643	build/win64/c_mexapi_version.obj	509533b4b21e1b49
+10	522	7784328937542877	build/win64/net_predict2_terminate.obj	32a9e15095418975
+39	526	7784328937620606	build/win64/callPredict.obj	d48b7d55f8ec6eef
+65	527	7784328937640708	build/win64/elementwiseOperationInPlace.obj	a0e980536451bfee
+62	529	7784328937640708	build/win64/GELULayer.obj	ccdce12bcec17087
+35	531	7784328937660814	build/win64/_coder_net_predict2_mex.obj	1bff9d22eec6157c
+33	533	7784328937660814	build/win64/_coder_net_predict2_api.obj	2d231f14250219ee
+24	534	7784328937442584	build/win64/mtimes.obj	f78414f070a1f271
+55	537	7784328937670936	build/win64/SelfAttentionLayer.obj	40565ed7370161e3
+59	539	7784328937691015	build/win64/computeSelfAttention.obj	8d51c0a08cbd79c3
+72	540	7784328937691015	build/win64/_coder_net_predict2_info.obj	46eac0d9a98888df
+0	541	7784328937711102	build/win64/net_predict2.obj	27703c2a7a364a08
+49	542	7784328937711102	build/win64/sumMatrixIncludeNaN.obj	a166257d4c56b4fc
+52	543	7784328937741278	build/win64/binaryElementwise.obj	ca5f1c684ad6b52d
+46	544	7784328937801528	build/win64/FullyConnectedLayer.obj	93ee2a825b3a4cb7
+28	577	7784328938155424	build/win64/LayerNormalizationLayer.obj	41ab9cdeba996b12
+44	791	7784328940276253	build/win64/attentionForward.obj	8a022d191020ae17
+792	874	7784328940971818	net_predict2_mex.mexw64	7bb1b4a484b32fee
