@@ -22,8 +22,8 @@ perturbation = perturbation_percent / 100;
 
 
 
-model_name = 'noise_h10_40k_H10H.mat';
-% model_name = 'noise_h20_40k_H20H.mat';
+% model_name = 'noise_h10_40k_H10H.mat';
+model_name = 'noise_h20_40k_H20H.mat';
 % model_name = 'noise_h50_40k_H50H.mat';
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
@@ -58,10 +58,13 @@ success_counter = 0;
 mdl = 'BLDC_simulator_controller_v2';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 
+sim_duration_list = [];
+
 for idx_exp = 1:N_exp
     fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
     now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
-
+    
+    start_sim = tic;
 
     T = 5;
     Ts = 1e-4;
@@ -102,7 +105,8 @@ for idx_exp = 1:N_exp
     else
         T_ass = test_time(T_ass_idx);
         if T_ass > 4
-            fprintf("does not converge\n\n")
+            fprintf("does not converge\n")
+            S_pct = max(test_speed-stepsize)/stepsize*100;
         else
             S_pct = max(test_speed-stepsize)/stepsize*100;
             fprintf("T_{ass}: %.2f s, S_{%%}: %.2f %%\n",T_ass, S_pct)
@@ -164,6 +168,18 @@ for idx_exp = 1:N_exp
 
     
 
+    sim_duration = toc(start_sim);
+    sim_duration_list = [sim_duration_list, sim_duration];
+    avg_duration = mean(sim_duration_list);
+    s = duration(0,0,avg_duration);
+    s_remaining = s *  (N_exp - idx_exp);
+
+    str_tmp = string(s_remaining);
+    full_line = "estimated remaining time: " + str_tmp + "\n\n";
+    fprintf(full_line);
+    
+
+    
 
     if save_data
         out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
