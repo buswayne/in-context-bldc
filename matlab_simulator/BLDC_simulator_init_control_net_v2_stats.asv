@@ -1,0 +1,216 @@
+clear
+clc
+close all
+
+%%% starts the BLDC simulator and save control parameters
+
+tic
+temp_name = strsplit(pwd,'in-context-bldc');
+
+perturbation_percent = 50;
+
+user_tmp = strsplit(pwd,'Users\');
+user_tmp2 = strsplit(user_tmp{2},'\');
+user = user_tmp2{1};
+if user == 'aless'
+    usr_str = "__";
+else
+    usr_str = "_";
+end
+
+perturbation = perturbation_percent / 100;
+
+
+
+model_name = 'noise_h10_40k_H10H.mat';
+% model_name = 'noise_h20_40k_H20H.mat';
+% model_name = 'noise_h50_40k_H50H.mat';
+tmp_H = strsplit(model_name, 'H');
+H = str2double(tmp_H{2});
+model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks2', model_name);
+% [net, H] = import_transformer_model(model_path);
+
+
+savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
+folder_name = sprintf('statistical_analysis_model_%s', model_name(1:end-4));
+savepath = fullfile(savepath_tmp, folder_name);
+[tmp, tmp2] = mkdir(savepath);
+
+
+
+speed_loop = 1;
+current_loop = 1;
+
+stepsize = 2000;
+eps = 0.05 * stepsize;
+
+T_s_th = 1.5;
+OS_th = 20;
+
+save_data = true;
+show_figures = false;
+
+
+N_exp = 1000; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+success_counter = 0;
+
+mdl = 'BLDC_simulator_controller_v2';
+conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
+
+for idx_exp = 1:N_exp
+    fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
+    now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
+
+
+    T = 5;
+    Ts = 1e-4;
+    time = 0:Ts:T-Ts;
+
+
+
+    set_parameters_perturbed
+
+    speed_input.time = time;
+    speed_input.signals.values = ones(length(time),1)*stepsize/30*pi;
+    load_input.time = time;
+    load_input.signals.values = zeros(length(time),1);
+    current_input.time = time;
+    current_input.signals.values = zeros(length(time),1);
+    voltage_d_input.time = time;
+    voltage_d_input.signals.values = zeros(length(time),1);
+    voltage_q_input.time = time;
+    voltage_q_input.signals.values = zeros(length(time),1);
+
+    load_system(mdl)
+    set_param(mdl+"/Predict",'NetworkFilePath',model_path);
+    output = sim(mdl);
+    test_speed = output.output.signals.values(:,2);
+    test_time = output.output.time;
+    % if show_figures
+    %     figure
+    %     grid on
+    %     hold on
+    %     plot(test_time, test_speed)
+    %     plot(test_time, stepsize*ones(size(test_speed)))
+    % end
+
+
+    T_ass_idx = find(abs(stepsize-test_speed)>=eps, 1, "last");
+    if isempty(T_ass_idx)
+        fprintf("what\n\n")
+    else
+        T_ass = test_time(T_ass_idx);
+        if T_ass > 4
+            fprintf("does not converge\n\n")
+        else
+            S_pct = max(test_speed-stepsize)/stepsize*100;
+            fprintf("T_{ass}: %.2f s, S_{%%}: %.2f %%\n",T_ass, S_pct)
+            meta_string = sprintf("T_ass:%.2f,S_pct:%.2f",T_ass, S_pct);
+
+        end
+    end
+
+
+    t = output.output.time;
+    theta = output.output.signals.values(:,1);
+    omega = output.output.signals.values(:,2);
+    r = output.output.signals.values(:,3);
+    id = output.output.signals.values(:,4);
+    iq = output.output.signals.values(:,5);
+    iq_ref = output.output.signals.values(:,6);
+    vd = output.output.signals.values(:,7);
+    vq = output.output.signals.values(:,8);
+
+
+
+    flag_ts = T_ass <= T_s_th;
+    flag_OS = S_pct <= OS_th;
+
+
+    if flag_ts && flag_OS
+        success = 1;
+        success_counter = success_counter +1;
+    else
+        success = 0;
+    end
+
+    slow_system = 0;
+
+    if ~flag_ts && all(iq_ref(t>0.1 & t<T_s_th)> 4)
+        slow_system = 1;
+    end
+
+
+
+
+
+
+    theta_e_grad = theta * 180/pi * BLDC.PolePairs * i_omega;
+    theta_e = wrapTo180(theta_e_grad) / 180 * pi;
+
+    i_dq = [id,iq]';
+    v_dq = [vd,vq]';
+    i_ab = zeros(size(i_dq));
+    v_ab = zeros(size(v_dq));
+    for j = 1:length(theta_e)
+        i_ab(:,j) = conversion_mat(theta_e(j)) * i_dq(:,j);
+        v_ab(:,j) = conversion_mat(theta_e(j)) * v_dq(:,j);
+    end
+    ia = i_ab(1,:)';
+    ib = i_ab(2,:)';
+    va = v_ab(1,:)';
+    vb = v_ab(2,:)';
+
+    
+
+
+    if save_data
+        out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
+            {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
+        
+        exp_name = now_string + "_data.csv";
+        writetable(out_tab,fullfile(savepath,exp_name));
+        
+        param_names = now_string + "_params.mat";
+        save(fullfile(savepath,param_names), "BLDC", "disc", "i_omega");
+
+        result_name = now_string + "_results.mat";
+        save(fullfile(savepath,result_name), "success", "slow_system");
+
+
+    end
+
+    if show_figures
+        figure
+        ax1 = subplot(3,1,1);
+        hold on
+        grid on
+        plot(output.output.time, output.output.signals.values(:,3), "DisplayName","Omega ref")
+        plot(output.output.time, output.output.signals.values(:,2), "DisplayName","Omega")
+        legend(["Omega ref", "Omega"])
+    
+    
+        ax2 = subplot(3,1,2);
+        hold on
+        grid on
+        plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
+        plot(output.output.time, output.output.signals.values(:,5), "DisplayName","iq")
+        plot(output.output.time, output.output.signals.values(:,4), "DisplayName","id")
+        legend()
+    
+        ax3 = subplot(3,1,3);
+        hold on
+        grid on
+        plot(output.output.time, output.output.signals.values(:,7), "DisplayName","vd")
+        plot(output.output.time, output.output.signals.values(:,8), "DisplayName","vq")
+        legend()
+        linkaxes([ax1, ax2, ax3], 'x')
+    end
+end
+
+success_ratio = success_counter / N_exp* 100;
+
+fprintf("\nsuccessful control in %.2f%% of the cases\n\n", success_ratio)
+
+toc
