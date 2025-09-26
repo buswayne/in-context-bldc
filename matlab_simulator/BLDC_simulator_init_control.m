@@ -9,7 +9,7 @@ temp_name = strsplit(pwd,'in-context-bldc');
 
 perturbation_percent = 50;
 
-save_data = false;
+save_data = true;
 show_figures = true;
 perturbed_reference = false;
 current_disturbance = false;
@@ -307,14 +307,13 @@ for idx_exp = 1:N_exp
     str_speed = sprintf("%.4f",i_omega);
     str_speed = strrep(str_speed, ".","_");
     exp_name = now_string + "_B" + sprintf("%04d", idx_exp) + "_i_omega_" + str_speed + ".csv";
-
+    param_names = now_string + "_B" + sprintf("%04d", idx_exp) + "_i_omega_" + str_speed + "_params.mat";
     if save_data
         out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
             {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
         writetable(out_tab,fullfile(savepath,exp_name));
         
-        param_names = exp_name(1:end-4) + "_params.mat";
-        save(fullfile(savepath_metadata,param_names), "BLDC", "disc", "i_omega", "PID_current");
+        save(fullfile(savepath_metadata,param_names), "BLDC", "disc", "i_omega", "PID_speed");
     end
 
     if show_figures

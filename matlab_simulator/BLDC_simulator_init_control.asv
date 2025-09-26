@@ -9,7 +9,7 @@ temp_name = strsplit(pwd,'in-context-bldc');
 
 perturbation_percent = 50;
 
-save_data = false;
+save_data = true;
 show_figures = true;
 perturbed_reference = false;
 current_disturbance = false;
@@ -63,6 +63,9 @@ I_max_exp = log10(I_max);
 
 
 N_exp = 1;
+
+backoff_log = zeros(N_exp,1);
+multi_backoff_counter = 0;
 
 mdl_step = 'BLDC_simulator';
 if current_disturbance
@@ -184,12 +187,13 @@ for idx_exp = 1:N_exp
                         meta_string = sprintf("T_ass:%.2f,S_pct:%.2f,kp:%.4f,ki:%.4f",T_ass, S_pct,Kp,Ki);
                         flag_control_check = false;
                         flag_find_controller = false;
+                        backoff_log(idx_exp) = backoff_counter;
                         
                     else
                         if T_ass > 4
                             fprintf("does not converge\n")
                         elseif T_ass > T_set_max
-                            fprintf("too slow\n")
+                            fprintf("too slow (T_{ass}: %.2f s)\n", T_ass)
                         end
                         if S_pct > OS_max
                             fprintf("too much overshoot\n")
@@ -198,6 +202,9 @@ for idx_exp = 1:N_exp
                     end
                 end
                 backoff_counter = backoff_counter+1;
+                if backoff_counter == backoff_max
+                    multi_backoff_counter = multi_backoff_counter +1;
+                end
             end
         end
         %else -> speed was bad
@@ -242,15 +249,14 @@ for idx_exp = 1:N_exp
 
 
         reference_speed = time * 0;
-        reference_speed(time <= 4.5) = rand() * max_speed + perturbation_signal_2(time <= 4.5);
-        reference_speed(time <= 2.5) = rand() * max_speed + perturbation_signal_1(time <= 2.5);
+        reference_speed(time <= 5.5) = rand() * max_speed + perturbation_signal_2(time <= 5.5);
+        reference_speed(time <= 3) = rand() * max_speed + perturbation_signal_1(time <= 3);
         reference_speed(time <= 0.5) = 0;
     else
         reference_speed = time * 0;
-        reference_speed(time <= 4.5) = rand() * max_speed;
-        reference_speed(time <= 2.5) = rand() * max_speed;
+        reference_speed(time <= 5.5) = rand() * max_speed;
+        reference_speed(time <= 3) = rand() * max_speed;
         reference_speed(time <= 0.5) = 0;
-        b=0;
     end
 
     reference_speed = reference_speed / 30 * pi; %in rad/s
@@ -301,7 +307,7 @@ for idx_exp = 1:N_exp
     str_speed = sprintf("%.4f",i_omega);
     str_speed = strrep(str_speed, ".","_");
     exp_name = now_string + "_B" + sprintf("%04d", idx_exp) + "_i_omega_" + str_speed + ".csv";
-
+    param_names = now_string + "_B" + sprintf("%04d", idx_exp) + "_i_omega_" + str_speed + "_params.mat";
     if save_data
         out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
             {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
