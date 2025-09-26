@@ -49,10 +49,10 @@ N_exp = 1;
 mdl = 'BLDC_simulator';
 mdl_alt = 'BLDC_simulator_alt';
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
+now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
 for idx_exp = 1:N_exp
     fprintf("> simulating experiment %d out of %d \n", idx_exp, N_exp)
-    now_string = string(datetime('now'),"yyyy-MM-dd_HH-mm-ss");
 
 
     flag_control_check = true;
@@ -175,12 +175,13 @@ for idx_exp = 1:N_exp
 
     str_speed = sprintf("%.4f",i_omega);
     str_speed = strrep(str_speed, ".","_");
-    exp_name = "Experiment_" + now_string + "_i_omega_" + str_speed + ".csv";
+    exp_name = now_string + "_B" + sprintf("%04d", idx_exp) + "_i_omega_" + str_speed + ".csv";
 
     if save_data
         out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
             {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
         writetable(out_tab,fullfile(savepath,exp_name));
+        
     end
 
     if show_figures
