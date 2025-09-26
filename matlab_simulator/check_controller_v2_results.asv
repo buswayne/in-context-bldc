@@ -188,7 +188,7 @@ for i = 1:total_exp
                 ylabel("current [A]")
                 legend()
                 linkaxes([ax1, ax2], 'x')
-                % plot_example = 4;
+                plot_example = 4;
             end
 
 

@@ -13,8 +13,8 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 # folder = "CL_experiments_double_sensor_low_speed_ekf_and_meta/final/inertia13_ki-0.0029-kp-3.0000"
 # folder = "simulated/50_percent_control/training"
-data_folders = ["simulated/50_percent_control/training"]
-# data_folders = ["simulated/50_percent_control/training","simulated/50_percent_control_perturbed/training","simulated/50_percent_control_current_disturbance/training"]
+# data_folders = ["simulated/50_percent_control/training"]
+data_folders = ["simulated/50_percent_control/training","simulated/50_percent_control_perturbed/training","simulated/50_percent_control_current_disturbance/training"]
 # data_folders = ["simulated/50_percent_control/validation","simulated/50_percent_control_perturbed/validation","simulated/50_percent_control_current_disturbance/validation"]
 # data_folders = ["simulated/50_percent_control/training","simulated/50_percent_control_perturbed/training","simulated/50_percent_control_current_disturbance/training", "simulated/50_percent_control/validation","simulated/50_percent_control_perturbed/validation","simulated/50_percent_control_current_disturbance/validation"]
 folder_path_list = [os.path.join(data_path, folder) for folder in data_folders]
