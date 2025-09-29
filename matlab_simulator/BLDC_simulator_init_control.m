@@ -10,9 +10,9 @@ temp_name = strsplit(pwd,'in-context-bldc');
 perturbation_percent = 50;
 
 save_data = true;
-show_figures = true;
+show_figures = false;
 perturbed_reference = false;
-current_disturbance = false;
+current_disturbance = true;
 if perturbed_reference && current_disturbance
     error("choose one or fix your code")
 end
@@ -62,7 +62,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 1;
+N_exp = 1000-1;
 
 backoff_log = zeros(N_exp,1);
 multi_backoff_counter = 0;
@@ -92,21 +92,23 @@ for idx_exp = 1:N_exp
     
         set_parameters_perturbed
 
-        % check max speed
+        % check max speed and saturation limits
 
-        T = 1;
+        T = T_set_max;
         Ts = 1e-4;
         time = 0:Ts:T-Ts;
+        speed_loop = 0;
+        current_loop = 1;
 
 
-        BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
+        % BLDC.RotorVelocityInit = 2000 /30 *pi /i_omega;
 
         speed_input.time = time;
-        speed_input.signals.values = ones(length(time),1)*1e6;
+        speed_input.signals.values = zeros(length(time),1);
         load_input.time = time;
         load_input.signals.values = zeros(length(time),1);
         current_input.time = time;
-        current_input.signals.values = zeros(length(time),1);
+        current_input.signals.values = ones(length(time),1)*5;
         voltage_d_input.time = time;
         voltage_d_input.signals.values = zeros(length(time),1);
         voltage_q_input.time = time;
@@ -138,6 +140,9 @@ for idx_exp = 1:N_exp
 
             flag_find_controller = true;
             backoff_counter = 0;
+
+            speed_loop = 1;
+            current_loop = 1;
 
             while flag_find_controller && backoff_counter < backoff_max
    
