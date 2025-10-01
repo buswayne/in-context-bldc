@@ -23,8 +23,8 @@ perturbation = perturbation_percent / 100;
 
 
 % model_name = 'noise_h10_40k_H10H.mat';
-model_name = 'noise_h20_40k_H20H.mat';
-% model_name = 'noise_h50_40k_H50H.mat';
+% model_name = 'noise_h20_40k_H20H.mat';
+model_name = 'noise_h50_40k_H50H.mat';
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
 model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks2', model_name);
@@ -107,6 +107,7 @@ for idx_exp = 1:N_exp
         if T_ass > 4
             fprintf("does not converge\n")
             S_pct = max(test_speed-stepsize)/stepsize*100;
+            meta_string = sprintf("T_ass:%.2f,S_pct:%.2f",T_ass, S_pct);
         else
             S_pct = max(test_speed-stepsize)/stepsize*100;
             fprintf("T_{ass}: %.2f s, S_{%%}: %.2f %%\n",T_ass, S_pct)
