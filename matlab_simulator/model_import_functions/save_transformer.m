@@ -4,10 +4,10 @@ clc
 
 
 temp_name = strsplit(pwd,'in-context-bldc');
-temp_name2 = fullfile(temp_name{1},'in-context-bldc/speed_controller_v2');
+temp_name2 = fullfile(temp_name{1},'in-context-bldc/speed_controller_v2/pkl_models');
 
-model_name = 'noise_h50_40k_weights.pkl';
-model_name_to_save = 'noise_h50_40k';
+model_name = 'new_dataset_long_noise_h10_40k_weights.pkl';
+model_name_to_save = 'new_dataset_long_noise_h10_40k';
 
 network_path = fullfile(temp_name2, model_name);
 save_path = fullfile(temp_name{1},'in-context-bldc/matlab_simulator/networks2');
