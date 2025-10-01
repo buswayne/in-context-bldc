@@ -62,7 +62,7 @@ I_min_exp = log10(I_min);
 I_max_exp = log10(I_max);
 
 
-N_exp = 1000-1;
+N_exp = 1;
 
 backoff_log = zeros(N_exp,1);
 multi_backoff_counter = 0;

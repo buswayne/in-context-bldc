@@ -17,15 +17,15 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "noise_h10"
-checkpoint_name_to_open = "noise_h10"
+checkpoint_name_to_save = "new_dataset_short_noise_h10"
+checkpoint_name_to_open = "new_dataset_short_noise_h10"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 10 #h
-layers_number = 8 #8
-heads_number = 4 #4
-embd_number = 16 #16
+layers_number = 2 #8
+heads_number = 2 #4
+embd_number = 32 #16
 
 # training parameters
 batch_size_ = 128
@@ -46,12 +46,22 @@ data_path = os.path.join(current_path,"in-context-bldc", "data")
 
 
 # multiple folders can be selected
-folder_training = ["simulated/50_percent_control_with_noise/training", "simulated/50_percent_control_current_disturbance_with_noise/training", "simulated/50_percent_control_perturbed_with_noise/training"]
+folder_training = ["simulated/50_percent_control_with_noise/training", 
+                   "simulated/50_percent_control_current_disturbance_with_noise/training", 
+                   "simulated/50_percent_control_perturbed_with_noise/training", 
+                   "simulated_v2/50_percent_control_v2_with_noise/training", 
+                   "simulated_v2/50_percent_control_v2_disturbed_with_noise/training", 
+                   "simulated_v2/50_percent_control_v2_perturbed_with_noise/training"]
 # folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_current_disturbance/training", "simulated/50_percent_control_perturbed/training"]
 # folder_training = ["simulated/50_percent_control/training", "simulated/50_percent_control_perturbed/training"]
 folder_path_training = [os.path.join(data_path, folder) for folder in folder_training]
 
-folder_vaildation = ["simulated/50_percent_control_with_noise/validation", "simulated/50_percent_control_current_disturbance_with_noise/validation", "simulated/50_percent_control_perturbed_with_noise/validation"]
+folder_vaildation = ["simulated/50_percent_control_with_noise/validation", 
+                     "simulated/50_percent_control_current_disturbance_with_noise/validation", 
+                     "simulated/50_percent_control_perturbed_with_noise/validation",
+                     "simulated_v2/50_percent_control_v2_with_noise/validation", 
+                     "simulated_v2/50_percent_control_v2_disturbed_with_noise/validation", 
+                     "simulated_v2/50_percent_control_v2_perturbed_with_noise/validation"]
 # folder_vaildation = ["simulated/50_percent_control/validation", "simulated/50_percent_control_perturbed/validation"]
 folder_path_val = [os.path.join(data_path, folder) for folder in folder_vaildation]
 

@@ -4,8 +4,8 @@ close all
 tic
 temp_name = strsplit(pwd,'in-context-bldc');
 % savepath = fullfile(temp_name{1}, "in-context-bldc","data","simulated\CL_speed_matlab\");
-data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
-save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_with_noise";
+data_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_v2";
+save_path = "C:\Users\39340\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated_v2_with_noise";
 
 P_vq = 0.3^2;
 P_vd = 0.45^2;
@@ -16,6 +16,9 @@ P_id = 0.09^2;
 
 folder_list = dir(data_path);
 folder_list = {folder_list(3:end).name};
+
+% folder_list = folder_list{contains(folder_list, "v2")}
+
 for folder = folder_list
     data_filepath = fullfile(data_path, folder);
 
@@ -28,6 +31,10 @@ for folder = folder_list
     counter = 0;
 
     for file = file_list
+        if contains(file, "metadata")
+            fprintf("skipping metadata\n")
+            continue
+        end
         counter = counter + 1;
         fprintf("from folder %s, converting file # %d, called ''%s'' \n", folder{1}, counter, file{1})
 
