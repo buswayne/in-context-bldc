@@ -5,7 +5,7 @@ PID_current.i = 1;
 
 
 % perturbation = 0.15;
-fprintf("(perturbation = " + perturbation + ")\n")
+fprintf("  (perturbation = " + perturbation + ")\n")
 coeff = @(x) (1 - perturbation) + (perturbation * 2) * x;
 coeff_inertia = @(x) (0.1) + (9.9) * x;
 
