@@ -9,7 +9,7 @@ user_tmp2 = strsplit(user_tmp{2},'\');
 user = user_tmp2{1};
 
 
-model_name = 'noise_h10_40k_H10H.mat';
+model_name = 'new_dataset_short_noise_scaled_h10_40k_H10H.mat';
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
 folder_name = sprintf('statistical_analysis_model_%s', model_name(1:end-4));
 
@@ -40,12 +40,12 @@ slow_sys_counters = 0;
 fast_sys_counter = 0;
 just_bad_counter = 0;
 
-show_bad = 10;
+show_bad = true;
 show_bad_counter = 0; 
 
 OS_list = zeros(total_exp,2);
 
-plot_example = 3;
+plot_example = 6;
 
 for i = 1:total_exp
     
@@ -84,7 +84,31 @@ for i = 1:total_exp
 
 
     if ~tmp_results.success
-        if max(tab.omega) < stepsize
+        if show_bad
+            figure
+            ax1 = subplot(2,1,1);
+            hold on
+            grid on
+            plot(tab.t, tab.r, "DisplayName","Omega ref")
+            plot(tab.t, tab.omega, "DisplayName","Omega")
+            xlabel("time [s]")
+            ylabel("speed [rpm]")
+            legend()
+
+            ax2 = subplot(2,1,2);
+            hold on
+            grid on
+            plot(tab.t, tab.iq_ref, "DisplayName","iq ref")
+            plot(tab.t, tab.iq, "DisplayName","iq")
+            plot(tab.t, tab.id, "DisplayName","id")
+            xlabel("time [s]")
+            ylabel("current [A]")
+            legend()
+            linkaxes([ax1, ax2], 'x')
+        end
+            
+
+        if max(tab.omega) < stepsize-eps
             limited_speed_counter = limited_speed_counter + 1;
 
             if plot_example == 0
@@ -188,7 +212,7 @@ for i = 1:total_exp
                 ylabel("current [A]")
                 legend()
                 linkaxes([ax1, ax2], 'x')
-                % plot_example = 4;
+                plot_example = 4;
             end
 
 
