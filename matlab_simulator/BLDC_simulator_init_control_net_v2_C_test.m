@@ -277,6 +277,13 @@ for idx_exp = 1:N_exp
         grid on
         plot(output.output.time, output.output.signals.values(:,6), "DisplayName","iq ref")
         plot(output.output.time, output.output.signals.values(:,9), "DisplayName","iq ref C")
+        legend()
+
+        figure
+        hold on 
+        grid on
+        plot(output.output.time, output.output.signals.values(:,6)-output.output.signals.values(:,9), "DisplayName","iq ref")
+        
 
     end
 end
