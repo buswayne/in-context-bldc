@@ -74,12 +74,12 @@ current_path = os.getcwd().split("speed_controller_v2")[0]
 
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
   
-os.add_dll_directory(dll_dir)
-dll_dir_gomp = r"C:\Strawberry\c\bin"  
-os.add_dll_directory(dll_dir_gomp)
+# os.add_dll_directory(dll_dir)
+# dll_dir_gomp = r"C:\Strawberry\c\bin"  
+# os.add_dll_directory(dll_dir_gomp)
 
 # --- Step 2: load the DLL ---
-lib_path = os.path.join(dll_dir, "net_predict_L_40k.dll")
+lib_path = os.path.join(dll_dir, "net_predict_L_40k_test_mo_openmp.dll")
 lib = ctypes.CDLL(lib_path)
 
 # --- Step 3: define function signatures ---
@@ -99,19 +99,19 @@ el_time_list = np.zeros(test_length)
 y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
 
 for i in range(10):
-    rand_in = torch.rand(1,10,6, device=device)
-    out = model(rand_in)
-    # x_in = np.random.rand(60).astype(np.float64)  # your input array
-    # lib.net_predict_L_40k(x_in, y_out)
+    # rand_in = torch.rand(1,10,6, device=device)
+    # out = model(rand_in)
+    x_in = np.random.rand(60).astype(np.float64)  # your input array
+    lib.net_predict_L_40k(x_in, y_out)
 
 
 for i in range(test_length):
     now = time.perf_counter_ns()
-    rand_in = torch.rand(1,10,6, device=device)
-    out = model(rand_in)
+    # rand_in = torch.rand(1,10,6, device=device)
+    # out = model(rand_in)
     
-    # x_in = np.random.rand(60).astype(np.float64)  # your input array
-    # lib.net_predict_L_40k(x_in, y_out)
+    x_in = np.random.rand(60).astype(np.float64)  # your input array
+    lib.net_predict_L_40k(x_in, y_out)
     el_time_list[i] = time.perf_counter_ns()-now
 
 
