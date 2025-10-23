@@ -94,10 +94,17 @@ lib.net_predict_L_40k.argtypes = [
 
 print("ready to roll")
 
-test_length = 100
+test_length = 1000
 el_time_list = np.zeros(test_length)
 y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
 
+
+x_in_big = np.random.rand(1,10,6)
+
+
+
+
+#.astype(np.float64).flatten(order='F')
 for i in range(10):
     # rand_in = torch.rand(1,10,6, device=device)
     # out = model(rand_in)
@@ -110,13 +117,16 @@ for i in range(test_length):
     # rand_in = torch.rand(1,10,6, device=device)
     # out = model(rand_in)
     
-    x_in = np.random.rand(60).astype(np.float64)  # your input array
+    # x_in = np.random.rand(60).astype(np.float64)  # your input array
+    x_in_big[0,0:9,:] = x_in_big[0,1:10,:]
+    x_in_big[0,9,:] = np.random.rand(6)
+    x_in = x_in_big.astype(np.float64).flatten(order='F')
     lib.net_predict_L_40k(x_in, y_out)
     el_time_list[i] = time.perf_counter_ns()-now
 
 
-fig = plt.figure()
-plt.plot(el_time_list)
+# fig = plt.figure()
+# plt.plot(el_time_list)
 
 fig = plt.figure()
 plt.plot(el_time_list*1e-9)
