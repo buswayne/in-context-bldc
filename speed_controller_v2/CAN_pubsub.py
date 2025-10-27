@@ -1,90 +1,25 @@
 import os
+import ctypes
+import numpy as np  
+
 from pathlib import Path
 import time
 import torch
-import numpy as np
 import math
 import gc
 from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 
-import matplotlib.pyplot as plt
-import ctypes
-
-# Overall settings
-out_dir = "out"
-
-model_name = "new_dataset_long_noise_h10_40k.pt"
-# model_name = "model_high_speed.pt"
-
-current_path = os.getcwd().split("in-context-bldc")[0]
-data_path = os.path.join(current_path,"in-context-bldc", "data")
-
-# folder = "simulated/50_percent_control_with_noise/validation"
-# folder = "simulated/50_percent_control/validation"
-# folder = "CL_experiments_double_sensor_control/test/inertia07"
-# folder_path = os.path.join(data_path, folder)
-
-
-# Compute settings
-cuda_device = "cuda:0"
-no_cuda = False
-threads = 10
-compile = False
-
-# Configure compute
-torch.set_num_threads(threads) 
-use_cuda = not no_cuda and torch.cuda.is_available()
-# device_name  =  cuda_device if use_cuda else "cpu"
-device_name  =  "cpu"
-device = torch.device(device_name)
-device_type = 'cuda' if 'cuda' in device_name else 'cpu' # for later use in torch.autocast
-torch.set_float32_matmul_precision("high")
-print(torch.cuda.is_available())
-# Create out dir
-out_dir = Path(out_dir)
-exp_data = torch.load(out_dir/model_name, map_location=device, weights_only=False)
-seq_len = exp_data["cfg"].seq_len
-nx = exp_data["cfg"].nx
-exp_data["iter_num"]
-
-
-model_args = exp_data["model_args"]
-gptconf = GPTConfig(**model_args)
-model = GPT(gptconf).to(device)
-print(model.get_num_params())
-
-state_dict = exp_data["model"]
-unwanted_prefix = '_orig_mod.'
-for k,v in list(state_dict.items()):
-    if k.startswith(unwanted_prefix):
-        state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
-    if k.startswith('module.'):
-        state_dict[k[7:]] = v
-        state_dict.pop(k)
-
-model.load_state_dict(state_dict)
-
-
-
-
+import can
+import uptime
 
 
 current_path = os.getcwd().split("speed_controller_v2")[0]
 
-
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
-  
-# os.add_dll_directory(dll_dir)
-# dll_dir_gomp = r"C:\Strawberry\c\bin"  
-# os.add_dll_directory(dll_dir_gomp)
-
-# --- Step 2: load the DLL ---
+os.add_dll_directory(dll_dir)
 lib_path = os.path.join(dll_dir, "net_predict_L_40k_test_mo_openmp.dll")
 lib = ctypes.CDLL(lib_path)
 
-# --- Step 3: define function signatures ---
-# Example: if your C function is
-# double myFunction(double x, double y);
 lib.net_predict_L_40k.restype = None
 lib.net_predict_L_40k.argtypes = [
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags="C_CONTIGUOUS"),  # input
@@ -92,45 +27,153 @@ lib.net_predict_L_40k.argtypes = [
 ]
 
 
-print("ready to roll")
 
-test_length = 1000
-el_time_list = np.zeros(test_length)
-y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
-
-
-x_in_big = np.random.rand(1,10,6)
-
-
-
-
-#.astype(np.float64).flatten(order='F')
-for i in range(10):
-    # rand_in = torch.rand(1,10,6, device=device)
-    # out = model(rand_in)
-    x_in = np.random.rand(60).astype(np.float64)  # your input array
-    lib.net_predict_L_40k(x_in, y_out)
-
-
-for i in range(test_length):
-    now = time.perf_counter_ns()
-    # rand_in = torch.rand(1,10,6, device=device)
-    # out = model(rand_in)
     
-    # x_in = np.random.rand(60).astype(np.float64)  # your input array
-    x_in_big[0,0:9,:] = x_in_big[0,1:10,:]
-    x_in_big[0,9,:] = np.random.rand(6)
-    x_in = x_in_big.astype(np.float64).flatten(order='F')
-    lib.net_predict_L_40k(x_in, y_out)
-    el_time_list[i] = time.perf_counter_ns()-now
+class FilteredListener(can.Listener):
+    def __init__(self, H, bus):
+        # self.target_ids = set(target_ids)  # Convert to set for fast lookup
+        # self.target_id = target_id
+        self.H = H
+        self.data_vector = np.zeros((1,H,6))
+        self.output = np.zeros(H, dtype=np.float32)
+        self.bus = bus
+        self.msg = can.Message(arbitration_id=0x333, is_extended_id=False, dlc=8)
+
+        self.time_log = []
+
+    
+    def on_message_received(self, msg):
+        # if msg.arbitration_id in self.target_ids:
+        if msg.arbitration_id == 0x101:
+            self.process_electric_data(msg)
+            
+        elif msg.arbitration_id == 0x102:
+            self.process_speed_data(msg)
+
+        elif msg.arbitration_id == 0x103:
+            self.process_time_data(msg)
+            
+
+    def process_electric_data(self, msg):
+        # msg.data.[...]
+        # start = time.perf_counter_ns()
+        data = msg.data
+
+        # reconstruct 12-bit words (little-endian packing used by the C code)
+        send_id  = ((data[1] & 0x0F) << 8) | data[0]                # bits [11:0] of id
+        send_iq  = (data[2] << 4) | ((data[1] >> 4) & 0x0F)         # bits [11:0] of iq
+        send_vd  = ((data[4] & 0x0F) << 8) | data[3]                # bits [11:0] of vd
+        send_vq  = (data[5] << 4) | ((data[4] >> 4) & 0x0F)         # bits [11:0] of vq
+
+        # inverse scaling (reverse of C encoding)
+        id = (send_id / 204.75) - 10.0
+        id_scaled = (id + 5) / 10
+        iq = (send_iq / 204.75) - 10.0
+        iq_scaled = (iq + 5) / 10
+        vd = (send_vd / 68.25) - 30.0
+        vd_scaled = (vd + 24) / 48
+        vq = (send_vq / 68.25) - 30.0
+        vq_scaled = (vq + 24) / 48
 
 
-# fig = plt.figure()
-# plt.plot(el_time_list)
+        self.data_vector[0, 0:self.H-1, 0:4] = self.data_vector[0, 1:self.H, 0:4]
+        self.data_vector[0,self.H-1,0:4] = [id_scaled,iq_scaled,vd_scaled,vq_scaled]
+        # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
+        # print(self.data_vector[0,:,:])
+        print([id,iq,vd,vq])
+        
 
-fig = plt.figure()
-plt.plot(el_time_list*1e-9)
+    def process_speed_data(self, msg):
+        # msg.data.[...]
+        # start = time.perf_counter_ns()
+        data = msg.data
 
-print(el_time_list.mean()*1e-9)
+        # --- Decode omega (2 bytes, little-endian) ---
+        send_omega = data[0] | (data[1] << 8)
+        omega = (send_omega / 6.5535) - 10.0  # inverse of encoding
+        omega_scaled = omega / 2500
 
-plt.show()
+        # --- Decode omega_ref (2 bytes, little-endian) ---
+        send_omega_ref = data[2] | (data[3] << 8)
+        omega_ref = (send_omega_ref / 6.5535) - 10.0
+        omega_ref_scaled = omega_ref / 2500
+
+        # --- Decode time_counter (4 bytes, little-endian) ---
+        time_counter = (
+            (data[4]) |
+            (data[5] << 8) |
+            (data[6] << 16) |
+            (data[7] << 24)
+        )
+
+        self.data_vector[0, 0:self.H-1, 4:6] = self.data_vector[0, 1:self.H, 4:6]
+        self.data_vector[0,self.H-1,4:6] = [omega_scaled, omega_ref_scaled]
+
+        net_in = self.data_vector.astype(np.float64).flatten(order='F')
+        lib.net_predict_L_40k(net_in, self.output)
+        out = self.output
+        self.msg.data = [data[4],data[5],data[6],data[7],0,0,0,0]
+        # self.msg.data = [0,0,0,0,0,0,0,0]
+        self.bus.send(self.msg)
+        # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
+        # print(self.data_vector[0,:,:])
+        # print(time_counter)
+
+    def process_time_data(self,msg):
+        data = msg.data
+        time_counter = (
+            (data[0]) |
+            (data[1] << 8) |
+            (data[2] << 16) |
+            (data[3] << 24)
+        )
+        # print(time_counter)
+        # print(time_counter/1e6)
+        self.time_log.append(time_counter)
+
+
+    
+
+def main():
+
+    for i in range(20):
+        x_in = np.random.rand(60).astype(np.float64)  # your input array
+        y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
+        lib.net_predict_L_40k(x_in, y_out)
+
+    
+
+
+    filters = [
+    {"can_id": 0x101, "can_mask": 0x7FF, "extended": False},  # Standard ID 0x101
+    {"can_id": 0x102, "can_mask": 0x7FF, "extended": False},  # Standard ID 0x102
+    {"can_id": 0x103, "can_mask": 0x7FF, "extended": False},  # Standard ID 0x103
+    {"can_id": 0x321, "can_mask": 0x7FF, "extended": False},  # Standard ID 0x321
+    {"can_id": 0x333, "can_mask": 0x7FF, "extended": False},  # Standard ID 0x333
+    ]
+    
+    with can.Bus(interface='pcan', channel='PCAN_USBBUS1', bitrate=500000) as bus:
+        bus.set_filters(filters)
+        # listener = FilteredListener(target_id)
+        listener = FilteredListener(H=10, bus=bus)
+        notifier = can.Notifier(bus, [listener])
+        
+        try:
+            # print(f"Listening for messages with IDs: {hex(target_id)}")
+            print("Press Ctrl+C to stop...")
+            start = time.time()
+            max_time = 10
+            while time.time() - start < max_time:
+                # Keep the main thread alive
+                can.BufferedReader().get_message(timeout=1)
+        except KeyboardInterrupt:
+            print("\nStopping...")
+        finally:
+            notifier.stop()
+            time_log = np.array(listener.time_log)
+            print(f"received {len(time_log)} messages")
+            print(f"average delay: {time_log.mean()/1e6}")
+
+
+if __name__ == "__main__":
+    main()
