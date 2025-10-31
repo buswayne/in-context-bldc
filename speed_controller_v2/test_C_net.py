@@ -15,11 +15,11 @@ current_path = os.getcwd().split("speed_controller_v2")[0]
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
   
 os.add_dll_directory(dll_dir)
-dll_dir_gomp = r"C:\Strawberry\c\bin"  
-os.add_dll_directory(dll_dir_gomp)
+# dll_dir_gomp = r"C:\Strawberry\c\bin"  
+# os.add_dll_directory(dll_dir_gomp)
 
 # --- Step 2: load the DLL ---
-lib_path = os.path.join(dll_dir, "net_predict_L_40k_test_mo_openmp.dll")
+lib_path = os.path.join(dll_dir, "net_predict_L_40k.dll")
 lib = ctypes.CDLL(lib_path)
 
 # --- Step 3: define function signatures ---

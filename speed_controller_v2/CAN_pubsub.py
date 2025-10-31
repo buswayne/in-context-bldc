@@ -80,7 +80,7 @@ class FilteredListener(can.Listener):
         self.data_vector[0,self.H-1,0:4] = [id_scaled,iq_scaled,vd_scaled,vq_scaled]
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
-        print([id,iq,vd,vq])
+        # print([id,iq,vd,vq])
         
 
     def process_speed_data(self, msg):
@@ -162,7 +162,7 @@ def main():
             # print(f"Listening for messages with IDs: {hex(target_id)}")
             print("Press Ctrl+C to stop...")
             start = time.time()
-            max_time = 10
+            max_time = 120
             while time.time() - start < max_time:
                 # Keep the main thread alive
                 can.BufferedReader().get_message(timeout=1)

@@ -79,14 +79,16 @@ dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
 # os.add_dll_directory(dll_dir_gomp)
 
 # --- Step 2: load the DLL ---
-lib_path = os.path.join(dll_dir, "net_predict_L_40k_test_mo_openmp.dll")
+lib_path = os.path.join(dll_dir, "net_predict_S_S_40k.dll")
 lib = ctypes.CDLL(lib_path)
+
+transformer_function = lib.net_predict_S_S_40k
 
 # --- Step 3: define function signatures ---
 # Example: if your C function is
 # double myFunction(double x, double y);
-lib.net_predict_L_40k.restype = None
-lib.net_predict_L_40k.argtypes = [
+transformer_function.restype = None
+transformer_function.argtypes = [
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags="C_CONTIGUOUS"),  # input
     np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags="C_CONTIGUOUS")   # output
 ]
@@ -109,7 +111,7 @@ for i in range(10):
     # rand_in = torch.rand(1,10,6, device=device)
     # out = model(rand_in)
     x_in = np.random.rand(60).astype(np.float64)  # your input array
-    lib.net_predict_L_40k(x_in, y_out)
+    transformer_function(x_in, y_out)
 
 
 for i in range(test_length):
@@ -121,7 +123,7 @@ for i in range(test_length):
     x_in_big[0,0:9,:] = x_in_big[0,1:10,:]
     x_in_big[0,9,:] = np.random.rand(6)
     x_in = x_in_big.astype(np.float64).flatten(order='F')
-    lib.net_predict_L_40k(x_in, y_out)
+    transformer_function(x_in, y_out)
     el_time_list[i] = time.perf_counter_ns()-now
 
 
@@ -133,4 +135,4 @@ plt.plot(el_time_list*1e-9)
 
 print(el_time_list.mean()*1e-9)
 
-plt.show()
+# plt.show()

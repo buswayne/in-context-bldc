@@ -66,12 +66,12 @@ print(valid/full)
 # ax.set_yscale('log')
 
 
-# fig = plt.figure()
-# sns.histplot(data=metadata_matrix[:,0], stat='density')
-# ax = plt.gca()
-# ax.set(xlabel="$T_{set}$")
-# ax.grid()
-# ax.set_title("Settling time distribution")
+fig = plt.figure()
+sns.histplot(data=metadata_matrix[:,0], stat='density')
+ax = plt.gca()
+ax.set(xlabel="$T_{set}$")
+ax.grid()
+ax.set_title("Settling time distribution")
 
 # fig = plt.figure()
 # sns.histplot(data=metadata_matrix[:,1], stat='density')
@@ -130,34 +130,36 @@ print(valid/full)
 
 
 
-# fig = plt.figure(figsize=(6,3))
-# sns.histplot(data=metadata_matrix[:,0], stat='density')
-# ax = plt.gca()
-# ylim = ax.get_ylim()
-# plt.vlines([0.05, 1.7],ymin=0, ymax=1, colors='r', linestyles='--')
-# ax.set_ylim(ylim)
-# ax.set(xlabel="$T_{set}$")
-# ax.grid()
+fig = plt.figure(figsize=(6,3))
+sns.histplot(data=metadata_matrix[:,0], stat='density')
+ax = plt.gca()
+ylim = ax.get_ylim()
+plt.vlines([0.05, 1.7],ymin=0, ymax=1, colors='r', linestyles='--')
+ax.set_ylim(ylim)
+ax.set(xlabel="$T_{set}$")
+ax.grid()
+ax.set_title("Settling time distribution")
+plt.tight_layout()
+
+
+
+
+fig = plt.figure(figsize=(5,3))
+sns.histplot(data=metadata_matrix[:,0], stat='density', log_scale=True)
+ax = plt.gca()
+ylim = ax.get_ylim()
+plt.vlines([0.05, 1.7],ymin=0, ymax=2, colors='r', linestyles='--')
+ax.set_ylim(ylim)
+xlim = ax.get_xlim()
+ax.set_xlim([xlim[0],1])
+ax.set(xlabel="$T_{set}$")
+ax.grid()
 # ax.set_title("Settling time distribution")
-# plt.tight_layout()
+plt.tight_layout()
 
 
 
-
-# fig = plt.figure(figsize=(6,3))
-# sns.histplot(data=metadata_matrix[:,0], stat='density', log_scale=True)
-# ax = plt.gca()
-# ylim = ax.get_ylim()
-# plt.vlines([0.05, 1.7],ymin=0, ymax=2, colors='r', linestyles='--')
-# ax.set_ylim(ylim)
-# ax.set(xlabel="$T_{set}$")
-# ax.grid()
-# ax.set_title("Settling time distribution")
-# plt.tight_layout()
-
-
-
-# plt.show()
+plt.show()
 
 
 

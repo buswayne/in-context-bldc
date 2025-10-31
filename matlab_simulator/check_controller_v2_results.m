@@ -9,7 +9,7 @@ user_tmp2 = strsplit(user_tmp{2},'\');
 user = user_tmp2{1};
 
 
-model_name = 'new_dataset_short_noise_scaled_h10_40k_H10H.mat';
+model_name = 'new_dataset_short_noise_h10_30k_H10H.mat';
 savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
 folder_name = sprintf('statistical_analysis_model_%s', model_name(1:end-4));
 

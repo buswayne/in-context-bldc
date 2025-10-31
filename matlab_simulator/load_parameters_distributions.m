@@ -26,7 +26,7 @@ load("testset_distribution.mat")
 color_th = "#edae49";
 color_ds = "#d1495b";
 color_ts = "#00798c";
-alpha_hist = 0.5;
+alpha_hist = 0.3;
 
 
 
