@@ -3,10 +3,11 @@ close all
 clear
 
 
-models_to_test = ["new_dataset_long_noise_h10_40k_H10H", ...
-                  "new_dataset_long_noise_scaled_h10_30k_H10H", ...
-                  "new_dataset_short_noise_h10_30k_H10H", ...
-                  "new_dataset_short_noise_scaled_h10_40k_H10H"];
+% models_to_test = ["new_dataset_long_noise_h10_40k_H10H", ...
+%                   "new_dataset_long_noise_scaled_h10_30k_H10H", ...
+%                   "new_dataset_short_noise_h10_30k_H10H", ...
+                  % "new_dataset_short_noise_scaled_h10_40k_H10H"];
+models_to_test = ["new_dataset_short_noise_h10_30k_H10H"];
 
 n_models = length(models_to_test);
 
@@ -136,40 +137,40 @@ for i = 1:n_models
 end %% n_models
 
 
-
-%%%% final_scores = model, config, [Ts, OS], exp);
-for j = 1:6
-
-    
-    figure
-    hold on
-    for i = 1:n_models
-        scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
-                reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
-                'filled', 'DisplayName',models_to_test(i))
-    end
-    xline(1.5, 'HandleVisibility','off')
-    yline(20, 'HandleVisibility','off')
-    yl = ylim;
-    ylim([min(0, yl(1)), max(yl(2),40)])
-    xlim([0,5])
-    xlabel("Settling time [s]")
-    ylabel("Overshoot percentage [%]")
-    legend('Interpreter','none', Location='northoutside')
-    title(sprintf("Config %d", j))
-    savefig(sprintf("exp_results/result_config%d.fig", j))
-    saveas(gcf, sprintf("exp_results/result_config%d.png", j))
-
-
-end
-
-
-
+% 
+% %%%% final_scores = model, config, [Ts, OS], exp);
+% for j = 1:6
+% 
+% 
+%     figure
+%     hold on
+%     for i = 1:n_models
+%         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
+%                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
+%                 'filled', 'DisplayName',models_to_test(i))
+%     end
+%     xline(1.5, 'HandleVisibility','off')
+%     yline(20, 'HandleVisibility','off')
+%     yl = ylim;
+%     ylim([min(0, yl(1)), max(yl(2),40)])
+%     xlim([0,5])
+%     xlabel("Settling time [s]")
+%     ylabel("Overshoot percentage [%]")
+%     legend('Interpreter','none', Location='northoutside')
+%     title(sprintf("Config %d", j))
+%     savefig(sprintf("exp_results/result_config%d.fig", j))
+%     saveas(gcf, sprintf("exp_results/result_config%d.png", j))
+% 
+% 
+% end
+% 
+% 
+% 
 for i = 1:n_models
-    
+
     figure
     hold on
-    
+
     for j = 1:6
         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
@@ -178,12 +179,16 @@ for i = 1:n_models
     xline(1.5, 'HandleVisibility','off')
     yline(20, 'HandleVisibility','off')
     yl = ylim;
-    ylim([min(0, yl(1)), max(yl(2),40)])
-    xlim([0,5])
+    ylim([min(0, yl(1)), max(yl(2),100)])
+    xlim([0,10])
+    r = rectangle('Position',[0,0,1.5,20]);
+    r.EdgeColor = '#007200';
+    r.LineStyle = ":";
+    r.LineWidth = 3;
     xlabel("Settling time [s]")
     ylabel("Overshoot percentage [%]")
     legend('Interpreter','none', 'Location', 'northoutside','NumColumns',6)
-    title(models_to_test(i), Interpreter="none")
+    % title(models_to_test(i), Interpreter="none")
     savefig(sprintf("exp_results/result_model%s.fig", models_to_test(i)))
     saveas(gcf, sprintf("exp_results/result_model%s.png", models_to_test(i)))
 

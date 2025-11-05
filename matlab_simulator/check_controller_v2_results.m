@@ -40,7 +40,8 @@ slow_sys_counters = 0;
 fast_sys_counter = 0;
 just_bad_counter = 0;
 
-show_bad = true;
+show_bad = false;
+show_good = true;
 show_bad_counter = 0; 
 
 OS_list = zeros(total_exp,2);
@@ -60,6 +61,32 @@ for i = 1:total_exp
     OS_tmp = max(tab.omega-stepsize)/stepsize*100;
     OS_list(i,1) = OS_tmp;
     OS_list(i,2) = tmp_results.success;
+
+    if (show_good) && (tmp_results.success)
+        figure
+        ax1 = subplot(2,1,1);
+        hold on
+        grid on
+        plot(tab.t, tab.r, "DisplayName","Omega ref")
+        plot(tab.t, tab.omega, "DisplayName","Omega")
+        xlabel("time [s]")
+        ylabel("speed [rpm]")
+        legend()
+
+        ax2 = subplot(2,1,2);
+        hold on
+        grid on
+        plot(tab.t, tab.iq_ref, "DisplayName","iq ref")
+        plot(tab.t, tab.iq, "DisplayName","iq")
+        plot(tab.t, tab.id, "DisplayName","id")
+        xlabel("time [s]")
+        ylabel("current [A]")
+        legend()
+        linkaxes([ax1, ax2], 'x')
+        input("next?")
+        close all
+
+    end
     % 
     % if OS_tmp > 20
     %     figure
