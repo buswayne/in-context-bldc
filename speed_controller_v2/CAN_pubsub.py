@@ -91,12 +91,12 @@ class FilteredListener(can.Listener):
 
         # --- Decode omega (2 bytes, little-endian) ---
         send_omega = data[0] | (data[1] << 8)
-        omega = (send_omega / 6.5535) - 10.0  # inverse of encoding
+        omega = (send_omega / 6.5535) - 5000.0  # inverse of encoding
         omega_scaled = omega / 2500
 
         # --- Decode omega_ref (2 bytes, little-endian) ---
         send_omega_ref = data[2] | (data[3] << 8)
-        omega_ref = (send_omega_ref / 6.5535) - 10.0
+        omega_ref = (send_omega_ref / 6.5535) - 5000.0
         omega_ref_scaled = omega_ref / 2500
 
         # --- Decode time_counter (4 bytes, little-endian) ---
