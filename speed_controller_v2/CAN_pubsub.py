@@ -11,6 +11,7 @@ from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 
 import can
 import uptime
+import matplotlib.pyplot as plt
 
 
 current_path = os.getcwd().split("speed_controller_v2")[0]
@@ -118,6 +119,7 @@ class FilteredListener(can.Listener):
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
         # print(time_counter)
+        print(omega_ref)
 
     def process_time_data(self,msg):
         data = msg.data
@@ -162,7 +164,7 @@ def main():
             # print(f"Listening for messages with IDs: {hex(target_id)}")
             print("Press Ctrl+C to stop...")
             start = time.time()
-            max_time = 120
+            max_time = np.inf
             while time.time() - start < max_time:
                 # Keep the main thread alive
                 can.BufferedReader().get_message(timeout=1)
@@ -171,6 +173,9 @@ def main():
         finally:
             notifier.stop()
             time_log = np.array(listener.time_log)
+            plt.figure()
+            plt.plot(time_log/1e6)
+            plt.show()
             print(f"received {len(time_log)} messages")
             print(f"average delay: {time_log.mean()/1e6}")
 
