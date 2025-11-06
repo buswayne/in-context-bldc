@@ -12,6 +12,7 @@ from transformer_zerostep import GPTConfig, GPT, warmup_cosine_lr
 import can
 import uptime
 import matplotlib.pyplot as plt
+import struct
 
 
 current_path = os.getcwd().split("speed_controller_v2")[0]
@@ -36,11 +37,14 @@ class FilteredListener(can.Listener):
         # self.target_id = target_id
         self.H = H
         self.data_vector = np.zeros((1,H,6))
+        self.startup = True
         self.output = np.zeros(H, dtype=np.float32)
         self.bus = bus
         self.msg = can.Message(arbitration_id=0x333, is_extended_id=False, dlc=8)
 
         self.time_log = []
+        self.iq_log = []
+        self.iq_ref_log = []
 
     
     def on_message_received(self, msg):
@@ -82,6 +86,7 @@ class FilteredListener(can.Listener):
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
         # print([id,iq,vd,vq])
+        self.iq_log.append(iq)
         
 
     def process_speed_data(self, msg):
@@ -98,6 +103,7 @@ class FilteredListener(can.Listener):
         send_omega_ref = data[2] | (data[3] << 8)
         omega_ref = (send_omega_ref / 6.5535) - 5000.0
         omega_ref_scaled = omega_ref / 2500
+        # print(omega_ref)
 
         # --- Decode time_counter (4 bytes, little-endian) ---
         time_counter = (
@@ -110,16 +116,28 @@ class FilteredListener(can.Listener):
         self.data_vector[0, 0:self.H-1, 4:6] = self.data_vector[0, 1:self.H, 4:6]
         self.data_vector[0,self.H-1,4:6] = [omega_scaled, omega_ref_scaled]
 
+        if self.startup:
+            self.data_vector[0,0:self.H-1] = self.data_vector[0,self.H-1]
+            self.startup = False
+
         net_in = self.data_vector.astype(np.float64).flatten(order='F')
         lib.net_predict_L_40k(net_in, self.output)
         out = self.output
-        self.msg.data = [data[4],data[5],data[6],data[7],0,0,0,0]
+        iq_ref = out[-1] * 10 - 5
+        self.iq_ref_log.append(iq_ref)
+
+        iq_ref_send = max(-10.0, min(10.0, iq_ref))
+        iq_ref_send_pack = struct.pack('<f', iq_ref_send)
+        # print(iq_ref)
+        # iq_ref_send = 
+        self.msg.data = [data[4],data[5],data[6],data[7],
+                         iq_ref_send_pack[0],iq_ref_send_pack[1],iq_ref_send_pack[2],iq_ref_send_pack[3]]
         # self.msg.data = [0,0,0,0,0,0,0,0]
         self.bus.send(self.msg)
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
         # print(time_counter)
-        print(omega_ref)
+        # print(omega)
 
     def process_time_data(self,msg):
         data = msg.data
@@ -173,11 +191,17 @@ def main():
         finally:
             notifier.stop()
             time_log = np.array(listener.time_log)
+            iq_log = np.array(listener.iq_log)
+            iq_ref_log = np.array(listener.iq_ref_log)
             plt.figure()
             plt.plot(time_log/1e6)
-            plt.show()
+            plt.figure()
+            plt.plot(iq_ref_log, label="iq_ref")
+            plt.plot(iq_log, label="iq")
+            plt.legend()
             print(f"received {len(time_log)} messages")
             print(f"average delay: {time_log.mean()/1e6}")
+            plt.show()
 
 
 if __name__ == "__main__":
