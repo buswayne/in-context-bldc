@@ -19,11 +19,22 @@ current_path = os.getcwd().split("speed_controller_v2")[0]
 
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
 os.add_dll_directory(dll_dir)
-lib_path = os.path.join(dll_dir, "net_predict_L_40k_test_mo_openmp.dll")
-lib = ctypes.CDLL(lib_path)
 
-lib.net_predict_L_40k.restype = None
-lib.net_predict_L_40k.argtypes = [
+# dll_name = "net_predict_L_40k"
+# dll_name = "net_predict_L_S_30k"
+# dll_name = "net_predict_S_30k"
+dll_name = "net_predict_S_S_40k"
+
+dll_name_bis = dll_name + ".dll"
+
+# lib_path = os.path.join(dll_dir, "net_predict_L_40k.dll")
+lib_path = os.path.join(dll_dir, dll_name_bis)
+lib = ctypes.CDLL(lib_path)
+# transformer_function = lib.net_predict_L_40k
+transformer_function = getattr(lib, dll_name)
+
+transformer_function.restype = None
+transformer_function.argtypes = [
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags="C_CONTIGUOUS"),  # input
     np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags="C_CONTIGUOUS")   # output
 ]
@@ -121,7 +132,7 @@ class FilteredListener(can.Listener):
             self.startup = False
 
         net_in = self.data_vector.astype(np.float64).flatten(order='F')
-        lib.net_predict_L_40k(net_in, self.output)
+        transformer_function(net_in, self.output)
         out = self.output
         iq_ref = out[-1] * 10 - 5
         self.iq_ref_log.append(iq_ref)
@@ -159,7 +170,7 @@ def main():
     for i in range(20):
         x_in = np.random.rand(60).astype(np.float64)  # your input array
         y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
-        lib.net_predict_L_40k(x_in, y_out)
+        transformer_function(x_in, y_out)
 
     
 
@@ -180,6 +191,7 @@ def main():
         
         try:
             # print(f"Listening for messages with IDs: {hex(target_id)}")
+            print("running model: ", dll_name)
             print("Press Ctrl+C to stop...")
             start = time.time()
             max_time = np.inf
@@ -193,11 +205,16 @@ def main():
             time_log = np.array(listener.time_log)
             iq_log = np.array(listener.iq_log)
             iq_ref_log = np.array(listener.iq_ref_log)
-            plt.figure()
-            plt.plot(time_log/1e6)
-            plt.figure()
-            plt.plot(iq_ref_log, label="iq_ref")
-            plt.plot(iq_log, label="iq")
+            fig = plt.figure()
+            ax0 = fig.add_subplot(2,1,1)
+            ax0.plot(time_log/1e6)
+            ax0.set_ylabel("dt [s]")
+
+            ax1 = fig.add_subplot(2,1,2)
+            # plt.figure()
+            ax1.plot(iq_ref_log, label="iq_ref")
+            ax1.plot(iq_log, label="iq")
+            ax1.set_ylabel("iq [A]")
             plt.legend()
             print(f"received {len(time_log)} messages")
             print(f"average delay: {time_log.mean()/1e6}")
