@@ -2,6 +2,14 @@ clc
 close all
 clear
 
+% 
+% list_factory = fieldnames(get(groot,'factory'));
+% index_interpreter = find(contains(list_factory,'Interpreter'));
+% for i = 1:length(index_interpreter)
+%     default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+%     set(groot, default_name,'tex');
+% end
+
 
 % models_to_test = ["new_dataset_long_noise_h10_40k_H10H", ...
 %                   "new_dataset_long_noise_scaled_h10_30k_H10H", ...
@@ -165,6 +173,9 @@ end %% n_models
 % end
 
 
+colors = ["#FAA307", "#FFBA08", "#F48C06", "#E85D04", "#DC2F02", "#D00000"];
+
+
 
 for i = 1:n_models
 
@@ -174,7 +185,7 @@ for i = 1:n_models
     for j = 1:6
         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
-                'filled', 'DisplayName', sprintf("Config %d", j))
+                'filled', 'DisplayName', sprintf("Config %d", j),  'MarkerFaceColor',colors(j))
     end
     xline(1.5, 'HandleVisibility','off')
     yline(20, 'HandleVisibility','off')
@@ -186,8 +197,8 @@ for i = 1:n_models
     r.LineStyle = ":";
     r.LineWidth = 3;
     xlabel("Settling time [s]")
-    ylabel("Overshoot percentage [%]")
-    legend('Interpreter','none', 'Location', 'northoutside','NumColumns',6)
+    ylabel("Overshoot percentage [\%]")
+    legend('Interpreter','tex', 'Location', 'northoutside','NumColumns',6)
     % title(models_to_test(i), Interpreter="none")
     savefig("figs_paper/scatter_results.fig")
     saveas(gcf, "figs_paper/scatter_results.png")
@@ -200,7 +211,47 @@ for i = 1:n_models
 
 end
 
+load("results_simulator.mat")
 
+
+
+for i = 1:n_models
+
+    figure('Position',[100,100,500,400*5/6])
+    hold on
+
+    scatter(metadata_full(:,2), metadata_full(:,1), 15, ...
+        'filled', 'DisplayName', "Sim", 'MarkerFaceAlpha',0.2, 'MarkerEdgeColor','none', ...
+        'Marker','o', 'MarkerFaceColor','g')
+    for j = 1:6
+        scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
+                reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
+                20,'filled', 'DisplayName', sprintf("S^%d", j), 'MarkerFaceColor',colors(j), 'MarkerFaceAlpha',0.8)
+    end
+    xline(1.5, 'HandleVisibility','off')
+    yline(20, 'HandleVisibility','off')
+    % yl = ylim;
+    % ylim([min(0, yl(1)), max(yl(2),100)])
+    ylim([0 80])
+    xlim([0,5.1])
+    r = rectangle('Position',[0,0,1.5,20]);
+    r.EdgeColor = '#007200';
+    r.LineStyle = ":";
+    r.LineWidth = 3;
+    xlabel("Settling time [s]")
+    ylabel("Overshoot percentage [\%]")
+    legend('Interpreter','tex', 'Location', 'northoutside','NumColumns',7)
+    % title(models_to_test(i), Interpreter="none")
+    savefig("figs_paper/scatter_results_and_sim.fig")
+    saveas(gcf, "figs_paper/scatter_results_and_sim.png")
+    fig = gcf;
+    set(fig, 'PaperPositionMode', 'auto');
+    exportgraphics(fig, 'figs_paper/scatter_results_and_sim.pdf', 'ContentType', 'vector');
+
+
+
+
+end
 
 
 

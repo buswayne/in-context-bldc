@@ -79,10 +79,10 @@ dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
 # os.add_dll_directory(dll_dir_gomp)
 
 # --- Step 2: load the DLL ---
-lib_path = os.path.join(dll_dir, "net_predict_S_S_40k.dll")
+lib_path = os.path.join(dll_dir, "net_predict_S_30k.dll")
 lib = ctypes.CDLL(lib_path)
 
-transformer_function = lib.net_predict_S_S_40k
+transformer_function = lib.net_predict_S_30k
 
 # --- Step 3: define function signatures ---
 # Example: if your C function is
@@ -96,7 +96,7 @@ transformer_function.argtypes = [
 
 print("ready to roll")
 
-test_length = 1000
+test_length = 10000
 el_time_list = np.zeros(test_length)
 y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
 
@@ -130,9 +130,16 @@ for i in range(test_length):
 # fig = plt.figure()
 # plt.plot(el_time_list)
 
+
+
+el_time_list_s = el_time_list*1e-9
+
+mask = el_time_list_s < 0.01
+# print(mask)
+el_time_list_s = el_time_list_s[mask]
+print(el_time_list_s.mean())
+print(el_time_list_s.std())
+
 fig = plt.figure()
-plt.plot(el_time_list*1e-9)
-
-print(el_time_list.mean()*1e-9)
-
-# plt.show()
+plt.plot(el_time_list_s)
+plt.show()
