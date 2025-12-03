@@ -1,5 +1,5 @@
 clc
-% close all
+close all
 clear
 
 
@@ -67,11 +67,11 @@ for i = 1:n_models
             switch inertia_str
                 case '13'
                     fprintf("config 1\n")
-                    idx = 2;
+                    idx = 1;
 
                 case '05'
                     fprintf("config 2\n")
-                    idx = 1;
+                    idx = 2;
 
                 case '15'
                     fprintf("config 3\n")
@@ -177,11 +177,7 @@ end %% n_models
 colors = ["#023E8A", "#03045E", "#0077B6", "#0096C7", "#00B4D8", "#48CAE4"];
 
 % colors = cell2mat(color_tints_and_shades(cell2mat(hex2rgb("#0077B6")),10,0.5));
-colors = cell2mat(color_tints_and_shades([0    0.4471    0.7412],8,0.65));
-
-% tmp = colors(1,:);
-% colors(1,:) = colors(2,:);
-% colors(2,:) = tmp;
+colors = color_tints_and_shades([0    0.4471    0.7412],8,0.65);
 
 % colors = colors(end-5:end,:);
 
@@ -224,7 +220,6 @@ load("results_simulator.mat")
 % color_sim = [0.4846 0.7497 0.5805];
 
 color_sim = [0.8663 0.4061 0.2384];
-color_sim = lighten_color(color_sim, 0.2);
 
 
 for i = 1:n_models
@@ -233,9 +228,9 @@ for i = 1:n_models
     box on
     hold on
 
-    scatter(metadata_full(:,2), metadata_full(:,1), 35, ...
-        'DisplayName', "Sim", 'MarkerFaceAlpha',1, 'MarkerEdgeColor',color_sim, ...
-        'Marker','.', 'MarkerFaceColor',lighten_color(color_sim, 0.6), 'LineWidth', 1)
+    scatter(metadata_full(:,2), metadata_full(:,1), 20, ...
+        'filled', 'DisplayName', "Sim", 'MarkerFaceAlpha',0.4, 'MarkerEdgeColor','none', ...
+        'Marker','o', 'MarkerFaceColor',color_sim)
     for j = 1:6
         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
