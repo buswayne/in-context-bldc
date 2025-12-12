@@ -1,6 +1,15 @@
 clear
 clc
-close all
+% close all
+
+
+
+list_factory = fieldnames(get(groot,'factory'));
+index_interpreter = find(contains(list_factory,'Interpreter'));
+for i = 1:length(index_interpreter)
+    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+    set(groot, default_name,'latex');
+end
 
 
 % models_to_test = ["new_dataset_long_noise_h10_40k_H10H", ...
@@ -15,11 +24,15 @@ n_models = length(models_to_test);
 time_stack = [];
 omega_stack = [];
 color_stack = strings(0);
+color_stack_good = strings(0);
 stepsize = 2000;
 
+% colors_good = {"#023E8A", "#03045E", "#0077B6", "#0096C7", "#00B4D8", "#48CAE4"};
 
+% colors_good = color_tints_and_shades(cell2mat(hex2rgb("#0077B6")),10,0.5);
+colors_good = color_tints_and_shades([0    0.4471    0.7412],8,0.65);
 
-
+% 0    0.4471    0.7412
 
 temp_name = strsplit(pwd,'in-context-bldc');
 user_tmp = strsplit(pwd,'Users\');
@@ -47,6 +60,10 @@ folder_list(del_log_list) = [];
 n_folders = length(folder_list);
 
 
+RGB = orderedcolors("gem");
+H = rgb2hex(RGB);
+
+
 for i = 1:n_models
 
 
@@ -65,32 +82,38 @@ for i = 1:n_models
                 case '13'
                     fprintf("config 1\n")
                     idx = 1;
-                    color = "#FAA307";
+                    color_good = colors_good{2}; %"#FAA307";
+                    color = H(1);
 
                 case '05'
                     fprintf("config 2\n")
                     idx = 2;
-                    color = "#FFBA08";
+                    color_good = colors_good{1}; % "#FFBA08";
+                    color = H(2);
 
                 case '15'
                     fprintf("config 3\n")
                     idx = 3;
-                    color = "#F48C06";
+                    color_good = colors_good{3}; % "#F48C06";
+                    color = H(3);
 
                 case '09'
                     fprintf("config 4\n")
                     idx = 4;
-                    color = "#E85D04";
+                    color_good = colors_good{4}; % "#E85D04";
+                    color = H(4);
 
                 case '11'
                     fprintf("config 5\n")
                     idx = 5;
-                    color = "#DC2F02";
+                    color_good = colors_good{5}; % "#DC2F02";
+                    color = H(5);
 
                 case '07'
                     fprintf("config 6\n")
                     idx = 6;
-                    color = "#D00000";
+                    color_good = colors_good{6}; % "#D00000";
+                    color = H(6);
 
                 otherwise
                     fprintf("............\n............\nerror\n............\n............\n")
@@ -123,6 +146,7 @@ for i = 1:n_models
                 time_stack(end+1,:) = res_tmp.t(start_idx:end_idx) - res_tmp.t(start_idx);
                 omega_stack(end+1,:) = res_tmp.omega(start_idx:end_idx);
                 color_stack(end+1) = color;
+                color_stack_good(end+1) = rgb2hex(color_good);
 
             end
             
@@ -156,48 +180,243 @@ end %% n_models
 [n_exp, ~] = size(omega_stack);
 
 
-figure
+% figure
+% hold on
+% for j = 1:n_exp
+%     plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack(j))
+% end
+% 
+% % r = rectangle('Position',[1.5, 0, 5, 1900], 'FaceColor',"b","EdgeColor","none","FaceAlpha",0.1);
+% % hatchfill(r, 'single',-45, 'b');
+% x_corners = [1.5, 5, 5, 1.5]; 
+% y_corners = [0, 0, 1900, 1900];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% x_corners = [1.5, 5, 5, 1.5]; 
+% y_corners = [2100, 2100, 3000, 3000];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% 
+% x_corners = [0, 1.5, 1.5, 0]; 
+% y_corners = [2400, 2400, 3000, 3000];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% xlim([0,5])
+% ylim([0,2500])
+% xlabel("Time [s]")
+% ylabel("Speed [rpm]")
+% 
+% 
+% % 
+% % L1 = plot(nan, nan, 'color', "#FAA307", 'LineWidth',2);
+% % L2 = plot(nan, nan, 'color', "#FFBA08", 'LineWidth',2);
+% % L3 = plot(nan, nan, 'color', "#F48C06", 'LineWidth',2);
+% % L4 = plot(nan, nan, 'color', "#E85D04", 'LineWidth',2);
+% % L5 = plot(nan, nan, 'color', "#DC2F02", 'LineWidth',2);
+% % L6 = plot(nan, nan, 'color', "#D00000", 'LineWidth',2);
+% L1 = plot(nan, nan, 'color', H(1), 'LineWidth',2);
+% L2 = plot(nan, nan, 'color', H(2), 'LineWidth',2);
+% L3 = plot(nan, nan, 'color', H(3), 'LineWidth',2);
+% L4 = plot(nan, nan, 'color', H(4), 'LineWidth',2);
+% L5 = plot(nan, nan, 'color', H(5), 'LineWidth',2);
+% L6 = plot(nan, nan, 'color', H(6), 'LineWidth',2);
+% legend([L1, L2,L3,L4,L5,L6], {'Config 1', 'Config 2', 'Config 3', 'Config 4' ,'Config 5' ,'Config 6'}, 'Location','southeast')
+% 
+% savefig("figs_paper/stack_results_bad_color.fig")
+% saveas(gcf, "figs_paper/stack_results_bad_color.png")
+% fig = gcf;
+% set(fig, 'PaperPositionMode', 'auto');
+% exportgraphics(fig, 'figs_paper/stack_results_bad_color.pdf', 'ContentType', 'vector');
+
+
+
+
+
+
+
+
+figure('Position',[100,100,500,200])
 hold on
-for j = 1:n_exp
-    plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack(j))
+box on
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{1})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
 end
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{2})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
+end
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{3})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
+end
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{4})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
+end
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{5})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
+end
+for j = flip(1:n_exp)
+    if color_stack_good(j) == rgb2hex(colors_good{6})
+        plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+    end
+end
+xlim([0,2])
+ylim([0,2500])
 
 % r = rectangle('Position',[1.5, 0, 5, 1900], 'FaceColor',"b","EdgeColor","none","FaceAlpha",0.1);
 % hatchfill(r, 'single',-45, 'b');
 x_corners = [1.5, 5, 5, 1.5]; 
 y_corners = [0, 0, 1900, 1900];
-p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
-patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
 hh = hatchfill(p, 'single', 45, 5);
-set(hh, 'Color', 'b', 'LineWidth', 0.5)
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
 
 x_corners = [1.5, 5, 5, 1.5]; 
 y_corners = [2100, 2100, 3000, 3000];
-p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
-patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
 hh = hatchfill(p, 'single', 45, 5);
-set(hh, 'Color', 'b', 'LineWidth', 0.5)
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
 
 
-x_corners = [0, 1.5, 1.5, 0]; 
+x_corners = [-0, 1.5, 1.5, -0]; 
 y_corners = [2400, 2400, 3000, 3000];
-p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
-patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
 hh = hatchfill(p, 'single', 45, 5);
-set(hh, 'Color', 'b', 'LineWidth', 0.5)
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
 
-xlim([0,5])
-ylim([0,2500])
+xlabel("Time [s]")
+ylabel("$\omega$ [rpm]")
+
+% 
+L1 = plot(nan, nan, 'color', colors_good{1}, 'LineWidth',2);
+L2 = plot(nan, nan, 'color', colors_good{2}, 'LineWidth',2);
+L3 = plot(nan, nan, 'color', colors_good{3}, 'LineWidth',2);
+L4 = plot(nan, nan, 'color', colors_good{4}, 'LineWidth',2);
+L5 = plot(nan, nan, 'color', colors_good{5}, 'LineWidth',2);
+L6 = plot(nan, nan, 'color', colors_good{6}, 'LineWidth',2);
+% L1 = plot(nan, nan, 'color', "#FAA307", 'LineWidth',2);
+% L2 = plot(nan, nan, 'color', "#FFBA08", 'LineWidth',2);
+% L3 = plot(nan, nan, 'color', "#F48C06", 'LineWidth',2);
+% L4 = plot(nan, nan, 'color', "#E85D04", 'LineWidth',2);
+% L5 = plot(nan, nan, 'color', "#DC2F02", 'LineWidth',2);
+% L6 = plot(nan, nan, 'color', "#D00000", 'LineWidth',2);
+% L1 = plot(nan, nan, 'color', H(1), 'LineWidth',2);
+% L2 = plot(nan, nan, 'color', H(2), 'LineWidth',2);
+% L3 = plot(nan, nan, 'color', H(3), 'LineWidth',2);
+% L4 = plot(nan, nan, 'color', H(4), 'LineWidth',2);
+% L5 = plot(nan, nan, 'color', H(5), 'LineWidth',2);
+% L6 = plot(nan, nan, 'color', H(6), 'LineWidth',2);
+legend([L1, L2,L3,L4,L5,L6], {'$S^{(1)}$', '$S^{(2)}$', '$S^{(3)}$', '$S^{(4)}$' ,'$S^{(5)}$' ,'$S^{(6)}$'}, 'Location','southeast')
+
+savefig("figs_paper/stack_results.fig")
+saveas(gcf, "figs_paper/stack_results.png")
+fig = gcf;
+set(fig, 'PaperPositionMode', 'auto');
+exportgraphics(fig, 'figs_paper/stack_results.pdf', 'ContentType', 'vector');
 
 
 
-L1 = plot(nan, nan, 'color', "#FAA307", 'LineWidth',2);
-L2 = plot(nan, nan, 'color', "#FFBA08", 'LineWidth',2);
-L3 = plot(nan, nan, 'color', "#F48C06", 'LineWidth',2);
-L4 = plot(nan, nan, 'color', "#E85D04", 'LineWidth',2);
-L5 = plot(nan, nan, 'color', "#DC2F02", 'LineWidth',2);
-L6 = plot(nan, nan, 'color', "#D00000", 'LineWidth',2);
-legend([L1, L2,L3,L4,L5,L6], {'Config 1', 'Config 2', 'Config 3', 'Config 4' ,'Config 5' ,'Config 6'}, 'Location','southeast')
 
-
-
+% 
+% figure
+% hold on
+% 
+% load("results_simulator_stack.mat")
+% 
+% [n_exp_sim, t_len] = size(out.omegas);
+% 
+% mask = 1:10:n_exp_sim;
+% 
+% n_colors = n_exp_sim;
+% 
+% 
+% start_color_g = [0, 0.5, 0];
+% end_color_g   = [0.5, 0.8, 0.5];
+% 
+% % Create the gradient for each channel
+% r_channel = linspace(start_color_g(1), end_color_g(1), n_colors)';
+% g_channel = linspace(start_color_g(2), end_color_g(2), n_colors)';
+% b_channel = linspace(start_color_g(3), end_color_g(3), n_colors)';
+% colors = [r_channel, g_channel, b_channel];
+% 
+% for j = 1:10:n_exp_sim
+%     plot(out.time, out.omegas(j,:), 'Color',colors(j,:),'LineWidth',0.1);
+%     % alpha(p, 0.5)
+% end
+% 
+% 
+% 
+% for j = 1:n_exp
+%     plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
+% end
+% 
+% % r = rectangle('Position',[1.5, 0, 5, 1900], 'FaceColor',"b","EdgeColor","none","FaceAlpha",0.1);
+% % hatchfill(r, 'single',-45, 'b');
+% x_corners = [1.5, 5, 5, 1.5]; 
+% y_corners = [0, 0, 1900, 1900];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% x_corners = [1.5, 5, 5, 1.5]; 
+% y_corners = [2100, 2100, 3000, 3000];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% 
+% x_corners = [0, 1.5, 1.5, 0]; 
+% y_corners = [2400, 2400, 3000, 3000];
+% p = patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+% patch(x_corners, y_corners, 'r', 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+% hh = hatchfill(p, 'single', 45, 5);
+% set(hh, 'Color', 'b', 'LineWidth', 0.5)
+% 
+% xlim([0,5])
+% ylim([0,2500])
+% xlabel("Time [s]")
+% ylabel("Speed [rpm]")
+% 
+% 
+% % 
+% L1 = plot(nan, nan, 'color', "#FAA307", 'LineWidth',2);
+% L2 = plot(nan, nan, 'color', "#FFBA08", 'LineWidth',2);
+% L3 = plot(nan, nan, 'color', "#F48C06", 'LineWidth',2);
+% L4 = plot(nan, nan, 'color', "#E85D04", 'LineWidth',2);
+% L5 = plot(nan, nan, 'color', "#DC2F02", 'LineWidth',2);
+% L6 = plot(nan, nan, 'color', "#D00000", 'LineWidth',2);
+% % L1 = plot(nan, nan, 'color', H(1), 'LineWidth',2);
+% % L2 = plot(nan, nan, 'color', H(2), 'LineWidth',2);
+% % L3 = plot(nan, nan, 'color', H(3), 'LineWidth',2);
+% % L4 = plot(nan, nan, 'color', H(4), 'LineWidth',2);
+% % L5 = plot(nan, nan, 'color', H(5), 'LineWidth',2);
+% % L6 = plot(nan, nan, 'color', H(6), 'LineWidth',2);
+% legend([L1, L2,L3,L4,L5,L6], {'Config 1', 'Config 2', 'Config 3', 'Config 4' ,'Config 5' ,'Config 6'}, 'Location','southeast')
+% 
+% savefig("figs_paper/stack_results_and_sim.fig")
+% saveas(gcf, "figs_paper/stack_results_and_sim.png")
+% fig = gcf;
+% set(fig, 'PaperPositionMode', 'auto');
+% exportgraphics(fig, 'figs_paper/stack_results_and_sim.pdf', 'ContentType', 'vector');

@@ -1,6 +1,14 @@
 clc
-close all
+% close all
 clear
+
+
+list_factory = fieldnames(get(groot,'factory'));
+index_interpreter = find(contains(list_factory,'Interpreter'));
+for i = 1:length(index_interpreter)
+    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+    set(groot, default_name,'latex');
+end
 
 
 % models_to_test = ["new_dataset_long_noise_h10_40k_H10H", ...
@@ -59,11 +67,11 @@ for i = 1:n_models
             switch inertia_str
                 case '13'
                     fprintf("config 1\n")
-                    idx = 1;
+                    idx = 2;
 
                 case '05'
                     fprintf("config 2\n")
-                    idx = 2;
+                    idx = 1;
 
                 case '15'
                     fprintf("config 3\n")
@@ -165,42 +173,98 @@ end %% n_models
 % end
 
 
+% colors = ["#FAA307", "#FFBA08", "#F48C06", "#E85D04", "#DC2F02", "#D00000"];
+colors = ["#023E8A", "#03045E", "#0077B6", "#0096C7", "#00B4D8", "#48CAE4"];
+
+% colors = cell2mat(color_tints_and_shades(cell2mat(hex2rgb("#0077B6")),10,0.5));
+colors = cell2mat(color_tints_and_shades([0    0.4471    0.7412],8,0.65));
+
+% tmp = colors(1,:);
+% colors(1,:) = colors(2,:);
+% colors(2,:) = tmp;
+
+% colors = colors(end-5:end,:);
+
+
+% 
+% 
+% for i = 1:n_models
+% 
+%     figure
+%     hold on
+% 
+%     for j = 1:6
+%         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
+%                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
+%                 'filled', 'DisplayName', sprintf("Config %d", j),  'MarkerFaceColor',colors(j))
+%     end
+%     xline(1.5, 'HandleVisibility','off')
+%     yline(20, 'HandleVisibility','off')
+%     yl = ylim;
+%     ylim([min(0, yl(1)), max(yl(2),100)])
+%     xlim([0,10])
+%     r = rectangle('Position',[0,0,1.5,20]);
+%     r.EdgeColor = '#007200';
+%     r.LineStyle = ":";
+%     r.LineWidth = 3;
+%     xlabel("Settling time [s]")
+%     ylabel("Overshoot percentage [\%]")
+%     legend('Location', 'north','NumColumns',6)
+%     % title(models_to_test(i), Interpreter="none")
+%     savefig("figs_paper/scatter_results.fig")
+%     saveas(gcf, "figs_paper/scatter_results.png")
+%     fig = gcf;
+%     set(fig, 'PaperPositionMode', 'auto');
+%     exportgraphics(fig, 'figs_paper/scatter_results.pdf', 'ContentType', 'vector');
+% 
+% end
+
+load("results_simulator.mat")
+% color_sim = "#38b000";
+% color_sim = [0.4846 0.7497 0.5805];
+
+color_sim = [0.8663 0.4061 0.2384];
+color_sim = lighten_color(color_sim, 0.2);
+
 
 for i = 1:n_models
 
-    figure
+    figure('Position',[100,100,500,250])
+    box on
     hold on
 
+    scatter(metadata_full(:,2), metadata_full(:,1), 35, ...
+        'DisplayName', "Sim", 'MarkerFaceAlpha',1, 'MarkerEdgeColor',color_sim, ...
+        'Marker','.', 'MarkerFaceColor',lighten_color(color_sim, 0.6), 'LineWidth', 1)
     for j = 1:6
         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
-                'filled', 'DisplayName', sprintf("Config %d", j))
+                25,'filled', 'DisplayName', sprintf("$S^{(%d)}$", j), 'MarkerFaceColor',colors(j,:), 'MarkerFaceAlpha',1)
     end
     xline(1.5, 'HandleVisibility','off')
     yline(20, 'HandleVisibility','off')
-    yl = ylim;
-    ylim([min(0, yl(1)), max(yl(2),100)])
-    xlim([0,10])
+    % yl = ylim;
+    % ylim([min(0, yl(1)), max(yl(2),100)])
+    ylim([0 30])
+    xlim([0,2])
     r = rectangle('Position',[0,0,1.5,20]);
     r.EdgeColor = '#007200';
     r.LineStyle = ":";
     r.LineWidth = 3;
-    xlabel("Settling time [s]")
-    ylabel("Overshoot percentage [%]")
-    legend('Interpreter','none', 'Location', 'northoutside','NumColumns',6)
+    xlabel("$T_{set}$ [s]")
+    ylabel("$OS_\%$ [$\%$]")
+    legend('Location', 'north','NumColumns',7)
     % title(models_to_test(i), Interpreter="none")
-    savefig("figs_paper/scatter_results.fig")
-    saveas(gcf, "figs_paper/scatter_results.png")
+    savefig("figs_paper/scatter_results_and_sim.fig")
+    saveas(gcf, "figs_paper/scatter_results_and_sim.png")
     fig = gcf;
     set(fig, 'PaperPositionMode', 'auto');
-    exportgraphics(fig, 'figs_paper/scatter_results.pdf', 'ContentType', 'vector');
+    exportgraphics(fig, 'figs_paper/scatter_results_and_sim.pdf', 'ContentType', 'vector');
 
 
 
 
 end
-
-
 
 
 

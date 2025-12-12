@@ -41,12 +41,16 @@ fast_sys_counter = 0;
 just_bad_counter = 0;
 
 show_bad = false;
-show_good = true;
+show_good = false;
 show_bad_counter = 0; 
 
 OS_list = zeros(total_exp,2);
 
+metadata_full = zeros(total_exp,2);
+
 plot_example = 6;
+
+omegas = zeros(total_exp,501);
 
 for i = 1:total_exp
     
@@ -61,6 +65,14 @@ for i = 1:total_exp
     OS_tmp = max(tab.omega-stepsize)/stepsize*100;
     OS_list(i,1) = OS_tmp;
     OS_list(i,2) = tmp_results.success;
+    metadata_full(i,1) = OS_tmp;
+
+    T_ass_idx = find(abs(stepsize-tab.omega)>=eps, 1, "last");
+    T_set = tab.t(T_ass_idx);
+    metadata_full(i,2) = T_set;
+    omegas(i,:) = tab.omega;
+
+
 
     if (show_good) && (tmp_results.success)
         figure
@@ -284,5 +296,33 @@ fprintf(" > %d were otherwise failed attempts\n", just_bad_counter)
 disp(success_counter + limited_speed_counter + slow_sys_counters + fast_sys_counter + just_bad_counter)
 
 
+out.omegas = omegas;
+out.time = tab.t;
+
+save("results_simulator_stack.mat", "out")
+
+
+save("results_simulator.mat", "metadata_full")
+
+figure
+hold on
+
+scatter(metadata_full(:,2), metadata_full(:,1), 15, ...
+        'filled', 'DisplayName', "Simulated", 'MarkerFaceAlpha',0.3, 'MarkerEdgeColor','none', ...
+        'Marker','o', 'MarkerFaceColor','g')
+
+xline(1.5, 'HandleVisibility','off')
+yline(20, 'HandleVisibility','off')
+yl = ylim;
+ylim([min(0, yl(1)), max(yl(2),100)])
+xlim([0,10])
+ylim([0,100])
+r = rectangle('Position',[0,0,1.5,20]);
+r.EdgeColor = '#007200';
+r.LineStyle = ":";
+r.LineWidth = 3;
+xlabel("Settling time [s]")
+ylabel("Overshoot percentage [%]")
+legend('Interpreter','none', 'Location', 'northoutside','NumColumns',6)
 
 
