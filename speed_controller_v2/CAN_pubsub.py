@@ -22,8 +22,8 @@ os.add_dll_directory(dll_dir)
 
 # dll_name = "net_predict_L_40k"
 # dll_name = "net_predict_L_S_30k"
-# dll_name = "net_predict_S_30k"
-dll_name = "net_predict_S_S_40k"
+dll_name = "net_predict_S_30k"
+# dll_name = "net_predict_S_S_40k"
 
 dll_name_bis = dll_name + ".dll"
 
@@ -217,7 +217,12 @@ def main():
             ax1.set_ylabel("iq [A]")
             plt.legend()
             print(f"received {len(time_log)} messages")
+            mask = time_log/1e6<1
+            time_log_filt = time_log[mask]
             print(f"average delay: {time_log.mean()/1e6}")
+            print(f"std delay: {(time_log/1e6).std()}")
+            print(f"filt average delay: {time_log_filt.mean()/1e6}")
+            print(f"filt std delay: {(time_log_filt/1e6).std()}")
             plt.show()
 
 
