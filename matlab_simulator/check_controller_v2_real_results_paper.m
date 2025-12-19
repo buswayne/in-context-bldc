@@ -251,7 +251,7 @@ for i = 1:n_models
     r.EdgeColor = '#007200';
     r.LineStyle = ":";
     r.LineWidth = 3;
-    xlabel("$T_{set}$ [s]")
+    xlabel("$T_\mathrm{set}$ [s]")
     ylabel("$OS_\%$ [$\%$]")
     legend('Location', 'north','NumColumns',7)
     % title(models_to_test(i), Interpreter="none")

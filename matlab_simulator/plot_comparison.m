@@ -233,3 +233,21 @@ xlim([0,1.5])
 legend()
 
 
+
+
+fig = figure('Position',[200,200,1000,300]);
+tiledlayout(2,6)
+
+for i = 1:6
+
+
+
+
+
+
+
+
+
+end
+
+

@@ -121,7 +121,13 @@ for inertia = [13, 5, 15, 9, 11, 7]
     omega = tab_tr.omega;
     
     % start_idx = max(1, find(r>1800,1,"first") - 1);
-    start_idx = max(1, find(omega>50,1,"first") - 4);
+
+    if inertia == 13 || inertia == 5
+        start_idx = max(1, find(omega>50,1,"first") - 2);
+    else
+
+        start_idx = max(1, find(omega>50,1,"first") - 4);
+    end
     end_idx = start_idx + 500;
     
     
@@ -310,7 +316,7 @@ in_between_vrft_iq = [bottom_layer_vrft_iq, fliplr(top_layer_vrft_iq)];
 % ylim([0,2500])
 % legend('Location','southeast')
 
-fig = figure('WindowStyle', 'normal','Position', [2500,200,500,300],'DefaultAxesFontSize',12, 'Renderer', 'painters');
+fig = figure('WindowStyle', 'normal','Position', [200,200,500,300],'DefaultAxesFontSize',12, 'Renderer', 'painters');
 tiles(1) = subplot(2, 1, 1); hold on; box on;
 tiles(2) = subplot(2, 1, 2); hold on; box on;
  
@@ -324,11 +330,11 @@ drawnow;
  
 % Set axes dimensions
 
-spacing = 10/fig.Position(4);
+vert_spacing = 10/fig.Position(4);
 tot_width = tiles(1).Position(2) + tiles(1).Position(4) - tiles(2).Position(2);
-tiles(2).Position(4) = (tot_width - spacing) *0.4;
-tiles(1).Position(2) = tiles(2).Position(2) + tiles(2).Position(4) + spacing;
-tiles(1).Position(4) = (tot_width - spacing) *0.6;
+tiles(2).Position(4) = (tot_width - vert_spacing) *0.4;
+tiles(1).Position(2) = tiles(2).Position(2) + tiles(2).Position(4) + vert_spacing;
+tiles(1).Position(4) = (tot_width - vert_spacing) *0.6;
 tiles(1).XTickLabel = [];
  
 
@@ -440,3 +446,231 @@ saveas(gcf, "figs_paper/comp.png")
 fig = gcf;
 set(fig, 'PaperPositionMode', 'auto');
 exportgraphics(fig, 'figs_paper/comp.pdf', 'ContentType', 'vector');
+
+
+
+
+
+% 
+% fig = figure('WindowStyle', 'normal','Position', [200,200,1000,200],'DefaultAxesFontSize',12, 'Renderer', 'painters');
+% 
+% for i = 1:6
+% 
+% tiles(1) = subplot(2, 6, i); hold on; box on;
+% tiles(2) = subplot(2, 6, 6+i); hold on; box on;
+% 
+% 
+% vert_spacing = 10/fig.Position(4);
+% tot_width = tiles(1).Position(2) + tiles(1).Position(4) - tiles(2).Position(2);
+% tiles(2).Position(4) = (tot_width - vert_spacing) *0.4;
+% tiles(1).Position(2) = tiles(2).Position(2) + tiles(2).Position(4) + vert_spacing;
+% tiles(1).Position(4) = (tot_width - vert_spacing) *0.6;
+% 
+% 
+% 
+% tiles(1).XTickLabel = [];
+% if i>1
+%     tiles(1).YTickLabel = [];
+%     tiles(2).YTickLabel = [];
+% else
+%     ylabel(tiles(1), '$\omega$ [rpm]');
+%     ylabel(tiles(2), '$i_q$ [A]');
+% end
+% 
+% xlabel(tiles(2), 'Time [s]');
+% 
+% xlim(tiles(1), [0,1.5])
+% xlim(tiles(2), [0,1.5])
+% ylim(tiles(1), [0,2500])
+% % ylim(tiles(1), [0,2500])
+% ylim(tiles(2), [-2.5,5])
+% 
+% try
+% plot(tiles(1), ts_vrft.I_13, omegas_vrft_matrix(i-1,:), 'Color',[colors_vrft{i}], 'LineWidth',lw, 'DisplayName', "VRFT")
+% catch
+% end
+% plot(tiles(1), ts_bo.I_13, omegas_bo_matrix(i,:), 'Color',colors_bo{i}, 'LineWidth',lw + 0.5, 'DisplayName', "BO")
+% plot(tiles(1), ts_tr.I_13, omegas_tr_matrix(i,:), 'Color',[colors_tr{i}], 'LineWidth',lw+0.75,'LineStyle','-.', 'DisplayName', "$\mathcal{C}$")
+% 
+% 
+% 
+% try
+% plot(tiles(2), ts_vrft.I_13, iqs_vrft_matrix(i-1,:), 'Color',[colors_vrft{i}], 'LineWidth',lw, 'DisplayName', "VRFT")
+% catch
+% end
+% plot(tiles(2), ts_bo.I_13, iqs_bo_matrix(i,:), 'Color',colors_bo{i}, 'LineWidth',lw + 0.5, 'DisplayName', "BO")
+% plot(tiles(2), ts_tr.I_13, iqs_tr_matrix(i,:), 'Color',[colors_tr{i}], 'LineWidth',lw+0.75,'LineStyle','-.', 'DisplayName', "$\mathcal{C}$")
+% leg = legend(tiles(1),'Location','southeast');
+% leg.IconColumnWidth = 15;
+% end
+% 
+
+
+%%
+
+
+fig = figure('WindowStyle', 'normal','Position', [200,200,1000,200],'DefaultAxesFontSize',12, 'Renderer', 'painters');
+
+
+% --- Configuration for Horizontal Spacing ---
+n_cols = 6;
+left_margin = 0.06;   % Space on the far left (for Y-axis labels)
+right_margin = 0.01;  % Space on the far right
+gap_width = 0.01;     % Horizontal gap between columns
+% Calculate the width of a single axes
+plot_width = (1 - left_margin - right_margin - (n_cols-1)*gap_width) / n_cols;
+% --------------------------------------------
+
+clearvars tiles
+for i = 1:6
+    tiles(i) = subplot(2, 6, i); hold on; box on; grid off;
+    tiles(i+6) = subplot(2, 6, 6+i); hold on; box on; grid off;
+    tiles(i).XTickLabel = [];
+    if i>1
+        tiles(i).YTickLabel = [];
+        tiles(i+6).YTickLabel = [];
+    else
+        ylabel(tiles(i), '$\omega$ [rpm]');
+        ylabel(tiles(i+6), '$i_q$ [A]');
+    end
+end
+xl = xlabel(tiles(7), 'Time [s]');
+drawnow;
+xl.Visible = 'off';
+tiles(1).Position(1) = tiles(1).Position(1)/2;
+tiles(6).Position(1) = 1 - tiles(1).Position(1) - tiles(6).Position(3);
+tiles(1).Position(4) = tiles(1).Position(4)*0.8;
+
+for i = 1:6
+
+    vert_spacing = 10/fig.Position(4);
+    tot_height = tiles(1).Position(2) + tiles(1).Position(4) - tiles(7).Position(2);
+    tiles(i+6).Position(4) = (tot_height - vert_spacing) *0.4;
+    tiles(i).Position(2) = tiles(i+6).Position(2) + tiles(i+6).Position(4) + vert_spacing;
+    tiles(i).Position(4) = (tot_height - vert_spacing) *0.6;
+    
+    hor_spacing = 10/fig.Position(3);
+    width = (tiles(6).Position(1) + tiles(6).Position(3) - tiles(1).Position(1) - 5*hor_spacing)/6;
+    tiles(i).Position(3) = width;
+    tiles(i+6).Position(3) = width;
+    tiles(i).Position(1) = (i-1)*(width+hor_spacing) + tiles(1).Position(1);
+    tiles(i+6).Position(1) = (i-1)*(width+hor_spacing) + tiles(1).Position(1);
+
+end
+drawnow;
+t_tmp = axes;
+t_tmp.Position(1) = tiles(7).Position(1);
+t_tmp.Position(3) = tiles(end).Position(1)+tiles(end).Position(3)-tiles(7).Position(1);
+t_tmp.Position(2) = tiles(7).Position(2);
+xlabel(t_tmp, 'Time [s]');
+t_tmp.Visible = 'off';
+t_tmp.XLabel.Visible = 'on';
+t_tmp.XLabel.Position(2) = t_tmp.XLabel.Position(2)*0.66;
+
+
+% x_pos = left_margin + (i-1)*(plot_width + gap_width);
+% 
+% tiles(1).Position(1) = x_pos;
+% tiles(1).Position(3) = plot_width;
+% tiles(2).Position(1) = x_pos;
+% tiles(2).Position(3) = plot_width;
+
+
+curr_color_vrft = lighten_color(color_vrft, 0.25);
+curr_color_bo = lighten_color(color_bo, 0.2);
+curr_color_tr = lighten_color(color_tr, 0.2);
+
+for i = 1:6
+
+
+xlim(tiles(i), [0,1])
+xlim(tiles(i+6), [0,1])
+ylim(tiles(i), [0,2500])
+% ylim(tiles(i), [0,2500])
+ylim(tiles(i+6), [-2.5,5])
+
+tiles(i+6).XTickLabel{1} = ['\,\,', tiles(i+6).XTickLabel{1}];
+tiles(i+6).XTickLabel{end} = [tiles(i+6).XTickLabel{end}, ''];
+plot(tiles(i), ts_model.I_13, omegas_model_matrix(i,:), 'Color',color_model, 'LineStyle', '--', 'LineWidth',lw, 'DisplayName', "$M_r$")
+
+plot(tiles(i), ts_bo.I_13, omegas_bo_matrix(i,:), 'Color',curr_color_bo, 'LineWidth',lw, 'DisplayName', "BO")
+plot(tiles(i), ts_tr.I_13, omegas_tr_matrix(i,:), 'Color',curr_color_tr, 'LineWidth',lw+1.0,'LineStyle',':', 'DisplayName', "ICC (ours)");
+try
+plot(tiles(i), ts_vrft.I_13, omegas_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw, 'DisplayName', "VRFT")
+catch
+end
+
+% fprintf("config %d\n", i)
+% fprintf("tr rmse = %g\n", rmse(omegas_tr_matrix(i,:), ones(size(omegas_tr_matrix(i,:)))*2000 ))
+% fprintf("bo rmse = %g\n", rmse(omegas_bo_matrix(i,:), ones(size(omegas_bo_matrix(i,:)))*2000 ))
+% try
+%     fprintf("vrft rmse = %g\n", rmse(omegas_vrft_matrix(i-1,:), ones(size(omegas_vrft_matrix(i-1,:)))*2000 ))
+% catch
+%     fprintf("vrft not avaliable\n")
+% end
+% fprintf("\n")
+
+
+model_1000 = interp1(ts_model.I_05, omegas_model_matrix(i,:), ts_vrft.I_13, "linear","extrap");
+tr_1000 = interp1(ts_tr.I_05, omegas_tr_matrix(i,:), ts_vrft.I_13, "linear","extrap");
+
+fprintf("config %d\n", i)
+% fprintf("tr rmse = %g\n", rmse(omegas_tr_matrix(i,1:end-1), omegas_model_matrix(i,:) ))
+fprintf("tr rmse = %g\n", rmse(tr_1000(1:end-10), model_1000(1:end-10) ))
+fprintf("bo rmse = %g\n", rmse(omegas_bo_matrix(i,1:end-10), model_1000(1:end-10)' ))
+try
+    fprintf("vrft rmse = %g\n", rmse(omegas_vrft_matrix(i-1,1:end-10), model_1000(1:end-10)' ))
+catch
+    fprintf("vrft not avaliable\n")
+end
+fprintf("\n")
+
+
+
+
+
+str = sprintf("$S^{(%d)}$", i);
+text(tiles(i), 0.94, 0.12, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'none', ... 
+    'EdgeColor', 'k', ...
+    'FontSize', 10, ...
+    'Color','w');
+text(tiles(i), 0.94, 0.1, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'none', ... 
+    'EdgeColor', 'none', ...
+    'Color', 'k', ...
+    'FontSize', 10);
+
+
+
+plot(tiles(i+6), ts_bo.I_13, iqs_bo_matrix(i,:), 'Color',curr_color_bo, 'LineWidth',lw, 'DisplayName', "BO")
+plot(tiles(i+6), ts_tr.I_13, iqs_tr_matrix(i,:), 'Color',curr_color_tr, 'LineWidth',lw+1.0,'LineStyle',':', 'DisplayName', "ICC (ours)")
+try
+plot(tiles(i+6), ts_vrft.I_13, iqs_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw, 'DisplayName', "VRFT")
+catch
+end
+
+end
+
+leg = legend(tiles(3),'Location','southeast', 'Orientation','horizontal');
+leg.IconColumnWidth = 15;
+
+tmp_size = (tiles(6).Position(1) + tiles(6).Position(3) - tiles(1).Position(1) - leg.Position(3))/2;
+leg.Position(1) = tiles(1).Position(1) + tmp_size;
+leg.Position(2) = tiles(1).Position(2) + tiles(1).Position(4) + vert_spacing/2;
+
+t_tmp.XLabel.FontSize = xl.FontSize;
+
+
+
+savefig("figs_paper/comp_wide.fig")
+saveas(gcf, "figs_paper/comp_wide.png")
+fig = gcf;
+set(fig, 'PaperPositionMode', 'auto');
+exportgraphics(fig, 'figs_paper/comp_wide.pdf', 'ContentType', 'vector');

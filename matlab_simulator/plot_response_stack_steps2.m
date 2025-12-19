@@ -311,7 +311,7 @@ end
 % hh = hatchfill(p, 'single', 45, 5);
 % set(hh, 'Color', 'b', 'LineWidth', 0.5)
 
-xlim([0,1.5])
+xlim([0,1])
 ylim([0,3000])
 xlabel("Time [s]")
 ylabel("$\omega$ [rpm]")

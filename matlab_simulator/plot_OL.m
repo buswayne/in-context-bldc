@@ -191,6 +191,7 @@ L5 = plot(nan, nan, 'color', [line_colors_real(2,:)], 'DisplayName', "$S^{(5)}$"
 L6 = plot(nan, nan, 'color', [line_colors_real(1,:)], 'DisplayName', "$S^{(6)}$", 'LineWidth',2);
 legend([L0, L1, L2, L3, L4, L5, L6])
 xlim([0,1])
+ylim([0,2500])
 xlabel('Time [s]')
 ylabel('$\omega$ [rpm]')
 % subplot(212)
