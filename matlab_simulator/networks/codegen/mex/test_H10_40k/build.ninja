@@ -1,0 +1,66 @@
+# CompilerName=mingw64
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root/build/win64
+matlabdir = C:/Program Files/MATLAB/R2024b
+startdir = C:/Users/39340/Documents/GitHub/in-context-bldc/matlab_simulator/networks
+
+# Toolchain information
+cc = C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\gcc
+cxx = C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++
+linker = C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\gcc
+linkerxx = C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++
+
+cflags =  -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks\codegen\mex\test_H10_40k" -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks" -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks\codegen\mex\test_H10_40k\interface" -I "C:\Program Files\MATLAB\R2024b\extern\include" -I "." -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp 
+
+cxxflags =  -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c++11 -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks\codegen\mex\test_H10_40k" -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks" -I "C:\Users\39340\Documents\GitHub\in-context-bldc\matlab_simulator\networks\codegen\mex\test_H10_40k\interface" -I "C:\Program Files\MATLAB\R2024b\extern\include" -I "." -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp 
+
+ldflags = test_H10_40k.def  -m64 -Wl,--no-undefined -shared -static -L"C:\Program Files\MATLAB\R2024b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -o "test_H10_40k_mex.mexw64" -L"$matlabdir\extern\lib\win64\mingw64" -llibmwblas -llibemlrt -llibcovrt -llibut -llibmwmathutil -fopenmp
+
+ldxxflags = test_H10_40k.def  -m64 -Wl,--no-undefined -shared -static -L"C:\Program Files\MATLAB\R2024b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -o "test_H10_40k_mex.mexw64" -L"$matlabdir\extern\lib\win64\mingw64" -llibmwblas -llibemlrt -llibcovrt -llibut -llibmwmathutil -fopenmp
+
+linkobjs = 
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in -o $out
+
+rule cxx
+    command = $cxx $cxxflags $in -o $out
+
+rule link
+    command = $linker @$out.rsp $linkobjs $ldflags
+    rspfile = $out.rsp
+    rspfile_content = $in
+
+rule linkxx
+    command = $linkerxx $in $linkobjs $ldxxflags
+
+# Build
+build $builddir/test_H10_40k_data.o : cc $root/test_H10_40k_data.c
+build $builddir/rt_nonfinite.o : cc $root/rt_nonfinite.c
+build $builddir/test_H10_40k_initialize.o : cc $root/test_H10_40k_initialize.c
+build $builddir/test_H10_40k_terminate.o : cc $root/test_H10_40k_terminate.c
+build $builddir/test_H10_40k.o : cc $root/test_H10_40k.c
+build $builddir/predict.o : cc $root/predict.c
+build $builddir/callPredict.o : cc $root/callPredict.c
+build $builddir/FullyConnectedLayer.o : cc $root/FullyConnectedLayer.c
+build $builddir/binaryElementwise.o : cc $root/binaryElementwise.c
+build $builddir/LayerNormalizationLayer.o : cc $root/LayerNormalizationLayer.c
+build $builddir/sumMatrixIncludeNaN.o : cc $root/sumMatrixIncludeNaN.c
+build $builddir/SelfAttentionLayer.o : cc $root/SelfAttentionLayer.c
+build $builddir/computeSelfAttention.o : cc $root/computeSelfAttention.c
+build $builddir/mtimes.o : cc $root/mtimes.c
+build $builddir/_coder_test_H10_40k_api.o : cc $root/interface/_coder_test_H10_40k_api.c
+build $builddir/_coder_test_H10_40k_mex.o : cc $root/interface/_coder_test_H10_40k_mex.c
+build $builddir/attentionForward.o : cc $root/attentionForward.c
+build $builddir/elementwiseOperationInPlace.o : cc $root/elementwiseOperationInPlace.c
+build $builddir/GELULayer.o : cc $root/GELULayer.c
+build $builddir/_coder_test_H10_40k_info.o : cc $root/interface/_coder_test_H10_40k_info.c
+build $builddir/c_mexapi_version.o : cc $matlabdir/extern/version/c_mexapi_version.c
+
+# Link
+build $root\test_H10_40k_mex.mexw64 : link $builddir/test_H10_40k_data.o $builddir/rt_nonfinite.o $builddir/test_H10_40k_initialize.o $builddir/test_H10_40k_terminate.o $builddir/test_H10_40k.o $builddir/predict.o $builddir/callPredict.o $builddir/FullyConnectedLayer.o $builddir/binaryElementwise.o $builddir/LayerNormalizationLayer.o $builddir/sumMatrixIncludeNaN.o $builddir/SelfAttentionLayer.o $builddir/computeSelfAttention.o $builddir/mtimes.o $builddir/_coder_test_H10_40k_api.o $builddir/_coder_test_H10_40k_mex.o $builddir/attentionForward.o $builddir/elementwiseOperationInPlace.o $builddir/GELULayer.o $builddir/_coder_test_H10_40k_info.o $builddir/c_mexapi_version.o 

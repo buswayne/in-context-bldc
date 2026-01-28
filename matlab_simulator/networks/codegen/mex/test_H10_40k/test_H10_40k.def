@@ -1,0 +1,9 @@
+LIBRARY test_H10_40k.mexw64
+EXPORTS
+mexFunction
+mexfilerequiredapiversion
+emlrtMexFcnProperties
+test_H10_40k
+test_H10_40k_initialize
+test_H10_40k_terminate
+test_H10_40k_atexit

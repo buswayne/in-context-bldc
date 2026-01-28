@@ -1,0 +1,128 @@
+[
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  test_H10_40k_data.c -o build/win64/test_H10_40k_data.o",
+    "file": "test_H10_40k_data.c",
+    "output": "build/win64/test_H10_40k_data.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  rt_nonfinite.c -o build/win64/rt_nonfinite.o",
+    "file": "rt_nonfinite.c",
+    "output": "build/win64/rt_nonfinite.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  test_H10_40k_initialize.c -o build/win64/test_H10_40k_initialize.o",
+    "file": "test_H10_40k_initialize.c",
+    "output": "build/win64/test_H10_40k_initialize.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  test_H10_40k_terminate.c -o build/win64/test_H10_40k_terminate.o",
+    "file": "test_H10_40k_terminate.c",
+    "output": "build/win64/test_H10_40k_terminate.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  test_H10_40k.c -o build/win64/test_H10_40k.o",
+    "file": "test_H10_40k.c",
+    "output": "build/win64/test_H10_40k.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  predict.c -o build/win64/predict.o",
+    "file": "predict.c",
+    "output": "build/win64/predict.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  callPredict.c -o build/win64/callPredict.o",
+    "file": "callPredict.c",
+    "output": "build/win64/callPredict.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  FullyConnectedLayer.c -o build/win64/FullyConnectedLayer.o",
+    "file": "FullyConnectedLayer.c",
+    "output": "build/win64/FullyConnectedLayer.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  binaryElementwise.c -o build/win64/binaryElementwise.o",
+    "file": "binaryElementwise.c",
+    "output": "build/win64/binaryElementwise.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  LayerNormalizationLayer.c -o build/win64/LayerNormalizationLayer.o",
+    "file": "LayerNormalizationLayer.c",
+    "output": "build/win64/LayerNormalizationLayer.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  sumMatrixIncludeNaN.c -o build/win64/sumMatrixIncludeNaN.o",
+    "file": "sumMatrixIncludeNaN.c",
+    "output": "build/win64/sumMatrixIncludeNaN.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  SelfAttentionLayer.c -o build/win64/SelfAttentionLayer.o",
+    "file": "SelfAttentionLayer.c",
+    "output": "build/win64/SelfAttentionLayer.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  computeSelfAttention.c -o build/win64/computeSelfAttention.o",
+    "file": "computeSelfAttention.c",
+    "output": "build/win64/computeSelfAttention.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  mtimes.c -o build/win64/mtimes.o",
+    "file": "mtimes.c",
+    "output": "build/win64/mtimes.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  interface/_coder_test_H10_40k_api.c -o build/win64/_coder_test_H10_40k_api.o",
+    "file": "interface/_coder_test_H10_40k_api.c",
+    "output": "build/win64/_coder_test_H10_40k_api.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  interface/_coder_test_H10_40k_mex.c -o build/win64/_coder_test_H10_40k_mex.o",
+    "file": "interface/_coder_test_H10_40k_mex.c",
+    "output": "build/win64/_coder_test_H10_40k_mex.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  attentionForward.c -o build/win64/attentionForward.o",
+    "file": "attentionForward.c",
+    "output": "build/win64/attentionForward.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  elementwiseOperationInPlace.c -o build/win64/elementwiseOperationInPlace.o",
+    "file": "elementwiseOperationInPlace.c",
+    "output": "build/win64/elementwiseOperationInPlace.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  GELULayer.c -o build/win64/GELULayer.o",
+    "file": "GELULayer.c",
+    "output": "build/win64/GELULayer.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  interface/_coder_test_H10_40k_info.c -o build/win64/_coder_test_H10_40k_info.o",
+    "file": "interface/_coder_test_H10_40k_info.c",
+    "output": "build/win64/_coder_test_H10_40k_info.o"
+  },
+  {
+    "directory": "C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k",
+    "command": "C:\\ProgramData\\MATLAB\\SupportPackages\\R2024b\\3P.instrset\\mingw_w64.instrset\\bin\\gcc -c -fexceptions -fno-omit-frame-pointer -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE -O2 -fwrapv -DNDEBUG -std=c99 -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\" -I \"C:\\Users\\39340\\Documents\\GitHub\\in-context-bldc\\matlab_simulator\\networks\\codegen\\mex\\test_H10_40k\\interface\" -I \"C:\\Program Files\\MATLAB\\R2024b\\extern\\include\" -I \".\" -DMODEL=test_H10_40k_mex -D__USE_MINGW_ANSI_STDIO=1 -msse2 -fno-predictive-commoning -Wno-stringop-overflow -Wno-maybe-uninitialized -fopenmp  \"C:/Program Files/MATLAB/R2024b/extern/version/c_mexapi_version.c\" -o build/win64/c_mexapi_version.o",
+    "file": "C:/Program Files/MATLAB/R2024b/extern/version/c_mexapi_version.c",
+    "output": "build/win64/c_mexapi_version.o"
+  }
+]

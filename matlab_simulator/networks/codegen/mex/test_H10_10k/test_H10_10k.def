@@ -1,0 +1,9 @@
+LIBRARY test_H10_10k.mexw64
+EXPORTS
+mexFunction
+mexfilerequiredapiversion
+emlrtMexFcnProperties
+test_H10_10k
+test_H10_10k_initialize
+test_H10_10k_terminate
+test_H10_10k_atexit

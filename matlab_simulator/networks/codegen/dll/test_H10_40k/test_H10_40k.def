@@ -1,0 +1,4 @@
+EXPORTS
+test_H10_40k
+test_H10_40k_initialize
+test_H10_40k_terminate

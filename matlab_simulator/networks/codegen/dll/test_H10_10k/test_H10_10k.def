@@ -1,0 +1,4 @@
+EXPORTS
+test_H10_10k
+test_H10_10k_initialize
+test_H10_10k_terminate
