@@ -94,6 +94,7 @@ class FilteredListener(can.Listener):
 
         self.data_vector[0, 0:self.H-1, 0:4] = self.data_vector[0, 1:self.H, 0:4]
         self.data_vector[0,self.H-1,0:4] = [id_scaled,iq_scaled,vd_scaled,vq_scaled]
+        
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
         # print([id,iq,vd,vq])

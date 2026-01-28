@@ -15,15 +15,16 @@ import matplotlib.pyplot as plt
 import struct
 
 
-current_path = os.getcwd().split("speed_controller_v2")[0]
+current_path = os.getcwd().split("speed_controller")[0]
 
-dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
+dll_dir = os.path.join(current_path,"speed_controller", "C_libs")
 os.add_dll_directory(dll_dir)
 
-# dll_name = "net_predict_L_40k"
-# dll_name = "net_predict_L_S_30k"
-# dll_name = "net_predict_S_30k"
-dll_name = "net_predict_S_S_40k"
+dll_name = "test_H10_10k"
+# dll_name = "test_H10_40k"
+
+T_set = 0.5
+OS = 0
 
 dll_name_bis = dll_name + ".dll"
 
@@ -43,20 +44,17 @@ transformer_function.argtypes = [
 
     
 class FilteredListener(can.Listener):
-    def __init__(self, H, bus):
+    def __init__(self, H, bus, T_set, OS):
         # self.target_ids = set(target_ids)  # Convert to set for fast lookup
         # self.target_id = target_id
         self.H = H
-        self.data_vector = np.zeros((1,H,6))
+        self.data_vector = np.zeros((1,H,8))
+        self.data_vector[0,:,6] = T_set/3
+        self.data_vector[0,:,7] = OS/40
         self.startup = True
         self.output = np.zeros(H, dtype=np.float32)
         self.bus = bus
         self.msg = can.Message(arbitration_id=0x333, is_extended_id=False, dlc=8)
-
-        self.last_vd_scaled = 0.5
-        self.last_vq_scaled = 0.5
-        self.last_id_scaled = 0.5
-        self.last_iq_scaled = 0.5
 
         self.time_log = []
         self.iq_log = []
@@ -98,12 +96,7 @@ class FilteredListener(can.Listener):
 
 
         self.data_vector[0, 0:self.H-1, 0:4] = self.data_vector[0, 1:self.H, 0:4]
-        self.data_vector[0,self.H-1,0:4] = [self.last_id_scaled,self.last_iq_scaled,self.last_vd_scaled,self.last_vq_scaled]
-        
-        self.last_vd_scaled = vd_scaled
-        self.last_vq_scaled = vq_scaled
-        self.last_id_scaled = id_scaled
-        self.last_iq_scaled = iq_scaled
+        self.data_vector[0,self.H-1,0:4] = [id_scaled,iq_scaled,vd_scaled,vq_scaled]
         # print(f"it took {(time.perf_counter_ns()-start)*1e-9}s")
         # print(self.data_vector[0,:,:])
         # print([id,iq,vd,vq])
@@ -196,12 +189,13 @@ def main():
     with can.Bus(interface='pcan', channel='PCAN_USBBUS1', bitrate=500000) as bus:
         bus.set_filters(filters)
         # listener = FilteredListener(target_id)
-        listener = FilteredListener(H=10, bus=bus)
+        listener = FilteredListener(H=10, bus=bus, T_set=T_set, OS=OS)
         notifier = can.Notifier(bus, [listener])
         
         try:
             # print(f"Listening for messages with IDs: {hex(target_id)}")
-            print("running model: ", dll_name, " (with delay)")
+            print("running model: ", dll_name)
+            print("T_set_target = ", T_set," and OS_target = ", OS)
             print("Press Ctrl+C to stop...")
             start = time.time()
             max_time = np.inf
