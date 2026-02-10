@@ -15,6 +15,7 @@ from transformer_zerostep import GPTConfig
 # print(onnxruntime.__version__)
 # print(onnxscript.__version__)
 from collections import OrderedDict
+import seaborn as sns
 
 
 
@@ -55,19 +56,29 @@ from collections import OrderedDict
 # print(torch.tril(torch.ones(4,4)).view(1,1,4,4))
 
 
-model_args = dict(n_layer=8, n_head=4, n_embd=16, n_x=1, n_y=1, n_u=8, block_size=10,
-                      bias=False, dropout=0)  
+# model_args = dict(n_layer=8, n_head=4, n_embd=16, n_x=1, n_y=1, n_u=8, block_size=10,
+#                       bias=False, dropout=0)  
 
-gptconf = GPTConfig(**model_args)
-keys_raw = gptconf.__dict__.keys()
-print(keys_raw)
-keys = [key for key in keys_raw if key[0] != '_']
+# gptconf = GPTConfig(**model_args)
+# keys_raw = gptconf.__dict__.keys()
+# print(keys_raw)
+# keys = [key for key in keys_raw if key[0] != '_']
 
-print(keys)
+# print(keys)
 
-gpt_dict_raw = gptconf.__dict__
-print(gpt_dict_raw)
-gpt_dict_ord = OrderedDict(gpt_dict_raw)
-print(gpt_dict_ord)
-# gpt_dict = gpt_dict_raw['block_size']
+# gpt_dict_raw = gptconf.__dict__
+# print(gpt_dict_raw)
+# gpt_dict_ord = OrderedDict(gpt_dict_raw)
+# print(gpt_dict_ord)
+# # gpt_dict = gpt_dict_raw['block_size']
 # print(gpt_dict)
+
+
+
+# x = np.random.lognormal(0,1, 1000)
+x = np.random.beta(a=0.8, b=4, size=10000)
+plt.figure()
+# plt.hist(x, density=True)
+sns.histplot(data=x, kde=True)
+plt.xlim((0,1))
+plt.show()

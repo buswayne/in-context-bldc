@@ -7,10 +7,24 @@ from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 import copy
 
+
+
+
+
 class Dataset(Dataset):
     def __init__(self, dfs, seq_len):
         self.dfs = dfs
         self.seq_len = seq_len
+        self.scores = np.zeros((len(dfs),2))
+        for i in range(len(dfs)):
+            df = dfs[i]
+            metadata = df.keys()[-1].split(',')
+            T_ass = float(metadata[0].split(":")[1]) / 3
+            S_pct = float(metadata[1].split(":")[1]) / 40
+            self.scores[i,:] = [T_ass, S_pct]
+        
+        # print(self.scores[:,0].max())
+        # print(self.scores[:,1].max())
 
     def __len__(self):
         # maximum set of samples considered at each iteration
@@ -18,7 +32,23 @@ class Dataset(Dataset):
 
     def __getitem__(self, idx):
         # Randomly select a DataFrame
-        df_idx = np.random.choice(len(self.dfs))
+        # df_idx = np.random.choice(len(self.dfs))
+
+        #target perf
+        T_ass_target = np.random.uniform(0,1.3)
+        S_pct_target = np.random.beta(a=0.8, b=4)
+
+        distances = np.linalg.norm(self.scores - np.array([T_ass_target, S_pct_target]), axis=1)
+        min_index = np.argmin(distances)
+        print(f"the closest point to {[T_ass_target, S_pct_target]} is {self.scores[min_index]}, at a distance of {distances[min_index]}")
+
+        df_idx = min_index
+
+
+
+
+
+
         # df_idx = 582
         df = self.dfs[df_idx]
 
@@ -45,6 +75,13 @@ class Dataset(Dataset):
         S_pct = float(metadata[1].split(":")[1]) / 40
         # Kp = float(metadata[2].split(":")[1])
         # Ki = float(metadata[3].split(":")[1])
+
+
+        # print("target T = ", T_ass_target*3)
+        # print("T = ", T_ass*3)
+        # print("target S = ", S_pct_target*40)
+        # print("S = ",S_pct*40)
+        # print("--------------------")
 
         if "T_ass" not in df.keys():  
             # print("adding T_ass")    
@@ -279,7 +316,7 @@ if __name__ == "__main__":
     # plot some window examples
     batch_u, batch_y, _ = reverse_normalization(batch_u, batch_y, batch_y)
 
-    for i in range(10):
+    for i in range(1):
         fig = plt.figure()
         ax0 = fig.add_subplot(5,1,1)
         ax0.plot(batch_y[i,:,:],label = "$iq_ref$")
