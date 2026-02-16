@@ -1,0 +1,4 @@
+EXPORTS
+ndp_long
+ndp_long_initialize
+ndp_long_terminate

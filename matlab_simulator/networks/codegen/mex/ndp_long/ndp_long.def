@@ -1,0 +1,9 @@
+LIBRARY ndp_long.mexw64
+EXPORTS
+mexFunction
+mexfilerequiredapiversion
+emlrtMexFcnProperties
+ndp_long
+ndp_long_initialize
+ndp_long_terminate
+ndp_long_atexit
