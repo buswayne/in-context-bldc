@@ -76,9 +76,11 @@ import seaborn as sns
 
 
 # x = np.random.lognormal(0,1, 1000)
-x = np.random.beta(a=0.8, b=4, size=10000)
+x = np.random.beta(a=0.8, b=4, size=10000) *40
 plt.figure()
 # plt.hist(x, density=True)
 sns.histplot(data=x, kde=True)
-plt.xlim((0,1))
+plt.xlim((0,40))
+plt.title("Overshoot distribution")
+plt.xlabel("Overshoot [%]")
 plt.show()
