@@ -19,7 +19,7 @@ models_to_test = ["test_l2_e32_h10_30k", ...
 
 n_models = length(models_to_test);
 
-final_scores = zeros(n_models, 6, 2, 5);
+final_scores = zeros(n_models, 6, 2, 3);
 
 
 
@@ -160,14 +160,16 @@ for j = 1:6
     xline(1.5, 'HandleVisibility','off')
     yline(20, 'HandleVisibility','off')
     yl = ylim;
-    ylim([min(0, yl(1)), max(yl(2),100)])
-    xlim([0,10])
+    % ylim([min(0, yl(1)), max(yl(2),100)])
+    % xlim([0,10])
+    ylim([0 30])
+    xlim([0,2])
     xlabel("Settling time [s]")
-    ylabel("Overshoot percentage [%]")
-    legend('Interpreter','none', Location='northoutside')
+    ylabel("Overshoot percentage [\%]")
+    legend('Interpreter','none', Location='north', NumColumns=2)
     title(sprintf("Config %d", j))
-    savefig(sprintf("exp_results_CAN/result_config%d.fig", j))
-    saveas(gcf, sprintf("exp_results_CAN/result_config%d.png", j))
+    savefig(sprintf("exp_results_CAN_2/result_config%d.fig", j))
+    saveas(gcf, sprintf("exp_results_CAN_2/result_config%d.png", j))
 
 
 end
@@ -201,8 +203,11 @@ for i = 1:n_models
     xline(1.5, 'HandleVisibility','off')
     yline(20, 'HandleVisibility','off')
     yl = ylim;
-    ylim([min(0, yl(1)), max(yl(2),100)])
-    xlim([0,10])
+    % ylim([min(0, yl(1)), max(yl(2),100)])
+    % xlim([0,10])
+
+    ylim([0 30])
+    xlim([0,2])
     r = rectangle('Position',[0,0,1.5,20]);
     r.EdgeColor = '#007200';
     r.LineStyle = ":";
@@ -211,60 +216,61 @@ for i = 1:n_models
     ylabel("Overshoot percentage [\%]")
     legend('Location', 'north','NumColumns',6)
     title(models_to_test(i), Interpreter="none")
-    savefig("figs_paper/scatter_results.fig")
-    saveas(gcf, "figs_paper/scatter_results.png")
+    savefig(sprintf("exp_results_CAN_2/result_model%s.fig", models_to_test(i)))
+    saveas(gcf, sprintf("exp_results_CAN_2/result_model%s.png", models_to_test(i)))
     fig = gcf;
     set(fig, 'PaperPositionMode', 'auto');
-    exportgraphics(fig, 'figs_paper/scatter_results.pdf', 'ContentType', 'vector');
-
-end
-
-load("results_simulator.mat")
-% color_sim = "#38b000";
-% color_sim = [0.4846 0.7497 0.5805];
-
-color_sim = [0.8663 0.4061 0.2384];
-color_sim = lighten_color(color_sim, 0.2);
-
-
-for i = 1:n_models
-
-    figure('Position',[100,100,500,250])
-    box on
-    hold on
-
-    scatter(metadata_full(:,2), metadata_full(:,1), 35, ...
-        'DisplayName', "Sim", 'MarkerFaceAlpha',1, 'MarkerEdgeColor',color_sim, ...
-        'Marker','.', 'MarkerFaceColor',lighten_color(color_sim, 0.6), 'LineWidth', 1)
-    for j = 1:6
-        scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
-                reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
-                25,'filled', 'DisplayName', sprintf("$S^{(%d)}$", j), 'MarkerFaceColor',colors(j,:), 'MarkerFaceAlpha',1)
-    end
-    xline(1.5, 'HandleVisibility','off')
-    yline(20, 'HandleVisibility','off')
-    % yl = ylim;
-    % ylim([min(0, yl(1)), max(yl(2),100)])
-    ylim([0 30])
-    xlim([0,2])
-    r = rectangle('Position',[0,0,1.5,20]);
-    r.EdgeColor = '#007200';
-    r.LineStyle = ":";
-    r.LineWidth = 3;
-    xlabel("$T_\mathrm{set}$ [s]")
-    ylabel("$OS_\%$ [$\%$]")
-    legend('Location', 'north','NumColumns',7)
-    % title(models_to_test(i), Interpreter="none")
-    savefig("figs_paper/scatter_results_and_sim.fig")
-    saveas(gcf, "figs_paper/scatter_results_and_sim.png")
-    fig = gcf;
-    set(fig, 'PaperPositionMode', 'auto');
-    exportgraphics(fig, 'figs_paper/scatter_results_and_sim.pdf', 'ContentType', 'vector');
-
-
+    exportgraphics(fig, sprintf("exp_results_CAN_2/result_model%s.pdf", models_to_test(i)), 'ContentType', 'vector');
 
 
 end
-
-
-
+% 
+% load("results_simulator.mat")
+% % color_sim = "#38b000";
+% % color_sim = [0.4846 0.7497 0.5805];
+% 
+% color_sim = [0.8663 0.4061 0.2384];
+% color_sim = lighten_color(color_sim, 0.2);
+% 
+% 
+% for i = 1:n_models
+% 
+%     figure('Position',[100,100,500,250])
+%     box on
+%     hold on
+% 
+%     scatter(metadata_full(:,2), metadata_full(:,1), 35, ...
+%         'DisplayName', "Sim", 'MarkerFaceAlpha',1, 'MarkerEdgeColor',color_sim, ...
+%         'Marker','.', 'MarkerFaceColor',lighten_color(color_sim, 0.6), 'LineWidth', 1)
+%     for j = 1:6
+%         scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
+%                 reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
+%                 25,'filled', 'DisplayName', sprintf("$S^{(%d)}$", j), 'MarkerFaceColor',colors(j,:), 'MarkerFaceAlpha',1)
+%     end
+%     xline(1.5, 'HandleVisibility','off')
+%     yline(20, 'HandleVisibility','off')
+%     % yl = ylim;
+%     % ylim([min(0, yl(1)), max(yl(2),100)])
+%     ylim([0 30])
+%     xlim([0,2])
+%     r = rectangle('Position',[0,0,1.5,20]);
+%     r.EdgeColor = '#007200';
+%     r.LineStyle = ":";
+%     r.LineWidth = 3;
+%     xlabel("$T_\mathrm{set}$ [s]")
+%     ylabel("$OS_\%$ [$\%$]")
+%     legend('Location', 'north','NumColumns',7)
+%     title(models_to_test(i), Interpreter="none")
+%     savefig(sprintf("exp_results_CAN_2/result_model%s.fig", models_to_test(i)))
+%     saveas(gcf, sprintf("exp_results_CAN_2/result_model%s.png", models_to_test(i)))
+%     fig = gcf;
+%     set(fig, 'PaperPositionMode', 'auto');
+%     exportgraphics(fig, sprintf("exp_results_CAN_2/result_model%s.pdf", models_to_test(i)), 'ContentType', 'vector');
+% 
+% 
+% 
+% 
+% end
+% 
+% 
+% 
