@@ -20,10 +20,10 @@ current_path = os.getcwd().split("speed_controller_v2")[0]
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
 os.add_dll_directory(dll_dir)
 
-dll_name = "test_l2_e32_h10.dll"
-dll_name = "test_l1_e32_h10.dll"
-dll_name = "test_l2_e16_h10.dll"
-dll_name = "test_l1_e16_h10.dll"
+dll_name = "test_l2_e32_h10"
+# dll_name = "test_l1_e32_h10"
+# dll_name = "test_l2_e16_h10"
+# dll_name = "test_l1_e16_h10"
 
 dll_name_bis = dll_name + ".dll"
 
@@ -169,7 +169,7 @@ class FilteredListener(can.Listener):
 def main():
 
     for i in range(20):
-        x_in = np.random.rand(60).astype(np.float64)  # your input array
+        x_in = np.random.rand(60).astype(np.float32)  # your input array
         y_out = np.zeros(10, dtype=np.float32)        # output array to be filled
         transformer_function(x_in, y_out)
 
