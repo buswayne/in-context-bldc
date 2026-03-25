@@ -17,15 +17,15 @@ import os
 
 ### quick param selection
 
-checkpoint_name_to_save = "test_l1_e16_h10"
-checkpoint_name_to_open = "test_l1_e16_h10"
+checkpoint_name_to_save = "test_l1_e2_h10"
+checkpoint_name_to_open = "test_l1_e2_h10"
 mode = "scratch"  # resume / scratch / pretrained
 
 # model parameters
 sequence_length = 10 #h
 layers_number = 1 #8
 heads_number = 2 #4
-embd_number = 16 #16
+embd_number = 2 #16
 
 # training parameters
 batch_size_ = 128
