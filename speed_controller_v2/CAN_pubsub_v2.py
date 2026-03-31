@@ -20,10 +20,17 @@ current_path = os.getcwd().split("speed_controller_v2")[0]
 dll_dir = os.path.join(current_path,"speed_controller_v2", "C_libs")
 os.add_dll_directory(dll_dir)
 
-dll_name = "test_l2_e32_h10"
+# dll_name = "test_l2_e32_h10"
 # dll_name = "test_l1_e32_h10"
 # dll_name = "test_l2_e16_h10"
 # dll_name = "test_l1_e16_h10"
+
+
+# dll_name = "test_l1_e12_h10"
+# dll_name = "test_l1_e8_h10"
+# dll_name = "test_l1_e4_h10"
+dll_name = "test_l1_e2_h10"
+
 
 dll_name_bis = dll_name + ".dll"
 
