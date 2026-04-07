@@ -14,7 +14,11 @@ end
 models_to_test = ["test_l2_e32_h10_30k", ...
                   "test_l1_e32_h10_30k", ...
                   "test_l2_e16_h10_40k", ...
-                  "test_l1_e16_h10_30k"];
+                  "test_l1_e16_h10_30k", ...
+                  "test_l1_e12_h10_30k", ...
+                  "test_l1_e8_h10_40k", ...
+                  "test_l1_e4_h10_40k", ...
+                  "test_l1_e2_h10_30k"];
 
 
 n_models = length(models_to_test);
@@ -162,8 +166,8 @@ for j = 1:6
     yl = ylim;
     % ylim([min(0, yl(1)), max(yl(2),100)])
     % xlim([0,10])
-    ylim([0 30])
-    xlim([0,2])
+    ylim([0 40])
+    xlim([0,5.5])
     xlabel("Settling time [s]")
     ylabel("Overshoot percentage [\%]")
     legend('Interpreter','none', Location='north', NumColumns=2)
@@ -206,8 +210,8 @@ for i = 1:n_models
     % ylim([min(0, yl(1)), max(yl(2),100)])
     % xlim([0,10])
 
-    ylim([0 30])
-    xlim([0,2])
+    ylim([0 40])
+    xlim([0,5.5])
     r = rectangle('Position',[0,0,1.5,20]);
     r.EdgeColor = '#007200';
     r.LineStyle = ":";

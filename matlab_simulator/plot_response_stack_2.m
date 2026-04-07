@@ -1,6 +1,6 @@
 clear
 clc
-% close all
+close all
 
 
 
@@ -16,7 +16,7 @@ end
 %                   "test_l1_e32_h10_30k", ...
 %                   "test_l2_e16_h10_40k", ...
 %                   "test_l1_e16_h10_30k"];
-models_to_test = ["test_l1_e16_h10_30k"];
+models_to_test = ["test_l2_e32_h10_30k"];
 
 n_models = length(models_to_test);
 
@@ -244,7 +244,7 @@ end %% n_models
 
 
 
-figure('Position',[100,100,500,200])
+figure('Position',[100,100,500,250])
 hold on
 box on
 for j = flip(1:n_exp)
@@ -277,7 +277,7 @@ for j = flip(1:n_exp)
         plot(time_stack(j,:), omega_stack(j,:), 'Color',color_stack_good(j))
     end
 end
-xlim([0,2])
+xlim([0,2.5])
 ylim([0,2500])
 
 % r = rectangle('Position',[1.5, 0, 5, 1900], 'FaceColor',"b","EdgeColor","none","FaceAlpha",0.1);
@@ -308,6 +308,7 @@ xlabel("Time [s]")
 ylabel("$\omega$ [rpm]")
 
 % 
+L0 = plot(time_stack(j,:), ones(size(time_stack(j,:)))*stepsize, 'Color','k', 'LineStyle','--');
 L1 = plot(nan, nan, 'color', colors_good{1}, 'LineWidth',2);
 L2 = plot(nan, nan, 'color', colors_good{2}, 'LineWidth',2);
 L3 = plot(nan, nan, 'color', colors_good{3}, 'LineWidth',2);
@@ -326,7 +327,7 @@ L6 = plot(nan, nan, 'color', colors_good{6}, 'LineWidth',2);
 % L4 = plot(nan, nan, 'color', H(4), 'LineWidth',2);
 % L5 = plot(nan, nan, 'color', H(5), 'LineWidth',2);
 % L6 = plot(nan, nan, 'color', H(6), 'LineWidth',2);
-legend([L1, L2,L3,L4,L5,L6], {'$S^{(1)}$', '$S^{(2)}$', '$S^{(3)}$', '$S^{(4)}$' ,'$S^{(5)}$' ,'$S^{(6)}$'}, 'Location','southeast')
+legend([L0, L1, L2,L3,L4,L5,L6], {'Reference','$S^{(1)}$', '$S^{(2)}$', '$S^{(3)}$', '$S^{(4)}$' ,'$S^{(5)}$' ,'$S^{(6)}$'}, 'Location','southeast')
 
 title(models_to_test(1), 'Interpreter','none')
 figname = sprintf("exp_results_CAN_2/stack_results%s.fig", models_to_test(1));

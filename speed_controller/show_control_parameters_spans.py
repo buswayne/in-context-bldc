@@ -65,19 +65,19 @@ print(valid/full)
 # ax.set_yscale('log')
 
 
-# fig = plt.figure()
-# sns.histplot(data=metadata_matrix[:,0], stat='density')
-# ax = plt.gca()
-# ax.set(xlabel="$T_{set}$")
-# ax.grid()
-# ax.set_title("Settling time distribution")
+fig = plt.figure(figsize=(5,4))
+sns.histplot(data=metadata_matrix[:,0], stat='density')
+ax = plt.gca()
+ax.set(xlabel="$T_{set}$")
+ax.grid()
+ax.set_title("Settling time distribution")
 
-# fig = plt.figure()
-# sns.histplot(data=metadata_matrix[:,1], stat='density')
-# ax = plt.gca()
-# ax.set(xlabel="$OS_\%$")
-# ax.grid()
-# ax.set_title("Overshoot distribution")
+fig = plt.figure(figsize=(5,4))
+sns.histplot(data=metadata_matrix[:,1], stat='density')
+ax = plt.gca()
+ax.set(xlabel="$OS_\%$")
+ax.grid()
+ax.set_title("Overshoot distribution")
 
 
 # data_tmp = pd.DataFrame()
@@ -156,7 +156,7 @@ print(valid/full)
 
 
 
-# plt.show()
+plt.show()
 
 
 

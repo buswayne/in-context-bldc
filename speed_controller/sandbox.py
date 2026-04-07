@@ -77,10 +77,24 @@ import seaborn as sns
 
 # x = np.random.lognormal(0,1, 1000)
 x = np.random.beta(a=0.8, b=4, size=10000) *40
-plt.figure()
+plt.figure(figsize=(5,4))
 # plt.hist(x, density=True)
-sns.histplot(data=x, kde=True)
-plt.xlim((0,40))
+sns.histplot(data=x, kde=True, stat="density")
+plt.xlim((0,50))
 plt.title("Overshoot distribution")
-plt.xlabel("Overshoot [%]")
+plt.xlabel("$OS_{\%}$")
+plt.grid()
+plt.tight_layout()
+
+
+
+x = np.random.uniform(0,4, 10000)
+plt.figure(figsize=(5,4))
+# plt.hist(x, density=True)
+sns.histplot(data=x, kde=True, stat="density")
+plt.xlim((0,4.2))
+plt.title("Settling time distribution")
+plt.xlabel("$T_s$")
+plt.tight_layout()
+plt.grid()
 plt.show()

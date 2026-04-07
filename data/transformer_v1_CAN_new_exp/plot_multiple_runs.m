@@ -9,10 +9,10 @@ clc
 % fig_3 = openfig("ndp_long_H10H13\I13_2026-03-03--10-17-23_Tset3_OS0.fig", "new", "invisible");
 
 
-% fig_05 = openfig("ndp_short_H10H13\I13_2026-03-03--10-03-01_Tset0p5_OS0.fig", "new", "invisible");
-% fig_1 = openfig("ndp_short_H10H13\I13_2026-03-03--10-02-21_Tset1_OS0.fig", "new", "invisible");
-% fig_15 = openfig("ndp_short_H10H13\I13_2026-03-03--10-01-29_Tset1p5_OS0.fig", "new", "invisible");
-% fig_3 = openfig("ndp_short_H10H13\I13_2026-03-03--10-18-31_Tset3_OS0.fig", "new", "invisible");
+fig_05 = openfig("ndp_short_H10H13\I13_2026-03-03--10-03-01_Tset0p5_OS0.fig", "new", "invisible");
+fig_1 = openfig("ndp_short_H10H13\I13_2026-03-03--10-02-21_Tset1_OS0.fig", "new", "invisible");
+fig_15 = openfig("ndp_short_H10H13\I13_2026-03-03--10-01-29_Tset1p5_OS0.fig", "new", "invisible");
+fig_3 = openfig("ndp_short_H10H13\I13_2026-03-03--10-18-31_Tset3_OS0.fig", "new", "invisible");
 
 
 % fig_05 = openfig("ndp_random_correction_long_H10H13\I13_2026-03-03--10-04-34_Tset0p5_OS0.fig", "new", "invisible");
@@ -20,10 +20,10 @@ clc
 % fig_15 = openfig("ndp_random_correction_long_H10H13\I13_2026-03-03--10-06-43_Tset1p5_OS0.fig", "new", "invisible");
 % fig_3 = openfig("ndp_random_correction_long_H10H13\I13_2026-03-03--10-07-30_Tset3_OS0.fig", "new", "invisible");
 
-fig_05 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-15-33_Tset0p5_OS0.fig", "new", "invisible");
-fig_1 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-14-01_Tset1_OS0.fig", "new", "invisible");
-fig_15 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-10-53_Tset1p5_OS0.fig", "new", "invisible");
-fig_3 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-09-30_Tset3_OS0.fig", "new", "invisible");
+% fig_05 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-15-33_Tset0p5_OS0.fig", "new", "invisible");
+% fig_1 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-14-01_Tset1_OS0.fig", "new", "invisible");
+% fig_15 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-10-53_Tset1p5_OS0.fig", "new", "invisible");
+% fig_3 = openfig("ndp_random_correction_short_H10H13\I13_2026-03-03--10-09-30_Tset3_OS0.fig", "new", "invisible");
 
 
 
@@ -70,14 +70,14 @@ omega_3 = allLines(2);  % 1 ref 2 vel
 x_3 = get(omega_3, 'XData');
 y_3 = get(omega_3, 'YData');
 
-figure
-title("model 'short' with distribution correction")
+figure(Position=[100,100,400,250])
+title("model 'short'")% with distribution correction")
 hold on
-plot(x_ref, y_ref, 'DisplayName',"reference")
-plot(x_05, y_05, 'DisplayName',"T_{set}=0.5")
-plot(x_1, y_1, 'DisplayName',"T_{set}=1")
-plot(x_15, y_15, 'DisplayName',"T_{set}=1.5")
-plot(x_3, y_3, 'DisplayName',"T_{set}=3")
+plot(x_05, y_05, 'DisplayName',"T_{set}=0.5", 'LineWidth',1)
+plot(x_1, y_1, 'DisplayName',"T_{set}=1", 'LineWidth',1)
+plot(x_15, y_15, 'DisplayName',"T_{set}=1.5", 'LineWidth',1)
+plot(x_3, y_3, 'DisplayName',"T_{set}=3", 'LineWidth',1)
+plot(x_ref, y_ref, 'DisplayName',"Reference", 'LineStyle','--', 'Color','k')
 ylim([0,2500])
 xlabel("Time [s]")
 ylabel("Speed [rpm]")

@@ -1,0 +1,106 @@
+clear
+clc
+close all
+
+
+list_factory = fieldnames(get(groot,'factory'));
+index_interpreter = find(contains(list_factory,'Interpreter'));
+for i = 1:length(index_interpreter)
+    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+    set(groot, default_name,'latex');
+end
+
+
+temp_name = strsplit(pwd,'in-context-bldc');
+user_tmp = strsplit(pwd,'Users\');
+user_tmp2 = strsplit(user_tmp{2},'\');
+user = user_tmp2{1};
+
+datapath_older = fullfile(temp_name{1}, 'in-context-bldc', 'data', 'transformer_exp');
+datapath_old = fullfile(temp_name{1}, 'in-context-bldc', 'data', 'transformer_v1_CAN_exp');
+datapath_new = fullfile(temp_name{1}, 'in-context-bldc', 'data', 'transformer_v1_CAN_new_exp');
+
+data_older = readtable(fullfile(datapath_older, "ndp_noise_h10_40kH10H05", "I05_2025-08-05--13-20-43.csv"));
+
+iq_ref = data_older.iq_ref;
+iq = data_older.iq_ref;
+omega = data_older.omega;
+r = data_older.r;
+t = data_older.t;
+
+idx_start = find(abs(iq_ref)>0.01,1,"first");
+idx_end = idx_start + 450;
+
+iq_ref = iq_ref(idx_start:idx_end);
+iq = iq(idx_start:idx_end);
+omega = omega(idx_start:idx_end);
+r = r(idx_start:idx_end);
+t = t(idx_start:idx_end) - t(idx_start);
+
+figure('Position',[100,100,500,400])
+subplot(211)
+hold on 
+box on
+plot(t,omega, LineWidth=2)
+plot(t,r, 'LineStyle','--', 'Color','k')
+ylim([0,2500])
+xlabel("Time [s]")
+ylabel("Speed [rpm]")
+legend('$\omega$', '$\omega_{ref}$', 'Location','southeast', 'FontSize', 14)
+
+subplot(212)
+hold on 
+box on
+plot(t,iq, LineWidth=2)
+plot(t,iq_ref, 'LineStyle','--', 'Color','k')
+legend('$i_{q}$', '$i_{q,ref}$', 'FontSize', 14)
+xlabel("Time [s]")
+ylabel("Current [A]")
+
+saveas(gcf, "controller_v1/older_HW.png")
+
+
+
+
+
+
+data_old = readtable(fullfile(datapath_old, "ndp_noise_h10_40kH10H05", "I05_2026-01-28--17-02-18_Tset0p5_OS0.csv"));
+
+iq_ref = data_old.iq_ref;
+iq = data_old.iq_ref;
+omega = data_old.omega;
+r = data_old.r;
+t = data_old.t;
+
+idx_start = find(abs(iq_ref)>0.01,1,"first");
+idx_end = idx_start + 450;
+
+iq_ref = iq_ref(idx_start:idx_end);
+iq = iq(idx_start:idx_end);
+omega = omega(idx_start:idx_end);
+r = r(idx_start:idx_end);
+t = t(idx_start:idx_end) - t(idx_start);
+
+figure('Position',[100,100,500,400])
+subplot(211)
+hold on 
+box on
+plot(t,omega, LineWidth=2)
+plot(t,r, 'LineStyle','--', 'Color','k')
+ylim([0,2500])
+xlabel("Time [s]")
+ylabel("Speed [rpm]")
+legend('$\omega$', '$\omega_{ref}$', 'Location','southeast', 'FontSize', 14)
+
+subplot(212)
+hold on 
+box on
+plot(t,iq, LineWidth=2)
+plot(t,iq_ref, 'LineStyle','--', 'Color','k')
+xlabel("Time [s]")
+ylabel("Current [A]")
+legend('$i_{q}$', '$i_{q,ref}$', 'FontSize', 14)
+
+saveas(gcf, "controller_v1/newer_HW.png")
+
+
