@@ -61,7 +61,8 @@ for inertia = [13, 5, 15, 9, 11, 7]
             
             
             tab_bo = readtable("../data/CL_experiments_benchmark_BO/inertia_13__ki-0.0000-kp-28.8122/I_13__2025-11-27--10-04-17.csv");
-            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_13__ki-0.0000-kp-2.8007/I_13__2025-11-27--12-17-56.csv");
+            % tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_13__ki-0.0000-kp-2.8007/I_13__2025-11-27--12-17-56.csv");
+            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT2/inertia_13__ki-0.0248-kp-1.7084/I_13__2026-03-24--09-51-26.csv");
     
     
         case 5
@@ -82,7 +83,8 @@ for inertia = [13, 5, 15, 9, 11, 7]
             
             
             tab_bo = readtable("../data/CL_experiments_benchmark_BO/inertia_15__ki-0.0000-kp-11.9834/I_15__2025-11-27--14-48-46.csv");
-            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_15__ki-0.0000-kp-2.9085/I_15__2025-11-27--14-54-14.csv");
+            % tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_15__ki-0.0000-kp-2.9085/I_15__2025-11-27--14-54-14.csv");
+            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT2/inertia_15__ki-0.0168-kp-2.4760/I_15__2026-03-24--12-18-22.csv");
     
         case 9
     
@@ -92,7 +94,8 @@ for inertia = [13, 5, 15, 9, 11, 7]
             
             
             tab_bo = readtable("../data/CL_experiments_benchmark_BO/inertia_09__ki-0.1000-kp-50.0000/I_09__2025-11-27--15-22-39.csv");
-            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_09__ki-0.0000-kp-3.8716/I_09__2025-11-27--15-21-10.csv");
+            % tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_09__ki-0.0000-kp-3.8716/I_09__2025-11-27--15-21-10.csv");
+            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT2/inertia_09__ki-0.0082-kp-2.8479/I_09__2026-03-24--12-15-09.csv");
     
         case 11
     
@@ -101,7 +104,8 @@ for inertia = [13, 5, 15, 9, 11, 7]
             
             
             tab_bo = readtable("../data/CL_experiments_benchmark_BO/inertia_11__ki-0.0000-kp-43.1595/kp_0.0000_ki_43.1595.csv");
-            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_11__ki-0.0000-kp-3.8905/I_11__2025-11-27--15-36-43.csv");
+            % tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_11__ki-0.0000-kp-3.8905/I_11__2025-11-27--15-36-43.csv");
+            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT2/inertia_11__ki-0.0074-kp-2.8991/I_11__2026-03-24--12-12-29.csv");
     
         case 7
     
@@ -110,7 +114,8 @@ for inertia = [13, 5, 15, 9, 11, 7]
             
             
             tab_bo = readtable("../data/CL_experiments_benchmark_BO/inertia_07__ki-0.0000-kp-50.0000/I_07__2025-11-27--15-30-24.csv");
-            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_07__ki-0.0000-kp-2.8185/I_07__2025-11-27--15-28-58.csv");
+            % tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT/inertia_07__ki-0.0000-kp-2.8185/I_07__2025-11-27--15-28-58.csv");
+            tab_vrft = readtable("../data/CL_experiments_benchmark_VRFT2/inertia_07__ki-0.0051-kp-1.4582/I_07__2026-03-24--12-09-28.csv");
     
     end
     
@@ -582,12 +587,15 @@ curr_color_tr = lighten_color(color_tr, 0.2);
 
 for i = 1:6
 
+x_limits = [0,1.5];
+y_limits_omega = [0,3000];
+y_limits_current = [-2.5,5];
 
-xlim(tiles(i), [0,1])
-xlim(tiles(i+6), [0,1])
-ylim(tiles(i), [0,2500])
+xlim(tiles(i), x_limits)
+xlim(tiles(i+6), x_limits)
+ylim(tiles(i), y_limits_omega)
 % ylim(tiles(i), [0,2500])
-ylim(tiles(i+6), [-2.5,5])
+ylim(tiles(i+6), y_limits_current)
 
 tiles(i+6).XTickLabel{1} = ['\,\,', tiles(i+6).XTickLabel{1}];
 tiles(i+6).XTickLabel{end} = [tiles(i+6).XTickLabel{end}, ''];
@@ -596,7 +604,7 @@ plot(tiles(i), ts_model.I_13, omegas_model_matrix(i,:), 'Color',color_model, 'Li
 plot(tiles(i), ts_bo.I_13, omegas_bo_matrix(i,:), 'Color',curr_color_bo, 'LineWidth',lw, 'DisplayName', "BO")
 plot(tiles(i), ts_tr.I_13, omegas_tr_matrix(i,:), 'Color',curr_color_tr, 'LineWidth',lw+1.0,'LineStyle',':', 'DisplayName', "ICC (ours)");
 try
-plot(tiles(i), ts_vrft.I_13, omegas_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw, 'DisplayName', "VRFT")
+plot(tiles(i), ts_vrft.I_13, omegas_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw - 0.5, 'DisplayName', "VRFT")
 catch
 end
 
@@ -652,7 +660,7 @@ text(tiles(i), 0.94, 0.1, str, ...
 plot(tiles(i+6), ts_bo.I_13, iqs_bo_matrix(i,:), 'Color',curr_color_bo, 'LineWidth',lw, 'DisplayName', "BO")
 plot(tiles(i+6), ts_tr.I_13, iqs_tr_matrix(i,:), 'Color',curr_color_tr, 'LineWidth',lw+1.0,'LineStyle',':', 'DisplayName', "ICC (ours)")
 try
-plot(tiles(i+6), ts_vrft.I_13, iqs_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw, 'DisplayName', "VRFT")
+plot(tiles(i+6), ts_vrft.I_13, iqs_vrft_matrix(i-1,:), 'Color',curr_color_vrft, 'LineWidth',lw - 0.75, 'DisplayName', "VRFT")
 catch
 end
 
@@ -669,8 +677,8 @@ t_tmp.XLabel.FontSize = xl.FontSize;
 
 
 
-savefig("figs_paper/comp_wide.fig")
-saveas(gcf, "figs_paper/comp_wide.png")
+savefig("figs_paper/comp_wide_new.fig")
+saveas(gcf, "figs_paper/comp_wide_new.png")
 fig = gcf;
 set(fig, 'PaperPositionMode', 'auto');
-exportgraphics(fig, 'figs_paper/comp_wide.pdf', 'ContentType', 'vector');
+exportgraphics(fig, 'figs_paper/comp_wide_new.pdf', 'ContentType', 'vector');
