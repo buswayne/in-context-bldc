@@ -1,7 +1,7 @@
 #ifndef GPT_MODEL_H
 #define GPT_MODEL_H
 
-#define T_MAX       10
+#define W_MAX       10
 #define N_LAYER     1
 #define N_HEAD      2
 #define N_EMBD      12
