@@ -229,7 +229,7 @@ color_sim = lighten_color(color_sim, 0.2);
 
 for i = 1:n_models
 
-    figure('Position',[100,100,500,250])
+    figure('Position',[100,100,500,200])
     box on
     hold on
 

@@ -248,7 +248,7 @@ end %% n_models
 
 
 
-figure('Position',[100,100,500,200])
+figure('Position',[100,100,500,150])
 hold on
 box on
 % for j = 1:n_exp
@@ -311,7 +311,7 @@ end
 % hh = hatchfill(p, 'single', 45, 5);
 % set(hh, 'Color', 'b', 'LineWidth', 0.5)
 
-xlim([0,1])
+xlim([0,1.2])
 ylim([0,3000])
 xlabel("Time [s]")
 ylabel("$\omega$ [rpm]")
