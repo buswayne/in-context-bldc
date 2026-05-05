@@ -145,7 +145,7 @@ line_colors_real = line_colors_real(end-5:end,:);
 
 
 
-figure('Position',[100,100,500,200])
+figure('Position',[100,100,500,150])
 hold on
 box on
 top_limit = max(omegas, [], 1);

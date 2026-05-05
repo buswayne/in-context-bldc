@@ -97,7 +97,7 @@ color_C1 = lighten_color(color_C1_tmp{end}, 0.1);
 
 
 
-fig = figure('Position',[100,100,500,200]);
+fig = figure('Position',[100,100,500,150]);
 
 % sp = subplot(2,1,1);
 % hold on

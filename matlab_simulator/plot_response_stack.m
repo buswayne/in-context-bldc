@@ -244,7 +244,7 @@ end %% n_models
 
 
 
-figure('Position',[100,100,500,200])
+figure('Position',[100,100,500,150])
 hold on
 box on
 for j = flip(1:n_exp)
@@ -326,7 +326,7 @@ L6 = plot(nan, nan, 'color', colors_good{6}, 'LineWidth',2);
 % L4 = plot(nan, nan, 'color', H(4), 'LineWidth',2);
 % L5 = plot(nan, nan, 'color', H(5), 'LineWidth',2);
 % L6 = plot(nan, nan, 'color', H(6), 'LineWidth',2);
-legend([L1, L2,L3,L4,L5,L6], {'$S^{(1)}$', '$S^{(2)}$', '$S^{(3)}$', '$S^{(4)}$' ,'$S^{(5)}$' ,'$S^{(6)}$'}, 'Location','southeast')
+legend([L1, L2,L3,L4,L5,L6], {'$S^{(1)}$', '$S^{(2)}$', '$S^{(3)}$', '$S^{(4)}$' ,'$S^{(5)}$' ,'$S^{(6)}$'}, 'Location','southeast', 'NumColumns', 2)
 
 savefig("figs_paper/stack_results.fig")
 saveas(gcf, "figs_paper/stack_results.png")
