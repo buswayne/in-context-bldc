@@ -14,6 +14,7 @@ import uptime
 import matplotlib.pyplot as plt
 import struct
 
+import pandas as pd
 
 
 
@@ -68,7 +69,7 @@ def main():
             print("listening for timer: ")
             print("Press Ctrl+C to stop...")
             start = time.time()
-            max_time = 5
+            max_time = np.inf
             while time.time() - start < max_time:
                 # Keep the main thread alive
                 can.BufferedReader().get_message(timeout=1)
@@ -78,21 +79,44 @@ def main():
             notifier.stop()
             time_log = np.array(listener.time_log)
             
-            # fig = plt.figure()
-            # ax0 = fig.add_subplot(1,1,1)
-            # ax0.plot(time_log/1e6)
-            # ax0.set_ylabel("dt [s]")
-
-
+            
             print(f"received {len(time_log)} messages")
             mask = time_log/1e6<1
             time_log_filt = time_log[mask]
+
+
+            fig = plt.figure()
+            ax0 = fig.add_subplot(1,1,1)
+            ax0.plot(time_log/1e6)
+            ax0.set_ylabel("dt [s]")
+            lims = ax0.get_xlim()
+
+            fig = plt.figure()
+            ax0 = fig.add_subplot(1,1,1)
+            window_size = 300 #circa 3s
+            time_series = np.array(pd.Series(time_log_filt/1e3).rolling(window=window_size).mean())
+            ax0.plot(time_series)
+            ax0.set_ylabel("dt [ms]")
+
+            # mask = ~np.isnan(time_series)
+            print(np.nanargmax(time_series))
+            max_movmean_idx = np.nanargmax(time_series)
+            hotspot = time_log_filt[max_movmean_idx-int(window_size/2):max_movmean_idx+int(window_size/2)]
+
+            fig = plt.figure()
+            ax0 = fig.add_subplot(1,1,1)
+            ax0.plot(np.arange(len(time_log_filt))[max_movmean_idx-int(window_size/2):max_movmean_idx+int(window_size/2)], hotspot)
+            ax0.set_ylabel("dt [s]")
+            ax0.set_xlim(lims)
+
             print(f"average computation time: {time_log.mean()/1e3} ms")
             print(f"std computation time: {(time_log/1e3).std()} ms")
             print(f"filt average computation time: {time_log_filt.mean()/1e3} ms")
             print(f"filt std computation time: {(time_log_filt/1e3).std()} ms")
-            # plt.tight_layout()
-            # plt.show()
+            print(f"filt average computation time (hotspot): {hotspot.mean()/1e3} ms")
+            print(f"filt std computation time (hotspot): {(hotspot/1e3).std()} ms")
+            plt.tight_layout()
+            plt.show()
 
 
 if __name__ == "__main__":
