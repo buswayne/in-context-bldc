@@ -1,7 +1,7 @@
 clear
 close all
 
-path = '../../speed_controller/test_chopped_weights.pkl';
+path = '../../speed_controller/models_to_mat/old/test_chopped_weights.pkl';
 
 fid = py.open(path,'rb');
 data = py.pickle.load(fid);
