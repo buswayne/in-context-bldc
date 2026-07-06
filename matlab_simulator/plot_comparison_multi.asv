@@ -702,7 +702,7 @@ n_cols_new   = 3;
 fig2_width_px  = left_margin_px + n_cols_new*col_width_px + (n_cols_new-1)*hor_gap_px + right_margin_px;
 fig2_height_px = top_extra_px + 2*(omega_height_px + vert_gap_px + curr_height_px) + block_gap_px + bottom_margin_px;
 
-fig2 = figure('WindowStyle','normal', 'Position',[200,200,fig2_width_px,fig2_height_px*0.7], ...
+fig2 = figure('WindowStyle','normal', 'Position',[200,200,fig2_width_px,fig2_height_px*0.8], ...
     'DefaultAxesFontSize',12,'Renderer','painters');
 
 tiles2 = gobjects(1,12);   % 1-6 = omega axes, 7-12 = iq axes (same convention as `tiles`)
@@ -784,15 +784,11 @@ end
 for i = 1:6
 
     xlab = tiles2(i+6).XTickLabel;
-    if (i ~= 1) && (i ~= 4) 
-        xlab{1} = "$\;$" + xlab{1}; 
-        i
-    end
-    if (i ~= 3) && (i ~= 6) 
-        xlab{end} = xlab{end} + "$\quad$";
+    if (i ~= 1) || (i ~= 4) 
+        xlab(end)
     end
 
-    tiles2(i+6).XTickLabel = xlab;
+
 end
 
 leg2 = legend(tiles2(2), 'Location','southeast','Orientation','horizontal');
