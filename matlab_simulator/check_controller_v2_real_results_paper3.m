@@ -265,3 +265,45 @@ for i = 1:n_models
 
 
 end
+
+
+for i = 1:n_models
+
+    figure('Position',[100,100,500,200])
+    box on
+    hold on
+
+    scatter(metadata_full(:,2), metadata_full(:,1), 35, ...
+        'DisplayName', "Sim", 'MarkerFaceAlpha',1, 'MarkerEdgeColor',color_sim, ...
+        'Marker','.', 'MarkerFaceColor',lighten_color(color_sim, 0.6), 'LineWidth', 1)
+    for j = 1:6
+        scatter(reshape(final_scores(i,j,1,1:end), [], length(final_scores(i,j,1,1:end))), ...
+                reshape(final_scores(i,j,2,1:end), [], length(final_scores(i,j,2,1:end))), ...
+                25,'filled', 'DisplayName', sprintf("$S^{(%d)}$", j), 'MarkerFaceColor',colors(j,:), 'MarkerFaceAlpha',1)
+    end
+    xline(1.5, 'HandleVisibility','off')
+    yline(20, 'HandleVisibility','off')
+    yline(0, "--", 'HandleVisibility','off')
+    % yl = ylim;
+    % ylim([min(0, yl(1)), max(yl(2),100)])
+    ylim([-2 30])
+    xlim([0,2])
+    r = rectangle('Position',[0,-2,1.5,22]);
+    r.EdgeColor = '#007200';
+    r.LineStyle = ":";
+    r.LineWidth = 3;
+    xlabel("$T_\mathrm{set}$ [s]")
+    ylabel("$OS_\%$ [$\%$]")
+    legend('Location', 'north','NumColumns',7)
+    % title(models_to_test(i), Interpreter="none")
+    savefig("figs_paper/scatter_results_and_sim_thesis.fig")
+    saveas(gcf, "figs_paper/scatter_results_and_sim_thesis.png")
+    fig = gcf;
+    set(fig, 'PaperPositionMode', 'auto');
+    exportgraphics(fig, 'figs_paper/scatter_results_and_sim_thesis.pdf', 'ContentType', 'vector');
+
+
+
+
+end
+
