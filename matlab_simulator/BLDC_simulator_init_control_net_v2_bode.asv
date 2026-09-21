@@ -17,7 +17,7 @@ if user == 'aless'
 else
     usr_str = "_";
 end
-% savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
+savepath_tmp = "C:\Users\" + user + "\OneDrive - Politecnico di Milano\in-context-bldc-data\simulated";
 
 perturbation = perturbation_percent / 100;
 
@@ -54,22 +54,20 @@ model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks
 tmp_model_name = char(model_name);
 
 folder_name = sprintf('bode_analysis_%s', tmp_model_name(1:end-4));
-save_path = fullfile(pwd, folder_name);
+save_path = fullfile(savepath_tmp, folder_name);
 [~, ~] = mkdir(save_path);
 
 
-save_data = true;
+save_data = false;
 show_figures = true;
 
 
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 
-for inertia_mult_curr = inertia_mult_list
-    disc.Inertia = inertia_mult_curr * nominal_inertia;
-    inertia_string = string(inertia_mult_curr);
-    inertia_string = replace(inertia_string, ".","");
+for inertia_curr = inertia_list
+    disc.Inertia = inertia_curr;
     for stepsize = setpoint_list
-        stepsize_string = string(stepsize);
+
 
         mdl_test = 'BLDC_simulator_controller_v2';
         T = 50;
@@ -133,14 +131,13 @@ for inertia_mult_curr = inertia_mult_list
             out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
                 {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
     
-            exp_code = sprintf("setpoint_%s_in_%s", stepsize_string, inertia_string);
-            exp_name = exp_code + "_data.csv";
+            exp_name = now_string + "_data.csv";
             writetable(out_tab,fullfile(save_path,exp_name));
     
-            param_names = exp_code + "_params.mat";
+            param_names = now_string + "_params.mat";
             save(fullfile(save_path,param_names), "BLDC", "disc", "i_omega");
     
-            result_name = exp_code + "_results.mat";
+            result_name = now_string + "_results.mat";
             save(fullfile(save_path,result_name), "success", "final_speed","min_set_time", "T_ass", "S_pct");
     
     
