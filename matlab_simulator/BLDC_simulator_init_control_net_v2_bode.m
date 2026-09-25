@@ -43,8 +43,13 @@ setpoint_list = [500, 1000, 1500, 2000];
 chirpsize = 100;
 delay = 5;
 f_init = 0.05;
-f_end = 10;
+f_end = 100;
 
+T = 100;
+Ts = 1e-4;
+time = 0:Ts:T-Ts;
+speed_loop = 1;
+current_loop = 1;
 
 tmp_H = strsplit(model_name, 'H');
 H = str2double(tmp_H{2});
@@ -53,7 +58,7 @@ model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks
 
 tmp_model_name = char(model_name);
 
-folder_name = sprintf('bode_analysis_%s', tmp_model_name(1:end-4));
+folder_name = sprintf('bode_analysis_%s_v3', tmp_model_name(1:end-4));
 save_path = fullfile(pwd, folder_name);
 [~, ~] = mkdir(save_path);
 
@@ -71,12 +76,8 @@ for inertia_mult_curr = inertia_mult_list
     for stepsize = setpoint_list
         stepsize_string = string(stepsize);
 
-        mdl_test = 'BLDC_simulator_controller_v2';
-        T = 50;
-        Ts = 1e-4;
-        time = 0:Ts:T-Ts;
-        speed_loop = 1;
-        current_loop = 1;
+        mdl_test = 'BLDC_simulator_controller_v2_ms';
+        
 
         speed_input.time = time;
 
@@ -127,11 +128,12 @@ for inertia_mult_curr = inertia_mult_list
         ib = i_ab(2,:)';
         va = v_ab(1,:)';
         vb = v_ab(2,:)';
+        
 
 
         if save_data
-            out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,zeros(size(r)),'variableNames', ...
-                {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r', char(meta_string)});
+            out_tab = table(t,iq,iq_ref,id,vq,vd,ia,ib,va,vb,theta_e,omega,r,'variableNames', ...
+                {'t','iq','iq_ref','id','vq','vd','ia','ib','va','vb','theta_e','omega','r'});
     
             exp_code = sprintf("setpoint_%s_in_%s", stepsize_string, inertia_string);
             exp_name = exp_code + "_data.csv";
@@ -140,8 +142,8 @@ for inertia_mult_curr = inertia_mult_list
             param_names = exp_code + "_params.mat";
             save(fullfile(save_path,param_names), "BLDC", "disc", "i_omega");
     
-            result_name = exp_code + "_results.mat";
-            save(fullfile(save_path,result_name), "success", "final_speed","min_set_time", "T_ass", "S_pct");
+            % result_name = exp_code + "_results.mat";
+            % save(fullfile(save_path,result_name), "success", "final_speed","min_set_time", "T_ass", "S_pct");
     
     
         end        
@@ -175,8 +177,10 @@ for inertia_mult_curr = inertia_mult_list
             legend()
             linkaxes([ax1, ax2, ax3], 'x')
         end
+        
 
     end
+    
 end
 
 
