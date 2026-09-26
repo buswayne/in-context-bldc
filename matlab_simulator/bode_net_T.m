@@ -2,17 +2,17 @@ clc
 clear
 close all
 
-datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_v2";
+datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_v3";
 save_path = "bode_figures_T";
-save_figures = false;
+save_figures = true;
 
 [~, ~] = mkdir(save_path);
-delay = 7;
+delay = 5;
 stepsize_list = [500,1000,1500,2000];
 inertia_mult_list = [0.5, 1, 2, 5];
 
 folder_list = dir(sprintf('%s',datapath));
-x_limits = [0.4*2*pi, 100*2*pi];
+x_limits = [0.05*2*pi, 100*2*pi];
 
 del_log_list = [];
 
@@ -70,7 +70,7 @@ for i = 1:length(folder_list)
     if save_figures
         saveas(gcf, fullfile(save_path, filename+".png"))
     end
-    close all
+    % close all
     
     
     % figure

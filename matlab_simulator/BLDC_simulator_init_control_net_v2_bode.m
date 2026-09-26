@@ -65,15 +65,25 @@ save_path = fullfile(pwd, folder_name);
 
 save_data = true;
 show_figures = true;
+skip_n = 1;
 
 
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
+
+test_idx = 1;
 
 for inertia_mult_curr = inertia_mult_list
     disc.Inertia = inertia_mult_curr * nominal_inertia;
     inertia_string = string(inertia_mult_curr);
     inertia_string = replace(inertia_string, ".","");
     for stepsize = setpoint_list
+        
+        fprintf("%d\n", test_idx)
+        if test_idx <= skip_n
+            test_idx = test_idx + 1;
+            continue
+        end
+        test_idx = test_idx + 1;
         stepsize_string = string(stepsize);
 
         mdl_test = 'BLDC_simulator_controller_v2_ms';
