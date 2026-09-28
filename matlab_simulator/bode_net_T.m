@@ -12,7 +12,6 @@ stepsize_list = [500,1000,1500,2000];
 inertia_mult_list = [0.5, 1, 2, 5];
 
 folder_list = dir(sprintf('%s',datapath));
-x_limits = [0.05*2*pi, 100*2*pi];
 
 del_log_list = [];
 
@@ -70,7 +69,7 @@ for i = 1:length(folder_list)
     if save_figures
         saveas(gcf, fullfile(save_path, filename+".png"))
     end
-    % close all
+    close all
     
     
     % figure
@@ -79,9 +78,10 @@ for i = 1:length(folder_list)
     g = spa(data);        
     g_etfe = etfe(data);        
     % bode(g);
-    % xlim(x_limits)
     [mag, phase, wout] = bode(g);
     [mag_e, phase_e, wout_e] = bode(g_etfe);
+    x_limits = [min(wout_e), max(wout_e)];
+
 
     % N = 2^nextpow2(length(error)/8);
     % [cxy, f] = mscohere(error, iq_ref, hann(N), N/2, N, 1/Ts);
@@ -146,11 +146,14 @@ for stepsize = stepsize_list
 
     subplot(211)
     xlim(x_limits)
+    xscale log
+    yscale log
     legend()
     suptit = sprintf("behavior around %d rpm (filtered) (T)", stepsize);
     title(suptit)
 
     subplot(212)
+    xscale log
     xlim(x_limits)
 
     fig_tit = sprintf("stepsize_%d_T_filt.png", stepsize);
@@ -198,12 +201,15 @@ for inertia_mult_curr = inertia_mult_list
     end
 
     subplot(211)
+    xscale log
+    yscale log
     xlim(x_limits)
     legend('Location','southeast')
     suptit = sprintf("behavior for inertia x %.1f (filtered) (T)", inertia_mult_curr);
     title(suptit)
 
     subplot(212)
+    xscale log
     xlim(x_limits)
 
     fig_tit = sprintf("inertia_%.1f_T_filt", inertia_mult_curr);
@@ -255,12 +261,15 @@ for stepsize = stepsize_list
     end
 
     subplot(211)
+    xscale log
+    yscale log
     xlim(x_limits)
     legend()
     suptit = sprintf("behavior around %d rpm (T)", stepsize);
     title(suptit)
 
     subplot(212)
+    xscale log
     xlim(x_limits)
 
     fig_tit = sprintf("stepsize_%d_T_etfe.png", stepsize);
@@ -307,12 +316,15 @@ for inertia_mult_curr = inertia_mult_list
     end
 
     subplot(211)
+    xscale log
+    yscale log
     xlim(x_limits)
     legend('Location','southeast')
     suptit = sprintf("behavior for inertia x %.1f (T)", inertia_mult_curr);
     title(suptit)
 
     subplot(212)
+    xscale log
     xlim(x_limits)
 
     fig_tit = sprintf("inertia_%.1f_T_etfe", inertia_mult_curr);
@@ -323,3 +335,117 @@ for inertia_mult_curr = inertia_mult_list
 
 end
 
+
+
+figure
+subplot(211)
+hold on
+subplot(212)
+hold on
+for inertia_mult_curr = inertia_mult_list
+
+
+    for j = 1:length(fields)
+        field = fields(j);
+
+        tmp = split(field,"_");
+        setpoint = str2double(tmp{2});
+        inertia_mult_str = tmp{4};
+        if inertia_mult_str(1) == '0'
+            inertia_mult = str2double(inertia_mult_str(2:end))/10;
+        else
+            inertia_mult = str2double(tmp{4});
+        end
+        % if inertia_mult ~= inertia_mult_curr
+        %     continue
+        % end
+        disp_name = sprintf("at %d rpm", setpoint);
+
+        subplot(211)
+        hold on 
+        plot(bodes.(field).wout_e(:), bodes.(field).mag_e(:), 'Color','k')
+        ylabel("Mag")
+        subplot(212)
+        hold on
+        plot(bodes.(field).wout_e(:), bodes.(field).phase_e(:))
+        ylabel("Phase")
+        xlabel("Frequency [rad/s]")
+    
+    end
+
+    subplot(211)
+    xscale log
+    yscale log
+    xlim(x_limits)
+    % legend('Location','southeast')
+    % suptit = sprintf("behavior for inertia x %.1f (T)", inertia_mult_curr);
+    % title(suptit)
+
+    subplot(212)
+    xscale log
+    xlim(x_limits)
+
+    fig_tit = sprintf("full_T_etfe");
+    fig_tit = replace(fig_tit, ".", "_") + ".png";
+    if save_figures
+        saveas(gcf, fullfile(save_path, fig_tit))
+    end
+
+end
+
+
+figure
+subplot(211)
+hold on
+subplot(212)
+hold on
+for inertia_mult_curr = inertia_mult_list
+
+
+    for j = 1:length(fields)
+        field = fields(j);
+
+        tmp = split(field,"_");
+        setpoint = str2double(tmp{2});
+        inertia_mult_str = tmp{4};
+        if inertia_mult_str(1) == '0'
+            inertia_mult = str2double(inertia_mult_str(2:end))/10;
+        else
+            inertia_mult = str2double(tmp{4});
+        end
+        % if inertia_mult ~= inertia_mult_curr
+        %     continue
+        % end
+        disp_name = sprintf("at %d rpm", setpoint);
+
+        subplot(211)
+        hold on 
+        plot(bodes.(field).wout(:), bodes.(field).mag(:), 'Color','k')
+        ylabel("Mag")
+        subplot(212)
+        hold on
+        plot(bodes.(field).wout(:), bodes.(field).phase(:))
+        ylabel("Phase")
+        xlabel("Frequency [rad/s]")
+    
+    end
+
+    subplot(211)
+    xscale log
+    yscale log
+    xlim(x_limits)
+    % legend('Location','southeast')
+    % suptit = sprintf("behavior for inertia x %.1f (T)", inertia_mult_curr);
+    % title(suptit)
+
+    subplot(212)
+    xscale log
+    xlim(x_limits)
+
+    fig_tit = sprintf("full_T_filt");
+    fig_tit = replace(fig_tit, ".", "_") + ".png";
+    if save_figures
+        saveas(gcf, fullfile(save_path, fig_tit))
+    end
+
+end
