@@ -2,14 +2,19 @@ clc
 clear
 close all
 
-datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_v3";
+datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_v5";
 save_path = "bode_figures_T";
 save_figures = true;
 
 [~, ~] = mkdir(save_path);
 delay = 5;
+end_time = inf; %47.5;
 stepsize_list = [500,1000,1500,2000];
 inertia_mult_list = [0.5, 1, 2, 5];
+
+wmax = 50 * 2 * pi;
+wmin = 0.1 * 2 * pi;
+np = 3;
 
 folder_list = dir(sprintf('%s',datapath));
 
@@ -43,12 +48,15 @@ for i = 1:length(folder_list)
         inertia_mult = str2double(tmp{4});
     end
 
+
     time = tab.t;
-    omega = tab.omega(time>=delay);
-    ref = tab.r(time>=delay);
+    flag = (time>=delay) & (time<=end_time);
+
+    omega = tab.omega(flag);
+    ref = tab.r(flag);
     error = ref - omega;
-    iq_ref = tab.iq_ref(time>=delay);
-    time = time(time>=delay);
+    iq_ref = tab.iq_ref(flag);
+    time = time(flag);
     time = time - time(1);
     
     figure
@@ -65,27 +73,58 @@ for i = 1:length(folder_list)
     plot(time,iq_ref)
     ylabel("iq_ref [A]")
     xlabel("Time [s]")
-    
+
     if save_figures
         saveas(gcf, fullfile(save_path, filename+".png"))
     end
-    close all
+    % close all
     
     
     % figure
     Ts = time(2)-time(1);
     data = iddata(omega, ref, Ts);
     g = spa(data);        
-    g_etfe = etfe(data);        
+    g_etfe = etfe(data, [], 2^14);   
+    w  = logspace(log10(wmin), log10(wmax), 2^14);
+    g_spafdr = spafdr(data, [], w);        
     % bode(g);
-    [mag, phase, wout] = bode(g);
+    [mag, phase, wout] = bode(g_spafdr);
     [mag_e, phase_e, wout_e] = bode(g_etfe);
-    x_limits = [min(wout_e), max(wout_e)];
+    x_limits = [max(wmin,min(wout_e)), min(max(wout_e), wmax)];
+
+    idx = (g_etfe.Frequency <= wmax) & (g_etfe.Frequency >= wmin);           % wmax in rad/s (g.Frequency is rad/s by default for continuous)
+    g_trim = idfrd(g_etfe.ResponseData(:,:,idx), ...
+                g_etfe.Frequency(idx), ...
+                g_etfe.Ts, ...
+                'Units', g_etfe.Units);
+    sys = tfest(data, np);
+    opts = bodeoptions;
+    opts.PhaseWrapping = 'on';
+    figure
+    bode(sys, g_etfe, g_spafdr, opts)  
+    xlim(x_limits)
+    fprintf("%s, %.1f %% fit\n", filename, sys.Report.Fit.FitPercent)
+    % figure
+    % compare(data, sys)
 
 
     % N = 2^nextpow2(length(error)/8);
     % [cxy, f] = mscohere(error, iq_ref, hann(N), N/2, N, 1/Ts);
     % figure; semilogx(f, cxy); ylim([0 1]); grid on;  % sanity check
+
+    % for j = 1:10
+    %     np = j;
+    %     nz = j;
+    %     % sys = tfest(g_trim, np, nz);
+    %     sys = tfest(data, np);
+    %     figure
+    %     bode(sys, g_trim, opts) 
+    %     fprintf("%d, %.1f\n", j, sys.Report.Fit.FitPercent)
+    %     figure 
+    %     compare(data, sys)
+    % end
+
+
 
 
 
@@ -97,9 +136,16 @@ for i = 1:length(folder_list)
     bodes.(filename).phase_e = phase_e;
     bodes.(filename).wout_e = wout_e;
 
+    bodes.(filename).sys = sys;
+    bodes.(filename).g_raw = g_trim;
+    bodes.(filename).g_filt = g_spafdr;
+    bodes.(filename).data = data;
+
 
 
 end
+
+save(fullfile(save_path, "bodes_T"), "bodes")
 
 
 
@@ -148,7 +194,7 @@ for stepsize = stepsize_list
     xlim(x_limits)
     xscale log
     yscale log
-    legend()
+    legend('Location','southwest')
     suptit = sprintf("behavior around %d rpm (filtered) (T)", stepsize);
     title(suptit)
 
@@ -204,7 +250,7 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     yscale log
     xlim(x_limits)
-    legend('Location','southeast')
+    legend('Location','southwest')
     suptit = sprintf("behavior for inertia x %.1f (filtered) (T)", inertia_mult_curr);
     title(suptit)
 
@@ -264,7 +310,7 @@ for stepsize = stepsize_list
     xscale log
     yscale log
     xlim(x_limits)
-    legend()
+    legend('Location','southwest')
     suptit = sprintf("behavior around %d rpm (T)", stepsize);
     title(suptit)
 
@@ -319,7 +365,7 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     yscale log
     xlim(x_limits)
-    legend('Location','southeast')
+    legend('Location','southwest')
     suptit = sprintf("behavior for inertia x %.1f (T)", inertia_mult_curr);
     title(suptit)
 
@@ -367,7 +413,7 @@ for inertia_mult_curr = inertia_mult_list
         ylabel("Mag")
         subplot(212)
         hold on
-        plot(bodes.(field).wout_e(:), bodes.(field).phase_e(:))
+        plot(bodes.(field).wout_e(:), bodes.(field).phase_e(:), 'Color','k')
         ylabel("Phase")
         xlabel("Frequency [rad/s]")
     
@@ -424,7 +470,7 @@ for inertia_mult_curr = inertia_mult_list
         ylabel("Mag")
         subplot(212)
         hold on
-        plot(bodes.(field).wout(:), bodes.(field).phase(:))
+        plot(bodes.(field).wout(:), bodes.(field).phase(:), 'Color','k')
         ylabel("Phase")
         xlabel("Frequency [rad/s]")
     

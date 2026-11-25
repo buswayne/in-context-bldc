@@ -260,3 +260,171 @@ saveas(gcf, "figs_paper/bad_PI.png")
 fig = gcf;
 set(fig, 'PaperPositionMode', 'auto');
 exportgraphics(fig, 'figs_paper/bad_PI.pdf', 'ContentType', 'vector');
+
+
+
+
+
+fig = figure('Position',[100,100,400,300]);
+
+% sp = subplot(2,1,1);
+% hold on
+% 
+% L1 = plot(nan,nan, 'Color',color_C1, 'DisplayName',"PI tuned on $S^{(1)}$");
+% L2 = plot(nan,nan, 'Color',color_C6, 'DisplayName',"PI tuned on $S^{(6)}$");
+% legend([L1,L2], 'Location','northoutside')
+% sp.Visible = "off";
+% sp.Legend.Visible = "on";
+
+
+
+
+
+tl = tiledlayout(2,1, "TileSpacing","tight");
+tl.OuterPosition = [0, 0, 1, 0.9];
+xlabel(tl, "Time [s]", 'Interpreter', 'latex', 'fontsize', 10);
+ylabel(tl, "$\omega$ [rpm]", 'Interpreter', 'latex', 'fontsize', 10);
+
+
+nexttile
+hold on 
+box on
+% xlabel("Time [s]")
+% ylabel("$\omega$ [rpm]")
+
+p2 = plot(t_cut_C6PI_on_C1, omega_cut_C6PI_on_C1, 'Color', color_C6, 'LineWidth',lw+0.5);
+p1 = plot(t_cut_C1PI_on_C1, omega_cut_C1PI_on_C1, 'Color', color_C1, 'LineWidth',lw-0.1);
+xlim([0,0.5])
+ylim([0,2500])
+% drawnow
+ax1 = gca;
+% ax1.XTick(end+1) = 0.5;
+% ax1.XTickLabel{end} = [ax1.XTickLabel{end}, '\,\,\,\,'];
+% L = legend('Location','southeast');
+% L.IconColumnWidth = 15;
+% L.AutoUpdate = "off";
+
+
+x_corners = [1.5, 5, 5, 1.5]; 
+y_corners = [0, 0, 1900, 1900];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+x_corners = [1.5, 5, 5, 1.5]; 
+y_corners = [2100, 2100, 3000, 3000];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+
+x_corners = [-0, 1.5, 1.5, -0]; 
+y_corners = [2400, 2400, 3000, 3000];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+
+
+str = sprintf("$S^{(%d)}$", 1);
+text(0.93, 0.12, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'w', ... 
+    'EdgeColor', 'k', ...
+    'FontSize', 10, ...
+    'Color','w');
+text(0.93, 0.1, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'none', ... 
+    'EdgeColor', 'none', ...
+    'Color', 'k', ...
+    'FontSize', 10);
+
+
+
+
+
+nexttile
+hold on 
+box on
+% xlabel("Time [s]")
+
+plot(t_cut_C6PI_on_C6, omega_cut_C6PI_on_C6, 'Color', color_C6, 'DisplayName', 'PI tuned on $S^{(6)}$', 'LineWidth',lw+0.5);
+plot(t_cut_C1PI_on_C6, omega_cut_C1PI_on_C6, 'Color', color_C1, 'DisplayName', 'PI tuned on $S^{(1)}$', 'LineWidth',lw-0.1);
+xlim([0,2])
+ylim([0,2500])
+yticklabels([])
+ax2 = gca;
+% ax2.XTickLabel{1} = ['\,\,', ax2.XTickLabel{1}];
+% L = legend('Location','southeast');
+% L.IconColumnWidth = 15;
+% L.AutoUpdate = "off";
+
+
+
+x_corners = [1.5, 5, 5, 1.5]; 
+y_corners = [0, 0, 1900, 1900];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+x_corners = [1.5, 5, 5, 1.5]; 
+y_corners = [2100, 2100, 3000, 3000];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+
+x_corners = [-0, 1.5, 1.5, -0]; 
+y_corners = [2400, 2400, 3000, 3000];
+p = patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.3);
+patch(x_corners, y_corners, 'r', 'FaceColor', '#adb5bd', 'EdgeColor', 'none', 'FaceAlpha', 0.1);
+hh = hatchfill(p, 'single', 45, 5);
+set(hh, 'Color', '#adb5bd', 'LineWidth', 0.5)
+
+
+
+str = sprintf("$S^{(%d)}$", 6);
+text(0.93, 0.12, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'w', ... 
+    'EdgeColor', 'k', ...
+    'FontSize', 10, ...
+    'Color','w');
+text(0.93, 0.1, str, ...
+    'Units', 'normalized', ... 
+    'HorizontalAlignment', 'right', ... 
+    'VerticalAlignment', 'bottom', ... 
+    'BackgroundColor', 'none', ... 
+    'EdgeColor', 'none', ...
+    'Color', 'k', ...
+    'FontSize', 10);
+
+
+lgd = legend([findobj(gca, 'DisplayName', 'PI tuned on $S^{(1)}$'), ...
+              findobj(gca, 'DisplayName', 'PI tuned on $S^{(6)}$')], 'NumColumns',2); 
+lgd.IconColumnWidth = 15;
+
+% lgd.Layout.Tile = 'North';
+% tl.Padding = 'tight';
+lgd.Position(1) = 0.5 - lgd.Position(3)/2; % Center horizontally
+lgd.Position(2) = 0.95; % Adjust vertical height manually (0 to 1 scale)
+
+
+
+savefig("figs_paper/bad_PI_vert.fig")
+saveas(gcf, "figs_paper/bad_PI_vert.png")
+fig = gcf;
+set(fig, 'PaperPositionMode', 'auto');
+exportgraphics(fig, 'figs_paper/bad_PI_vert.pdf', 'ContentType', 'vector');

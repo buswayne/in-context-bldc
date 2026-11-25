@@ -1,6 +1,6 @@
 clear
 clc
-close all
+% close all
 
 %%% starts the BLDC simulator and save control parameters
 
@@ -35,17 +35,17 @@ set_parameters
 nominal_inertia = disc.Inertia;
 
 inertia_mult_list = [0.5, 1, 2, 5];
-% inertia_list = nominal_inertia * [1];
+inertia_mult_list = [0.5];
 
 setpoint_list = [500, 1000, 1500, 2000];
-% setpoint_list = [1000];
+setpoint_list = [500];
 
 chirpsize = 100;
 delay = 5;
-f_init = 0.05;
-f_end = 100;
+f_init = 0.5;
+f_end = 50;
 
-T = 100;
+T = 50;
 Ts = 1e-4;
 time = 0:Ts:T-Ts;
 speed_loop = 1;
@@ -58,20 +58,19 @@ model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks
 
 tmp_model_name = char(model_name);
 
-folder_name = sprintf('bode_analysis_%s_v3', tmp_model_name(1:end-4));
+folder_name = sprintf('bode_analysis_%s_v5', tmp_model_name(1:end-4));
 save_path = fullfile(pwd, folder_name);
 [~, ~] = mkdir(save_path);
 
 
 save_data = true;
 show_figures = true;
-skip_n = 1;
+skip_n = 0;
 
 
 conversion_mat = @(x) [cos(x) -sin(x); sin(x) cos(x)];
 
 test_idx = 1;
-
 for inertia_mult_curr = inertia_mult_list
     disc.Inertia = inertia_mult_curr * nominal_inertia;
     inertia_string = string(inertia_mult_curr);
@@ -93,11 +92,12 @@ for inertia_mult_curr = inertia_mult_list
 
         time_tmp = time(time<T-delay);
         
-        chirp_signal = chirpsize * chirp(time_tmp, f_init, time_tmp(end),f_end);
+        chirp_signal = chirpsize * chirp(time_tmp, f_init, time_tmp(end),f_end, "logarithmic", 90);
         chirp_signal = [zeros(1,(length(time)- length(time_tmp))), chirp_signal];
         
 
         reference = chirp_signal + stepsize;
+        % figure
         % plot(time, reference)
 
         speed_input.signals.values = reference'/30*pi;

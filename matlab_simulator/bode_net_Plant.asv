@@ -2,14 +2,18 @@ clc
 clear
 close all
 
-datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_v3";
-save_path = "bode_figures_T";
+datapath = "bode_analysis_new_dataset_short_noise_h10_30k_H10H_plant";
+save_path = "bode_figures_P";
 save_figures = true;
 
 [~, ~] = mkdir(save_path);
 delay = 5;
 stepsize_list = [500,1000,1500,2000];
 inertia_mult_list = [0.5, 1, 2, 5];
+
+wmax = 100 * 2 * pi;
+wmin = 0.1 * 2 * pi;
+np = 1;
 
 folder_list = dir(sprintf('%s',datapath));
 
@@ -52,40 +56,79 @@ for i = 1:length(folder_list)
     time = time - time(1);
     
     figure
-    subplot(311)
+    subplot(211)
     hold on
     plot(time,ref)
     plot(time,omega)
     ylabel("Speed [rpm]")
-    subplot(312)
-    hold on
-    plot(time,error)
-    ylabel("Error [rpm]")
-    subplot(313)
+    % subplot(312)
+    % hold on
+    % plot(time,error)
+    % ylabel("Error [rpm]")
+    subplot(212)
     plot(time,iq_ref)
     ylabel("iq_ref [A]")
     xlabel("Time [s]")
-    
+
     if save_figures
         saveas(gcf, fullfile(save_path, filename+".png"))
     end
-    close all
+    % close all
     
     
-    % figure
     Ts = time(2)-time(1);
-    data = iddata(omega, ref, Ts);
+    data = iddata(omega, iq_ref, Ts);
     g = spa(data);        
-    g_etfe = etfe(data);        
-    % bode(g);
+    g_etfe = etfe(data, [], 2^14); 
+    % figure       
+    % bode(g_etfe);
     [mag, phase, wout] = bode(g);
     [mag_e, phase_e, wout_e] = bode(g_etfe);
-    x_limits = [min(wout_e), max(wout_e)];
+    x_limits = [min(wout_e), min(max(wout_e), wmax)];
+
+    idx = (g_etfe.Frequency <= wmax) & (g_etfe.Frequency >= wmin);           % wmax in rad/s (g.Frequency is rad/s by default for continuous)
+    g_trim = idfrd(g_etfe.ResponseData(:,:,idx), ...
+                g_etfe.Frequency(idx), ...
+                g_etfe.Ts, ...
+                'Units', g_etfe.Units);
+    sys = tfest(data, np);
+    opts = bodeoptions;
+    opts.PhaseWrapping = 'on';
+    figure
+    bode(sys, g_trim, opts)  
+    fprintf("%s, %.1f %% fit\n", filename, sys.Report.Fit.FitPercent)
+    figure
+    compare(data, sys)
+
+    % % Option 1: dense linear grid
+    % g1 = etfe(data, [], 2^14);       % spacing = (pi/Ts)/2^14
+    % 
+    % % Option 2: log grid (better for Bode)
+    % w  = logspace(log10(2*pi*0.05), log10(2*pi*100), 4000);
+    % g2 = spafdr(data, [], w);
+    % figure
+    % hold on
+    % h = bodeplot(g1, g2);
+    % % h.Responses(3).LineWidth = 3;
+    % xlim([2*pi*0.05 2*pi*100])
 
 
     % N = 2^nextpow2(length(error)/8);
     % [cxy, f] = mscohere(error, iq_ref, hann(N), N/2, N, 1/Ts);
     % figure; semilogx(f, cxy); ylim([0 1]); grid on;  % sanity check
+    
+    for j = 1:5
+        np = j;
+        % sys = tfest(g_trim, np);
+        sys = tfest(data, np);
+        % figure
+        % bode(sys, g_trim, opts) 
+        fprintf("%d, %.1f\n", j, sys.Report.Fit.FitPercent)
+        % figure 
+        % compare(data, sys)
+    end
+
+
 
 
 
@@ -97,9 +140,15 @@ for i = 1:length(folder_list)
     bodes.(filename).phase_e = phase_e;
     bodes.(filename).wout_e = wout_e;
 
+    bodes.(filename).sys = sys;
+    bodes.(filename).g_trim = g_trim;
+    bodes.(filename).data = data;
+
 
 
 end
+
+save(fullfile(save_path, "bodes_P"), "bodes")
 
 
 
@@ -156,7 +205,7 @@ for stepsize = stepsize_list
     xscale log
     xlim(x_limits)
 
-    fig_tit = sprintf("stepsize_%d_T_filt.png", stepsize);
+    fig_tit = sprintf("stepsize_%d_P_filt.png", stepsize);
     if save_figures
         saveas(gcf, fullfile(save_path, fig_tit))
     end
@@ -212,7 +261,7 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     xlim(x_limits)
 
-    fig_tit = sprintf("inertia_%.1f_T_filt", inertia_mult_curr);
+    fig_tit = sprintf("inertia_%.1f_P_filt", inertia_mult_curr);
     fig_tit = replace(fig_tit, ".", "_") + ".png";
     if save_figures
         saveas(gcf, fullfile(save_path, fig_tit))
@@ -272,7 +321,7 @@ for stepsize = stepsize_list
     xscale log
     xlim(x_limits)
 
-    fig_tit = sprintf("stepsize_%d_T_etfe.png", stepsize);
+    fig_tit = sprintf("stepsize_%d_P_etfe.png", stepsize);
     if save_figures
         saveas(gcf, fullfile(save_path, fig_tit))
     end
@@ -327,7 +376,7 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     xlim(x_limits)
 
-    fig_tit = sprintf("inertia_%.1f_T_etfe", inertia_mult_curr);
+    fig_tit = sprintf("inertia_%.1f_P_etfe", inertia_mult_curr);
     fig_tit = replace(fig_tit, ".", "_") + ".png";
     if save_figures
         saveas(gcf, fullfile(save_path, fig_tit))
@@ -367,7 +416,7 @@ for inertia_mult_curr = inertia_mult_list
         ylabel("Mag")
         subplot(212)
         hold on
-        plot(bodes.(field).wout_e(:), bodes.(field).phase_e(:))
+        plot(bodes.(field).wout_e(:), bodes.(field).phase_e(:), 'Color','k')
         ylabel("Phase")
         xlabel("Frequency [rad/s]")
     
@@ -385,11 +434,11 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     xlim(x_limits)
 
-    % fig_tit = sprintf("inertia_%.1f_T_etfe", inertia_mult_curr);
-    % fig_tit = replace(fig_tit, ".", "_") + ".png";
-    % if save_figures
-    %     saveas(gcf, fullfile(save_path, fig_tit))
-    % end
+    fig_tit = sprintf("full_P_etfe");
+    fig_tit = replace(fig_tit, ".", "_") + ".png";
+    if save_figures
+        saveas(gcf, fullfile(save_path, fig_tit))
+    end
 
 end
 
@@ -424,7 +473,7 @@ for inertia_mult_curr = inertia_mult_list
         ylabel("Mag")
         subplot(212)
         hold on
-        plot(bodes.(field).wout(:), bodes.(field).phase(:))
+        plot(bodes.(field).wout(:), bodes.(field).phase(:), 'Color','k')
         ylabel("Phase")
         xlabel("Frequency [rad/s]")
     
@@ -442,7 +491,7 @@ for inertia_mult_curr = inertia_mult_list
     xscale log
     xlim(x_limits)
 
-    fig_tit = sprintf("full_T_filt");
+    fig_tit = sprintf("full_P_filt");
     fig_tit = replace(fig_tit, ".", "_") + ".png";
     if save_figures
         saveas(gcf, fullfile(save_path, fig_tit))

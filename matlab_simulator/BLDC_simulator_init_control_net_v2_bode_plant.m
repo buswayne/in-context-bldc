@@ -33,15 +33,15 @@ set_parameters
 nominal_inertia = disc.Inertia;
 
 inertia_mult_list = [0.5, 1, 2, 5];
-% inertia_mult_list = [1];
+% inertia_mult_list = [0.5];
 
 setpoint_list = [500, 1000, 1500, 2000];
 % setpoint_list = [1000];
 
-chirpsize = 100;
+chirpsize = 0.5;
 delay = 5;
 f_init = 0.05;
-f_end = 100;
+f_end = 50;
 
 T = 50;
 Ts = 1e-4;
@@ -59,7 +59,7 @@ model_path = fullfile(temp_name{1},'in-context-bldc', 'matlab_simulator/networks
 
 tmp_model_name = char(model_name);
 
-folder_name = sprintf('bode_analysis_%s_plant', tmp_model_name(1:end-4));
+folder_name = sprintf('bode_analysis_%s_plant_log', tmp_model_name(1:end-4));
 save_path = fullfile(pwd, folder_name);
 [~, ~] = mkdir(save_path);
 
