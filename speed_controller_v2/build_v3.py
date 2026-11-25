@@ -605,12 +605,16 @@ def main():
                     help="Skip C generation (reuse existing gpt_model_v3.c)")
     ap.add_argument("--no_native",     action="store_true",
                     help="Disable -march=native")
-    ap.add_argument("--out-name",      default="gpt_model_v3")
+    ap.add_argument("--out-name",      default=None)
     ap.add_argument("--runs",          type=int,   default=1000)
     ap.add_argument("--warmup",        type=int,   default=100)
     ap.add_argument("--seed",          type=int,   default=42)
     ap.add_argument("--tol",           type=float, default=1e-4)
     args = ap.parse_args()
+    if args.out_name == None:
+        args.out_name = args.checkpoint.split("/")[-1].split("\\")[-1].split(".")[0]
+        print(args.out_name)
+    # raise KeyError
 
     os.makedirs(args.out_dir, exist_ok=True)
     bin_path = os.path.join(args.out_dir, args.out_name + ".bin")
